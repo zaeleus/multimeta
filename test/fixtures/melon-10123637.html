@@ -1,0 +1,2327 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+
+
+
+
+
+
+
+
+
+<head>
+		
+	
+	
+	
+	
+	
+	
+
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<title>앨범 정보>멜론</title>
+	<meta name="keywords" content="음악서비스, 멜론차트, 멜론TOP100, 최신음악, 인기가요, 뮤직비디오, 앨범, 플레이어, 스트리밍, 다운로드, 아티스트플러스, 아티스트채널" />
+	<meta name="description" content="국내 최다 3,000만곡 보유, No.1 뮤직플랫폼 멜론! 실시간 차트부터 나를 아는 똑똑한 음악추천까지!" />
+	<meta name="naver-site-verification" content="f13fc46b807bef984aa341efeb1adec8de12264c"/>
+	<meta property="fb:app_id" content="357952407588971"/>
+	<meta property="og:title" content="Chuu"/>
+	<meta property="og:image" content="http://cdnimg.melon.co.kr/cm/album/images/101/23/637/10123637_500.jpg/melon/quality/90/optimize"/>
+	<meta property="og:description" content="음악이 필요한 순간, 멜론"/>
+	<meta property="og:url" content="http://www.melon.com/album/detail.htm?albumId=10123637"/>
+	<meta property="og:type" content="website"/>
+	<meta name="viewport" content="width=device-width"/>
+	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?2" id="favicon"/>
+	
+		
+		
+		<link rel="alternate" href="android-app://com.iloen.melon/melonapp/details/album/10123637" />
+		
+		
+	
+	<script type="text/javascript">
+		checkWin8Metro();
+		function checkWin8Metro(){
+			var userAgent = navigator.userAgent.toLowerCase();
+			var canRunActiveX = false;
+			try
+			{
+				canRunActiveX = !!new ActiveXObject("htmlfile");
+			}
+			catch (e)
+			{
+				canRunActiveX = false;
+			}
+			if ((userAgent.indexOf("windows nt 6.2") >= 0 || userAgent.indexOf("windows nt 6.3") >= 0 ) && userAgent.indexOf("msie") >= 0)
+			{
+				// windows 8
+				if (canRunActiveX == false)
+				{
+					document.location.href = "http://t.melon.com";
+				}
+			}
+		}
+	</script>
+	
+	
+	
+
+		
+	<link rel="stylesheet" href="http://cdnimg.melon.co.kr/static/web/resource/style/w1/lp/y/169b3msqzz.css" type="text/css" />
+	<link rel="stylesheet" href="http://cdnimg.melon.co.kr/static/web/resource/style/w1/5r/m/14j3tr44urn.css" type="text/css" />
+
+	<!-- 댓글 css 파일 네임 변경 -->
+    <link rel="stylesheet" href="http://cdnimg.melon.co.kr/static/web/resource/style/w1/qd/e/uolshpokn9.css" type="text/css" /> 
+  	
+  		
+  		
+			<link rel="stylesheet" href="/resource/style/web/album/melonweb_album_4x.css" type="text/css" />
+  		
+  	
+  	
+  	<link rel="stylesheet" href="http://cdnimg.melon.co.kr/static/web/resource/style/w1/g6/0/kvg1wtiobj.css" type="text/css" />
+	<link href="https://fonts.googleapis.com/css?family=Nunito:400" rel="stylesheet">
+  	
+	
+	
+	<script type="text/javascript" src="/resource/script/web/common/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="//member.melon.com/resource/script/web/member/melonweb_member_external.js?tm=20180115"></script>
+	<script type="text/javascript" src="http://cdnimg.melon.co.kr/static/web/resource/script/w1/g8/u/kv5d3h4q8t.js"></script> 
+	<script type="text/javascript">
+
+
+	MelonPersonal.init();
+
+	(function() {
+		WEBPOCIMG = {
+			defaultImg : function(obj, width){
+				if(width == null || width == '') width = $(obj).width();
+				if(width == 0) width = 500;
+				var thumbType = "_500";
+				//가장 큰사이즈로 리사이즈함
+				var thumbType = "_500";
+				var defaultImg = "http://cdnimg.melon.co.kr/resource/image/web/default/noAlbum" + thumbType + "_160727.jpg/melon/resize/" + width;
+				if(obj.src != defaultImg){
+					obj.src = defaultImg;
+				}
+			},
+
+			defaultAlbumImg : function(obj, width){
+				if(width == null || width == '') width = $(obj).width();
+				if(width == 0) width = 500;
+				//가장 큰사이즈로 리사이즈함
+				var thumbType = "_500";
+				var defaultImg = "http://cdnimg.melon.co.kr/resource/image/web/default/noAlbum" + thumbType + "_160727.jpg/melon/resize/" + width;
+				if(obj.src != defaultImg){
+					obj.src = defaultImg;
+				}
+			},
+
+			defaultArtistImg : function(obj, width){
+				if(width == null || width == '') width = $(obj).width();
+				if(width == 0) width = 300;
+				//가장 큰사이즈로 리사이즈함
+				var thumbType = "_300";
+				var defaultImg = "http://cdnimg.melon.co.kr/resource/image/web/default/noArtist" + thumbType + "_160727.jpg/melon/resize/" + width;
+				if(obj.src != defaultImg){
+					obj.src = defaultImg;
+				}
+			},
+			defaultDjImg : function(obj){
+			},
+			defaultMvImg : function(obj, width, height){
+				if(width == null || width == '') width = $(obj).width();
+				if(height == null || height == '') height = $(obj).height();
+
+				var ratio43 = Math.floor((4/3)*10)/10;
+				var ratio169 = Math.floor((16/9)*10)/10;
+				var ratioObj = Math.floor((width/height)*10)/10;
+
+				var ratio = "4x3";
+				if(ratioObj == ratio43){
+					ratio = "4x3"; //contentsType = "mv43";
+				} else if(ratioObj == ratio169){
+					ratio = "16x9"; //contentsType = "mv169";
+				} else {
+					if(ratioObj > 1.5) ratio = "16x9";
+					else ratio = "4x3";
+				}
+
+				if(width == 0) width = 640;
+				if(height == 0) ratio = "16x9";
+
+				//가장 큰사이즈로 리사이즈함
+				var thumbType = "_" + ratio + "_640";
+				var defaultImg = "http://cdnimg.melon.co.kr/resource/image/web/default/noMovie" + thumbType + "_160727.jpg/melon/resize/" + width;
+				if(obj.src != defaultImg){
+					obj.src = defaultImg;
+				}
+			},
+			defaultPlaylistImg : function(obj, width){
+				if(width == null || width == '') width = $(obj).width();
+				if(width == 0) width = 500;
+				//가장 큰사이즈로 리사이즈함
+				var thumbType = "_500";
+				var defaultImg = "http://cdnimg.melon.co.kr/resource/image/web/default/noAlbum" + thumbType + "_160727.jpg/melon/resize/" + width;
+				if(obj.src != defaultImg){
+					obj.src = defaultImg;
+				}
+			},
+			defaultMemberImg : function(obj, width){
+				if(width == null || width == '') width = $(obj).width();
+				if(width == 0) width = 300;
+				//가장 큰사이즈로 리사이즈함
+				var thumbType = "_300";
+				var defaultImg = "http://cdnimg.melon.co.kr/resource/image/web/default/noArtist" + thumbType + "_160727.jpg/melon/resize/" + width;
+				if(obj.src != defaultImg){
+					obj.src = defaultImg;
+				}
+			},
+			defaultPhotoImg : function(obj, width){
+				if(width == null || width == '') width = $(obj).width();
+				if(width == 0) width = 500;
+				//가장 큰사이즈로 리사이즈함
+				var thumbType = "_500";
+				var defaultImg = "http://cdnimg.melon.co.kr/resource/image/web/default/noAlbum" + thumbType + "_160727.jpg/melon/resize/" + width;
+				if(obj.src != defaultImg){
+					obj.src = defaultImg;
+				}
+			},
+			defaultShopImg : function(obj, width){
+				if(width == null || width == '') width = $(obj).width();
+				if(width == 0) width = 256;
+				//가장 큰사이즈로 리사이즈함
+				var thumbType = "_256";
+				var defaultImg = "http://cdnimg.melon.co.kr/resource/image/web/default/noProduct" + thumbType + "_160727.jpg/melon/resize/" + width;
+				if(obj.src != defaultImg){
+					obj.src = defaultImg;
+				}
+			},
+			defaultShowwingImg : function(obj, width){
+				if(width == null || width == '') width = $(obj).width();
+
+				var thumbType = "_256";
+				if(width > 0 && width <= 300){
+					thumbType = "_256";
+				} else {
+					thumbType = "_313";//추후 조절값
+				}
+				var altSrc = "http://cdnimg.melon.co.kr/resource/image/web/default/noShowing" + thumbType + ".jpg";
+				if(obj.src != altSrc){
+					obj.src = altSrc;
+				}
+			},
+			defaultTicketImg : function(obj, width){
+				if(width == null || width == '') width = $(obj).width();
+
+				var thumbType = "_256";
+				if(width > 0 && width <= 300){
+					thumbType = "_256";
+				} else {
+					thumbType = "_313";//추후 조절값
+				}
+				var altSrc = "http://cdnimg.melon.co.kr/resource/image/web/default/noTicket" + thumbType + ".png";
+				if(obj.src != altSrc){
+					obj.src = altSrc;
+				}
+			},
+			defaultSmartRadioImg : function(obj, width){
+				if(width == null || width == '') width = $(obj).width();
+				var defaultImg = "http://cdnimg.melon.co.kr/resource/image/web/default/noSmartradio_59_160727.jpg/melon/resize/" + width;
+				if(obj.src != defaultImg){
+					obj.src = defaultImg;
+				}
+			},
+			defaultConcertImg : function(obj, width){
+				if(width == null || width == '') width = $(obj).width();
+				var defaultImg = "http://cdnimg.melon.co.kr/resource/image/web/default/noAlbum_114_160727.jpg/melon/resize/" + width;
+				if(obj.src != defaultImg){
+					obj.src = defaultImg;
+				}
+			}
+		}
+		,WEBELLIPSIS = {
+			ellipsis : function(ellipsisName,moreClassName,eWidth){
+		        //아티스트 더보기
+		        var arObj = $('.' + ellipsisName);
+		        for(var i = 0; i < arObj.length; i++){
+		            if (arObj.eq(i).width() > eWidth ){
+		                arObj.eq(i).parent().parent().parent().find('.' + moreClassName).show();
+		            }
+		        }
+			}
+		}
+	})();
+	</script>
+</head>
+
+<body>
+<div id="wrap">
+	<div id="skip_nav">skip navigation
+		<ul>
+			<li><a href="#gnb_menu">메뉴</a></li>
+			<li><a href="#id_box">마이영역</a></li>
+			<li><a href="#conts_section">본문</a></li>
+			<li><a href="#footer">하단 정보</a></li>
+		</ul>
+	</div>
+
+	<!--  header -->
+	
+	<div id="header" class="">
+		<div id="header_wrap" class="my_fold">  <!-- 1024이상 마이영역 접었을때 클래스 my_fold 추가 -->
+			<div id="gnb" class="clfix">
+				<!-- 상단 빠른 메뉴 -->
+				<div id="util_menu">
+					<p class="none">상단 빠른 메뉴</p>
+					<div class="top_left">
+						<ul class="clfix">
+							
+							<li class="first_child d_melon_ticket"><a href="http://ticket.melon.com/main/index.htm" title="멜론 티켓" class="menu01 mlog" data="LOG_PRT_CODE=1&MENU_PRT_CODE=0&MENU_ID_LV1=&CLICK_AREA_PRT_CODE=V08&ACTION_AF_CLICK=V1"><span>멜론 티켓</span></a></li>
+							
+							<li><a href="http://aztweb.melon.com/aztalk/guide/web/main.htm" title="멜론 아지톡" class="menu03 mlog" data="LOG_PRT_CODE=1&MENU_PRT_CODE=0&MENU_ID_LV1=&CLICK_AREA_PRT_CODE=V05&ACTION_AF_CLICK=V1"><span>멜론 아지톡</span></a></li><!-- 161206 -->
+						</ul>
+					</div>
+					<!-- 140603_수정 -->
+					<div class="top_right ">
+						<ul class="clfix">
+							
+							<li class="first_child"><a href="/commerce/pamphlet/web/sale_listMainView.htm" title="이용권구매" class="menu01 mlog" data="LOG_PRT_CODE=1&MENU_PRT_CODE=0&MENU_ID_LV1=&CLICK_AREA_PRT_CODE=B01&ACTION_AF_CLICK=V1"><span>이용권구매</span></a></li>
+							
+							<li><a href="/event/vip/index.htm" title="VIP혜택관" class="menu02 mlog" data="LOG_PRT_CODE=1&MENU_PRT_CODE=0&MENU_ID_LV1=&CLICK_AREA_PRT_CODE=V06&ACTION_AF_CLICK=V1"><span>VIP혜택관</span></a></li>
+							
+							<li class="last_child"><a href="/event/index.htm" title="이벤트" class="menu03 mlog" data="LOG_PRT_CODE=1&MENU_PRT_CODE=0&MENU_ID_LV1=&CLICK_AREA_PRT_CODE=B03&ACTION_AF_CLICK=V1"><span>이벤트</span></a></li>
+						</ul>
+					</div>
+					<!-- //140603_수정 -->
+				</div>
+				<!-- //상단 빠른 메뉴 -->
+
+				<!-- 140603_수정 -->
+				
+				<h1><a href="http://www.melon.com/index.htm" title="MelOn 로고 - 홈으로 이동" class="mlog" data="LOG_PRT_CODE=1&MENU_PRT_CODE=0&MENU_ID_LV1=&CLICK_AREA_PRT_CODE=M01&ACTION_AF_CLICK=V1"><img width="142" height="99" src="http://cdnimg.melon.co.kr/resource/image/web/common/logo_melon142x99.png" alt="MelOn 로고 이미지"/></a></h1>
+				
+				<!-- //140603_수정 -->
+				<!-- 통합검색 영역 -->
+				<fieldset>
+					<legend>통합검색영역</legend>
+					<input type="text" title="검색 입력 편집창" placeholder="" name="" id="top_search" style="width:249px" onkeypress="if(event.keyCode == 13){goSearch();}"/><input type="hidden" name="keywordLink" id="keywordLink" value="" />
+					<button type="button" style="display: none;" id="top_search_autocomplete_toggle" class="btn_icon btn_auto close" title="자동검색 펼침"><span class="odd_span">자동검색 펼침</span></button> <!-- open/close 클래스 사용 -->
+					<button type="button" class="btn_icon search_m" title="검색"><span class="odd_span">검색</span></button>
+					<div class="auto_complete" id="top_search_autocomplete"><div class="auto_complete_cont" style="display:block;"><!-- 자동완성 레이어 --></div></div>
+					<div class="auto_complete" id="top_search_autocomplete_template" style="display: none;"> <!-- 자동완성 레이어 템플릿 -->
+						<!-- 텍스트 결과 -->
+						<ul class="text_result">
+							<li><a href="#" class="autocomplete-label"></a></li>
+						</ul>
+						<!-- 섬네일 결과 -->
+						<ul class="thumb_result">
+							<li class="cate"></li>
+							<li class="class02">
+								<a href="#">
+									<span class="thumb_40">
+										<span class="thumb_frame"></span>
+										<img class="autocomplete-img" width="40" height="40" alt="">
+									</span>
+									<div class="info">
+										<span class="autocomplete-label"></span><br/>
+										<span><span class="f11 autocomplete-info"></span></span>
+									</div>
+								</a>
+							</li>
+						</ul>
+						<!-- 검색어가 없을 때 -->
+						<ul class="text_result">
+							<li class="result_none">
+								<span>해당글자로 시작하는 단어가 없습니다.</span>
+							</li>
+						</ul>
+					</div>
+				</fieldset>
+				<form style="display: none" id="searchFrm" method="get" action="">
+					<input type="hidden" name="q"/>
+					<input type="hidden" name="section"/>
+				</form>
+				<!-- //통합검색 영역 -->
+
+				<!-- 실시간 검색어 -->
+				<div class="realtime_soar_keyword">
+					<!-- 140519_수정 -->
+					<a href="http://www.melon.com/search/trend/index.htm" class="title">급상승 키워드</a>
+					<!-- //140519_수정 -->
+					<div class="keyword_overlay">
+						<ol style="overflow:hidden; height:20px;">
+							<!-- 롤링 영역
+							<li>
+								<div style="top:;">
+									<strong class="order bg2 on"><span class="none">1 위</span></strong>
+									<a href="#" class="ellipsis" title="something">something</a>
+									<span class="wrap_rank">
+										<span class="icon_up">순위상승수</span><span>139</span>
+										<!- <span class="icon_rank_new">새진입</span>
+									</span>
+								</div>
+							</li>
+							//롤링 영역 -->
+						</ol>
+						<!-- 140423_추가 -->
+						<a href="http://www.melon.com/search/trend/index.htm" class="keyword_more" title="실시간 순위"><span>더보기 <span></span></span></a>
+						<!-- //140423_추가 -->
+					</div>
+					<!-- 140423_삭제 -->
+					<!-- <a href="#" class="d_btn_ctrl pause" title="이벤트 일시정지"><span><span class="none">일시정지</span></span></a> -->
+					<!-- //140423_삭제 -->
+				</div>
+				<!-- //실시간 검색어 -->
+
+				<!-- 배너 영역 -->
+				<div class="cmn_banner"></div>
+
+                <script type="text/javascript">
+				MelonPersonal.printLayout();
+				</script>
+			</div>
+            <!-- 140314_gnb마크업 수정 -->
+			<div id="gnb_menu">
+				<ul>
+					<li class="nth1">
+						
+						<a href="http://www.melon.com/chart/index.htm" class="cur_menu mlog" data="LOG_PRT_CODE=1&MENU_PRT_CODE=0&MENU_ID_LV1=&CLICK_AREA_PRT_CODE=R01&ACTION_AF_CLICK=V1"><span class="cur_status none">현재 선택된 메뉴-</span><span class="menu_bg menu01">멜론차트</span></a>
+						<div class="lay_menu">
+							<ul>
+								<li class="first_child"><a href="http://www.melon.com/chart/index.htm"><span class="menu_chart m1">멜론 TOP 100</span></a></li>
+								<li class=""><a href="http://www.melon.com/melonaward/timeline.htm?f=c"><span class="menu_chart m2">주간 인기상</span></a></li>
+								<li class=""><a href="http://www.melon.com/chart/vdo/index.htm"><span class="menu_chart m3">트렌드 차트</span></a></li>
+								<li class=""><a href="http://www.melon.com/chart/genre/index.htm"><span class="menu_chart m4">장르 스타일 차트</span></a></li>
+								<li class=""><a href="http://www.melon.com/chart/age/index.htm"><span class="menu_chart m5">시대별 차트</span></a></li>
+							</ul>
+							<div class="chart_finder">
+								<button type="button" class="btn_chart_f" onclick="location.href='http://www.melon.com/chart/search/index.htm'"><span class="odd_span">차트 파인더</span></button>
+							</div>							
+						</div>	
+					</li>
+					<li class="nth2">
+						
+						<a href="http://www.melon.com/new/index.htm" class="cur_menu mlog" data="LOG_PRT_CODE=1&MENU_PRT_CODE=0&MENU_ID_LV1=&CLICK_AREA_PRT_CODE=C01&ACTION_AF_CLICK=V1"><span class="cur_status none">현재 선택된 메뉴-</span><span class="menu_bg menu02 ">최신</span></a>
+						<div class="lay_menu">
+							<ul>
+								<li class="first_child"><a href="http://www.melon.com/new/index.htm"><span class="menu_new m1">최신곡</span></a></li>
+								<li class=""><a href="http://www.melon.com/new/album/index.htm"><span class="menu_new m2">최신앨범</span></a></li>
+								<li class=""><a href="http://www.melon.com/new/mv/index.htm"><span class="menu_new m3">최신 뮤직비디오</span></a></li>
+								<!-- 160404 제거 -->
+								
+								<!-- // 160404 제거 -->
+							</ul>							
+						</div>
+					</li>
+					<li class="nth3">
+						
+						<a href="http://www.melon.com/genre/song_list.htm?gnrCode=GN0100" class="cur_menu mlog" data="LOG_PRT_CODE=1&MENU_PRT_CODE=0&MENU_ID_LV1=&CLICK_AREA_PRT_CODE=C03&ACTION_AF_CLICK=V1"><span class="cur_status none">현재 선택된 메뉴-</span><span class="menu_bg menu03">장르</span></a>
+						<div class="lay_menu">
+							<ul>
+								<li class="first_child"><a href="http://www.melon.com/genre/song_list.htm?gnrCode=GN0100"><span class="menu_gnr nm1">한국대중음악</span></a></li>
+								<li class=""><a href="http://www.melon.com/genre/song_list.htm?gnrCode=GN0900"><span class="menu_gnr nm2">해외POP음악</span></a></li>
+								<li class=""><a href="http://www.melon.com/genre/song_list.htm?gnrCode=GN1500"><span class="menu_gnr nm3">그외 인기장르</span></a></li>
+							</ul>
+						</div>
+					</li>
+					<li class="nth4">
+						
+						<a href="http://www.melon.com/dj/today/djtoday_list.htm" class="cur_menu mlog" data="LOG_PRT_CODE=1&MENU_PRT_CODE=0&MENU_ID_LV1=&CLICK_AREA_PRT_CODE=S04&ACTION_AF_CLICK=V1"><span class="cur_status none">현재 선택된 메뉴-</span><span class="menu_bg menu04">멜론DJ</span></a>
+						<div class="lay_menu">
+							<ul>
+								<li class="first_child"><a href="http://www.melon.com/dj/today/djtoday_list.htm"><span class="menu_dj m1">오늘은 뭘 듣지</span></a></li>
+								<li class=""><a href="http://www.melon.com/dj/essential/djessential_list.htm"><span class="menu_dj m2">전문가 선곡</span></a></li>
+								<li class=""><a href="http://www.melon.com/dj/themegenre/djthemegenre_list.htm"><span class="menu_dj m3">#테마장르</span></a></li>
+								<li class=""><a href="http://www.melon.com/dj/powerdj/djpowerdj_list.htm"><span class="menu_dj m4">파워DJ</span></a></li>
+								<li class=""><a href="http://www.melon.com/dj/chart/djchart_list.htm"><span class="menu_dj m5">인기</span></a></li>
+							</ul>
+						</div>	
+					</li>
+					<li class="nth5">
+						
+						<a href="http://www.melon.com/tv/index.htm" class="cur_menu mlog" data="LOG_PRT_CODE=1&MENU_PRT_CODE=0&MENU_ID_LV1=&CLICK_AREA_PRT_CODE=S05&ACTION_AF_CLICK=V1"><span class="cur_status none">현재 선택된 메뉴-</span><span class="menu_bg menu05">멜론TV</span></a>
+						<div class="lay_menu">
+							<ul>
+								<li class="first_child"><a href="http://www.melon.com/tv/index.htm"><span class="menu_tv m1">오늘은 뭘 볼까</span></a></li>
+								<li class=""><a href="http://www.melon.com/tv/mv/index.htm"><span class="menu_tv m2">뮤직비디오</span></a></li>
+								<li class=""><a href="http://www.melon.com/tv/menu/index.htm?menuSeq=1"><span class="menu_tv m3">멜론 오리지널</span></a></li>
+								<li class=""><a href="http://www.melon.com/tv/menu/index.htm?menuSeq=4"><span class="menu_tv m4">아티스트 업데이트</span></a></li>
+								<li class=""><a href="http://www.melon.com/tv/menu/index.htm?menuSeq=3"><span class="menu_tv m5">방송</span></a></li>
+							</ul>
+						</div>
+					</li>
+					<li class="nth6">
+						
+						<a href="http://www.melon.com/artistplus/todayupdate/index.htm" class="cur_menu mlog" data="LOG_PRT_CODE=1&MENU_PRT_CODE=0&MENU_ID_LV1=&CLICK_AREA_PRT_CODE=S07&ACTION_AF_CLICK=V1"><span class="cur_status none">현재 선택된 메뉴-</span><span class="menu_bg menu06">스타포스트</span></a>
+						<div class="lay_menu">
+							<ul>
+								<li class="first_child"><a href="http://www.melon.com/artistplus/todayupdate/index.htm"><span class="menu_arti m1">NOW</span></a></li>
+								<li class=""><a href="http://www.melon.com/artistplus/themespecial/index.htm"><span class="menu_arti m2">테마스페셜</span></a></li>
+								<li class=""><a href="http://www.melon.com/artistplus/artistchart/index.htm"><span class="menu_arti m3">아티스트 랭킹</span></a></li>
+								<li class=""><a href="http://www.melon.com/artistplus/myranking/index.htm"><span class="menu_arti m4">마이 랭킹</span></a></li>
+							</ul>						
+							<div class="menu_artist_btn">
+	                            <div class="artist_fan">
+	                                <button type="button" class="btn_fan" onclick="MELON.WEBSVC.POC.menu.goMyMusicFanSignArtist();"><span class="odd_span">팬맺은 아티스트</span></button>
+	                            </div>
+	                            <div class="artist_finder">
+	                                <button type="button" class="btn_artist_f" onclick="location.href='http://www.melon.com/artistplus/finder/index.htm'"><span class="odd_span">아티스트 파인더</span></button>
+	                            </div>
+							</div>
+						</div>
+					</li>
+					<!-- 160314 수정 -->
+					<li class="nth7">
+						
+						<a href="http://www.melon.com/musicstory/today/index.htm" class="cur_menu mlog" data="LOG_PRT_CODE=1&MENU_PRT_CODE=0&MENU_ID_LV1=&CLICK_AREA_PRT_CODE=S09&ACTION_AF_CLICK=V1"><span class="cur_status none">현재 선택된 메뉴-</span><span class="menu_bg menu07">멜론매거진</span></a>
+					</li>
+					<!-- // 160314 수정 -->
+					<li class="nth8">
+						
+						<a href="http://www.melon.com/melonaward/timeline.htm" class="cur_menu mlog" data="LOG_PRT_CODE=1&MENU_PRT_CODE=0&MENU_ID_LV1=&CLICK_AREA_PRT_CODE=S11&ACTION_AF_CLICK=V1"><span class="cur_status none">현재 선택된 메뉴-</span><span class="menu_bg menu08">뮤직어워드</span></a>
+					</li>
+					
+					<!-- 170531 수정 kjh -->
+					<li class="nth10">
+						
+						<a href="http://www.melon.com/flac/index.htm" data="LOG_PRT_CODE=1&MENU_PRT_CODE=0&MENU_ID_LV1=&CLICK_AREA_PRT_CODE=C05&ACTION_AF_CLICK=V1" class="cur_menu mlog"><span class="cur_status none">현재 선택된 메뉴-</span><span class="menu_bg menu12">멜론Hi-Fi</span><span class="icon_new"></span></a>
+					</li>
+					<!-- //170531 수정 kjh -->
+					
+					
+					<li class="nth9 last_child">
+					<!-- //140523_수정 -->
+						
+						<a href="#" class="cur_menu mlog_without_page_change" data="LOG_PRT_CODE=1&MENU_PRT_CODE=0&MENU_ID_LV1=&CLICK_AREA_PRT_CODE=S99&ACTION_AF_CLICK=V1"><span class="cur_status none">현재 선택된 메뉴-</span><span class="menu_bg menu09">더보기</span></a>
+						<div class="more_wrap" style="display:none"><!-- more_lay일때 display:block -->
+							<ul>
+								
+								<li class="first_child"><a href="http://www.melon.com/smartradio/index.htm" class="mlog" data="LOG_PRT_CODE=1&MENU_PRT_CODE=0&MENU_ID_LV1=&CLICK_AREA_PRT_CODE=S06&ACTION_AF_CLICK=V1"><span class="menu_more m1">스마트라디오</span></a></li>
+								
+								<li class=""><a href="http://www.melon.com/edu/index.htm" class="mlog" data="LOG_PRT_CODE=1&MENU_PRT_CODE=0&MENU_ID_LV1=&CLICK_AREA_PRT_CODE=C04&ACTION_AF_CLICK=V1"><span class="menu_more m3">어학</span></a></li>
+								
+								<li class=""><a href="http://www.melon.com/customer/announce/index.htm" class="mlog" data="LOG_PRT_CODE=1&MENU_PRT_CODE=0&MENU_ID_LV1=&CLICK_AREA_PRT_CODE=V02&ACTION_AF_CLICK=V1"><span class="menu_more m4">공지사항</span></a></li>
+							</ul>
+						</div>
+
+					</li>
+				</ul>
+				<ul class="sub_gnb">
+					<li class="">
+						
+						<a href="javascript:MELON.WEBSVC.POC.menu.goMyMusicMain();" class="cur_menu mlog" data="LOG_PRT_CODE=1&MENU_PRT_CODE=0&MENU_ID_LV1=&CLICK_AREA_PRT_CODE=S01&ACTION_AF_CLICK=V1"><span class="cur_status none">현재 선택된 메뉴-</span><span class="menu_bg menu10">마이뮤직</span></a>
+					</li>
+					<li>
+						
+						<a href="javascript:MELON.WEBSVC.POC.menu.goFeed();" class="cur_menu mlog" data="LOG_PRT_CODE=1&MENU_PRT_CODE=0&MENU_ID_LV1=&CLICK_AREA_PRT_CODE=S02&ACTION_AF_CLICK=V1"><span class="cur_status none">현재 선택된 메뉴-</span><span class="menu_bg menu11">피드</span><span class="msg_box" style="display: none;"><span class="num">99+</span><span class="none">개</span></span></a>
+					</li>
+				</ul>
+			</div>
+			<!-- location 기획 요청으로 제거 2014-04-01 -->
+
+			<!-- //location -->
+		</div>
+	</div>
+	<!-- //header -->
+
+	<div id="cont_wrap" class="clfix">
+		<div id="conts_section" class="my_fold">
+			<!-- contents -->
+			
+<script type="text/javascript">
+	function defaultPickArtistImg(obj, width){
+		if(width == null || width == '') width = $(obj).width();
+		var defaultImg = "http://cdnimg.melon.co.kr/resource/image/web/default/noArtist_" + width + ".jpg";
+		if(obj.src != defaultImg){
+			obj.src = defaultImg;
+		}
+	}
+</script>
+<!-- contents -->
+				<div id="conts" class="clfix ban"> <!-- 띠배너일때 ban 클래스 추가 -->					
+					<div class="page_header">
+						<h2 class="title">앨범 정보</h2>
+					</div>					
+					
+					<!-- 앨범 상세 -->
+					
+<!-- // header -->	
+					<!-- 앨범 상세 -->
+					<div class="section_info">
+						<div class="wrap_info">
+							<div class="thumb">
+								<a href="#" title="Chuu 앨범이미지 " class="image_typeAll" id="d_album_org">
+									<img onerror="WEBPOCIMG.defaultAlbumImg(this);" width="282" height="282" src="http://cdnimg.melon.co.kr/cm/album/images/101/23/637/10123637_500.jpg?8f30f57dcb372e6c25ea2e050f8ed1f4/melon/quality/80/optimize" alt=""/>
+									<span class="bg_album_frame"></span>									
+								</a>
+								<button type="button" title="듣기" class="button_icons type05 play "  title="Chuu 앨범재생" onclick="javascript:melon.play.playAlbum('28010101','10123637');"><span class="none">듣기</span></button>
+								<!-- [DP] 앨범보기 -->
+								<div class="l_popup album_prev" id="d_almumcover">
+								</div>
+								<!-- //[DP] 앨범보기 -->
+							</div>
+							<div class="entry">
+								<div class="info">
+									<span class="gubun">
+									
+										
+											
+											
+											
+											
+											
+											[싱글]
+											
+											
+											
+											
+											
+											
+											
+											
+											
+											
+											
+											
+											
+											
+											
+										
+									
+									</span>
+									<div class="song_name">
+										<strong class="none">앨범명</strong>
+										Chuu
+									</div>
+									
+									
+									
+									
+										
+										
+										<div class="artist">
+											
+											<a href="javascript:melon.link.goArtistDetail('1229429')" title="이달의 소녀" class="artist_name"><span>이달의 소녀</span><span class="thumb_atist"><img onerror="WEBPOCIMG.defaultArtistImg(this);" src="http://cdnimg.melon.co.kr/cm/artistcrop/images/012/29/429/1229429.jpg" width="52" height="52" /></span></a>
+											
+										</div>
+										
+									
+								</div>
+								<div class="meta">
+									<dl class="list">
+										<dt>발매일</dt>
+										<dd>2017.12.28</dd>
+										<dt>장르</dt>
+										<dd>Dance</dd>
+										<dt>발매사</dt>
+										<dd>주식회사 블렌딩</dd>
+										<dt>기획사</dt>
+										<dd>BlockBerryCreative</dd>
+									</dl>
+								</div>
+								<div class="button d_album_like">
+									<button type="button" class="button_etc like type02" id="btnLike" title="Chuu 좋아요" data-album-no="10123637" data-album-menuid="28010101" data-target-id="d_like_count">
+										<span class="odd_span">좋아요</span>
+										<span id="d_like_count" class="cnt">
+											<span class="none">총건수</span>
+											0
+										</span>
+									</button>
+									<button type="button" title="앨범다운" class="btn "  onClick="javascript:melon.buy.goBuyProduct('frm','10123637','3B0001','','0','28010101','1');">
+										<span class="button_icons download type03"></span>
+										<span class="text">앨범다운</span>
+										<span class="button_icons arrow_link02"></span>
+									</button>
+									
+									<button type="button" title="FLAC앨범다운" class="btn "  onclick="javascript:melon.buy.goBuyProduct('frm','10123637','3B0001','','110','28010101','1');">
+										<span class="button_icons download type03"></span>
+										<span class="text">FLAC앨범다운</span>
+										<span class="button_icons arrow_link02"></span>
+									</button>
+									
+									<button type="button" title="선물하기" class="btn "  onclick="javascript:melon.buy.goPresentForAlbum('10123637','frm','28010101');">
+										<span class="button_icons type03 gift"></span>
+										<span class="text">선물하기</span>
+										<span class="button_icons arrow_link02"></span>
+									</button>
+									
+								</div>
+								<div class="share">
+									<dl>
+										<dt>
+											<div class="grade">
+												<span class="bullet_icons star"><span class="progress" id="contt_evalscore01_view" style="width: 82.0%;" title="평점 5점 만점"><span class="none">4.1점</span></span></span>
+												<span class="cnt" id="gradPointLayer">4.1</span>
+											</div>
+										</dt>
+										<dd>
+											<a href="#none" data-control="dropdown">
+												<span class="text" id="gradCountLayer">1,153명</span>
+												<span class="button_icons arrow_link02"></span>
+											</a>
+											<!-- [DP] 별점평가 레이어 -->
+											<div class="l_popup small" id="d_starRate" style="right:0; top:28px; width:259px; display:none;" data-zindex-target="div.grad_area">
+												<div class="l_cntt">
+													<dl class="box_evalscore">
+														<dt>별을 클릭하여 앨범을 평가해 주세요.</dt>
+														<dd>
+															<span class="wrap_evalscore02">
+																<span class="contt_evalscore02">
+																	<label for="score01" class="score01 on">
+																		<span><input type="radio" id="score01" name="score" /></span>
+																		<span>0.5점</span>
+																	</label>
+																	<label for="score02" class="score02 on">
+																		<span><input type="radio" id="score02" name="score" /></span>
+																		<span>1점</span>
+																	</label>
+																	<label for="score03" class="score03 on">
+																		<span><input type="radio" id="score03" name="score" /></span>
+																		<span>1.5점</span>
+																	</label>
+																	<label for="score04" class="score04 on">
+																		<span><input type="radio" id="score04" name="score" /></span>
+																		<span>2점</span>
+																	</label>
+																	<label for="score05" class="score05 on">
+																		<span><input type="radio" id="score05" name="score" /></span>
+																		<span>2.5점</span>
+																	</label>
+																	<label for="score06" class="score06">
+																		<span><input type="radio" id="score06" name="score" /></span>
+																		<span>3점</span>
+																	</label>
+																	<label for="score07" class="score07">
+																		<span><input type="radio" id="score07" name="score" /></span>
+																		<span>3.5점</span>
+																	</label>
+																	<label for="score08" class="score08">
+																		<span><input type="radio" id="score08" name="score" /></span>
+																		<span>4점</span>
+																	</label>
+																	<label for="score09" class="score09">
+																		<span><input type="radio" id="score09" name="score" /></span>
+																		<span>4.5점</span>
+																	</label>
+																	<label for="score10" class="score10">
+																		<span><input type="radio" id="score10" name="score" /></span>
+																		<span>5점</span>
+																	</label>
+																</span>
+																<span class="text_evalscore02">
+																	<span class="none">선택평점</span>
+																	<strong id="d_rate">2.5</strong>
+																	<span class="score">/ <span class="none">총 평점</span>5</span>
+																</span>
+															</span>
+															<div class="wrap_btn_c mt20">
+																<button type="button" title="앨범 별점 평가 확인" class="button_rbox green" data-role="ok"><span class="cnt">확인</span></button>
+																<button type="button" title="앨범 별점 평가 취소" class="button_rbox d_close"><span class="cnt">취소</span></button>
+															</div>
+														</dd>
+													</dl>
+												</div>
+												<button type="button" class="btn_close"><span class="odd_span">닫기</span></button>
+												<span class="shadow"></span>
+											</div>
+											<!-- //[DP] 별점평가 레이어 -->
+										</dd>
+										<dt>댓글</dt>
+										<dd>
+											<a href="javascript:goReview();">
+												<span id="revCnt" class="text">0개</span>
+												<span class="button_icons arrow_link02"></span>
+											</a>
+										</dd>
+										<dt>공유</dt>
+										<dd>
+											<div class="wrap_sns">
+												<button type="button" title="친구에게 음악메시지 보내기" class="bullet_icons sns frend" onclick="javascript:melon.link.goMultiMessagePop('album','10123637');"><span class="none">친구</span></button>
+												<button type="button" title="페이스북" id="albumFacebook" class="bullet_icons sns facebook" data-menuid="28010101"><span class="none">페이스북</span></button>
+												<button type="button" title="트위터" id="albumTwitter" class="bullet_icons sns twitter" data-menuid="28010101"><span class="none">트위터</span></button>
+											</div>
+										</dd>
+									</dl>
+								</div>
+							</div>
+						</div>
+						
+						
+						
+						
+						
+						
+						
+						
+					</div>
+					<!-- //앨범 상세 -->					
+
+
+
+<script language=javascript>
+	bookletDown = function(downType) {
+		if(isMelonLogin()){
+			if(downType == "" || typeof downType == "undefined"){
+				downType = "booklet";
+			}
+			
+			$.get('/delivery/bookletInfo.json',{pkageId:'10123637', downType : downType})
+				.done(function(data) {
+					if(data.RMSG == "SUCCESS") {
+						var v = [];
+						v = data.bookletInfo;
+						if ( v.allHold ) {
+							var $iFrm = $('<IFRAME id="iFrm" frameBorder="0" name="iFrm" scrolling="no"></IFRAME>');
+							$iFrm.appendTo('body');
+							$("#iFrm").attr("src",v.dlBookletUrl);
+						} else {
+							$('.song_count').html('<strong>' + v.needsCnt + '</strong>/<em>' + v.totalCnt + '</em>곡');
+							$('#_booklet').modal('show');
+						}
+					} else {
+						var downTypeStr = "북클릿";
+						if(downType != 'booklet'){
+							downTypeStr = "영상";
+						}
+						
+						alert(downTypeStr + " 다운로드 중 에러가 발생했습니다.");
+						return;
+					}
+			});
+		} else {
+			MELON.WEBSVC.POC.login.loginCheckFuncCall();
+		}
+	}
+
+</script>
+
+<script type="application/ld+json">
+{
+	"@context": "http://schema.org",
+	"@type": "MusicAlbum",
+	"url": [
+			"http://www.melon.com/album/detail.htm?albumId=10123637&ref=google",
+			"android-app://com.iloen.melon/melonapp/details/album/10123637?autoplay=Y&ref=google&pvmenuid=1000000461&contstype=N10002&contsid=10123637"
+	],
+	"image": "http://image.melon.co.kr/cm/album/images/101/23/637/10123637.jpg",
+	"name": "Chuu",
+	"sameAs": "http://www.melon.com/album/detail.htm?albumId=10123637",
+	"description": "&lt;div&gt;	&lt;strong&gt;&amp;#39;이달의 소녀&amp;#39; [Chuu]&lt;/strong&gt;&lt;/div&gt;&lt;div&gt;	&amp;nbsp;&lt;/div&gt;&lt;div&gt;	한 명, 한 명의 멤버가 각자의 캐릭터를 가지고 서로를 만나가며 세계관을 만들어가는 &amp;#39;이달의 소녀&amp;#39;. 첫 번째 멤버 &amp;#39;희진&amp;#39;을 시작으로 동갑내기 친구 &amp;#39;현진&amp;#39;을 만나고, &amp;#39;하슬&amp;#39;을 소개하며 3이라는 숫자를 완성하고, 막내 &amp;#39;여진&amp;#39;과 홍콩에서 온 &amp;#39;비비&amp;#39;를 결합하는 사이 &amp;#39;이달의 소녀&amp;#39; 1/3이 완성되었다. 첫 사랑의 설렘을 담은 [Love&amp;amp;Live]는 리버스되며 첫 이별의 아픔을 담은 [Love&amp;amp;Evil]로 변화되고 이달의 소녀 1/3의 첫 번째 활동을 마무리 지었다. 그리고 이달의 소녀 &amp;#39;오드아이써클&amp;#39;은 사랑에 주도적인 소녀 &amp;#39;김립&amp;#39;, &amp;#39;진솔&amp;#39;, &amp;#39;최리&amp;#39; 셋이 모여 하나의 써클로 완성되었다. 서로가 섞이고 조화되는 [Mix&amp;amp;Match]를 지나 한계에 도전해본다는 뜻의 [Max&amp;amp;Match]를 만드는 사이 이달의 소녀는 컨셉과 음악, 비주얼에 있어 한 차원 더 높은 곳을 향해 달려 나갔다. 마지막 멤버들을 향한 기대감. 새로운 유닛은 &amp;#39;이브&amp;#39;를 시작으로 열 번째 멤버 &amp;#39;츄&amp;#39;를 등장 시키며 이달의 소녀의 세계관에 새로운 긴장감을 불러일으킨다. 이미 블록베리크리에이티브에 입사하기 전부터 유명 연습생이었던 &amp;#39;지우&amp;#39;가 &amp;#39;츄&amp;#39;가 되는 과정. 그리고 너처럼 되고 싶던 내 맘이 너로 인해 가득 차 &amp;#39;이브&amp;#39;에게 사랑을 받고 싶어하는 어린 소녀의 감정을 싱글을 통해 담아냈다. 타이틀 곡 &amp;quot;Heart Attack&amp;quot;은 사랑에 빠진 감정을 진지하고 심각한 것이 아니라, 살아있는 이모티콘을 보는 듯한 츄만의 발랄한 표현력으로 완성했다. 뮤직비디오에는 르네 마그리트부터 성냥팔이 소녀,Aphrodite means Death 등의 다양한 코드들이 모여 영상미를 만들었다. &amp;#39;츄&amp;#39;와 &amp;#39;이브&amp;#39;가 함께한 커플링 곡 &amp;quot;Girl&amp;rsquo;s Talk&amp;quot;는 소녀들의 일상적인 대화를 곡으로 옮겨 담았다. 때론 스윗하고 어쩔 땐 시크릿한 소녀들만의 잡담의 소중함을 음악으로 되새겨낸다. &amp;#39;희진&amp;#39;의 &amp;quot;ViViD&amp;quot;부터 이달의 소녀 &amp;#39;오드아이써클&amp;#39;의 &amp;quot;Uncover&amp;quot;까지 이달의 소녀의 유니크한 음악적 색을 만들어낸 모노트리 &amp;#39;G-High&amp;#39;의 프로듀싱으로 또 한 번 이달의 소녀의 음악적 퀄리티를 증명한다. 에덴을 거부한 네 명의 소녀들이 모이면 파티가 시작된다.&lt;/div&gt;&lt;div&gt;	&amp;nbsp;&lt;/div&gt;",
+	"potentialAction": {
+		"@type": "ListenAction",
+		"target": [
+					"http://www.melon.com/album/detail.htm?albumId=10123637&ref=google",
+					"android-app://com.iloen.melon/melonapp/details/album/10123637?autoplay=Y&ref=google&pvmenuid=1000000461&contstype=N10002&contsid=10123637"
+		],
+		"expectsAcceptanceOf": {
+			"@type": "Offer",
+			"eligibleRegion": {
+				"@type": "Country",
+				"name": "KR"
+			}
+		}
+	}
+}
+</script>
+</body>
+</html>
+
+					<!-- //앨범 상세 -->
+					
+					<!-- 띠배너 -->
+					
+					<!-- //띠배너 -->
+					
+					<!-- 수록곡 -->
+					<div class="section_contin">
+						<div class="page_header">
+							<h5 class="title">수록곡 <span class="sum">(2)</span></h5>
+						</div>
+						
+							
+							
+<form id="frm" name="frm">
+	<div class="service_list_song d_song_list">	
+		<h3 class="none"></h3>
+		<!-- 곡리스트 테이블 -->
+
+		<div class="wrap_btn_tb top">
+					<button type="button" title="선택된 곡 듣기" class="button_rbox" onClick="melon.play.playFormSong('28010101','frm');"><span class="button_icons type02 play"></span><span class="cnt">듣기</span></button>
+					<button type="button" title="선택된 곡 담기" class="button_rbox" onClick="melon.play.addFormPlayList('frm');"><span class="button_icons type02 scrap"></span><span class="cnt">담기</span></button>
+					<button type="button" title="선택된 곡 다운로드" class="button_rbox" onClick="melon.buy.goBuyProduct('frm','','3C0001','input_check','0','');"><span class="button_icons type02 download"></span><span class="cnt">다운</span></button>
+					
+					<button type="button" title="선택된 곡 원음다운로드" class="button_rbox" onClick="melon.buy.goBuyProduct('frm','','3C0001','input_check','110','28010101');"><span class="button_icons type02 download"></span><span class="cnt"><span class="eng">FLAC</span></span></button>
+					
+					<button type="button" title="선택된 곡 선물하기" class="button_rbox" onClick="melon.buy.goPresent('song', 'frm', '28010101');"><span class="button_icons type02 gift"></span><span class="cnt">선물</span></button>
+		</div>		
+		<table border="1" style="width:100%">
+			<caption>이 표는 곡 리스트로 체크박스, 순위, 곡정보, 좋아요, 뮤비, 다운, 폰전송 내용을 포함하고 있으며 표 상 하단에 제공하는 전체선택, 듣기, 다운로드, 담기, 선물하기 기능을 이용하실 수 있습니다.</caption>
+						<colgroup>
+							<col style="width: 15px"><!-- checkbox -->
+							<col style="width: 62px"><!-- 순서 & 순위 -->
+							<col style="width: 24px"><!-- 곡 상세가기 -->
+							<col><!-- 곡정보 -->
+							<col style="width: 135px"><!-- 좋아요 -->
+							<col style="width: 45px"><!-- 듣기 -->
+							<col style="width: 52px"><!-- 담기 -->
+							<col style="width: 52px"><!-- 다운 -->
+							<col style="width: 52px"><!-- 뮤비 -->
+							<col style="width: 52px"><!-- 링/벨 -->
+						</colgroup>			
+			<thead>
+						
+					<tr>
+						<th scope="col">
+							<div class="wrap t_right"><input type="checkbox" title="CD전체 선택" class="input_check d_checkall"></div>
+						</th>
+						<th scope="col">
+							<div class="wrap t_center"><span class="rank">번호</span></div>
+						</th>
+						<th scope="col">
+							<div class="wrap none">곡 상세가기</div>
+						</th>
+						<th scope="col">
+							<div class="wrap pd_l_12">곡정보</div>
+						</th>
+						<th scope="col">
+							<div class="wrap pd_l_30">좋아요</div>
+						</th>
+						<th scope="col">
+							<div class="wrap t_center">듣기</div>
+						</th>
+						<th scope="col">
+							<div class="wrap t_center">담기</div>
+						</th>
+						<th scope="col">
+							<div class="wrap t_center">다운</div>
+						</th>
+						<th scope="col">
+							<div class="wrap t_center">뮤비</div>
+						</th>
+						<th scope="col">
+							<div class="wrap t_center">링/벨</div>
+						</th>
+					</tr>
+				
+			</thead>
+			<tbody>
+			
+			
+				
+				
+				
+								
+								<tr data-group-items="cd1">
+									<td><div class="wrap t_right"><input type="checkbox" title="Heart Attack (츄) 곡 선택" class="input_check "  name="input_check" value="30809890"></div></td>
+									<td><div class="wrap t_center"><span class="rank ">1</span><span class="none">위</span></div></td>
+									<td><div class="wrap">
+										<a href="javascript:melon.link.goSongDetail('30809890');" title="Heart Attack (츄) 곡정보" class="btn button_icons type03 song_info"><span class="none">곡정보</span></a>
+									</div></td>
+									<td><div class="wrap">
+										<div class="wrap_song_info">
+											<div class="ellipsis"><span>
+												<span title="타이틀 곡" class="bullet_icons title"><span class="none">Title</span></span>
+												
+												
+												
+												
+												
+												<a href="javascript:melon.play.playSong('28010101',30809890);" title="Heart Attack (츄) 재생">Heart Attack (츄)</a>
+											</span></div><br>
+											<div class="ellipsis rank02">
+												
+												
+												<a href="javascript:melon.link.goArtistDetail('1229429');" title="이달의 소녀 - 페이지 이동" >이달의 소녀</a><span class="checkEllipsis" style="display:none"><a href="javascript:melon.link.goArtistDetail('1229429');" title="이달의 소녀 - 페이지 이동" >이달의 소녀</a></span>
+											</div>
+											
+										</div>
+									</div></td>							
+									<td><div class="wrap">
+										<button type="button" class="button_etc like" title="Heart Attack (츄) 좋아요" data-song-no="30809890" data-song-menuid="28010101">
+											<span class="odd_span">좋아요</span>
+											<span class="cnt">
+												<span class="none">총건수</span>
+												6460
+											</span>
+										</button>
+									</div></td>
+									<td><div class="wrap t_center">
+										<button type="button" title="듣기" class="button_icons play "  onClick="melon.play.playSong('28010101',30809890);"><span class="none">듣기</span></button>
+									</div></td>
+									<td><div class="wrap t_center">
+										<button type="button" title="담기" class="button_icons scrap "  onClick="melon.play.addPlayList('30809890');"><span class="none">담기</span></button>
+									</div></td>
+									<td><div class="wrap t_center">
+										<button type="button" title="다운로드" class="button_icons flac "  onClick="melon.buy.goBuyProduct('frm', '30809890', '3C0001', '','110', '28010101');"><span class="none">다운로드</span></button>
+									</div></td>
+									<td><div class="wrap t_center">
+										<button type="button" title="뮤직비디오" class="button_icons video "  onClick="melon.link.goMvDetail('28010101', '30809890','song');"><span class="none">뮤직비디오</span></button>
+									</div></td>
+									<td><div class="wrap t_center">
+										<button type="button" title="링/벨" class="button_icons bell "  onClick="melon.buy.popPhoneDecorate('1110000000000000','30809890')"><span class="none">링/벨</span></button>
+									</div></td>
+								</tr>								
+					
+				
+				
+								
+								<tr data-group-items="cd1">
+									<td><div class="wrap t_right"><input type="checkbox" title="Girl`s Talk (이브, 츄) 곡 선택" class="input_check "  name="input_check" value="30809891"></div></td>
+									<td><div class="wrap t_center"><span class="rank ">2</span><span class="none">위</span></div></td>
+									<td><div class="wrap">
+										<a href="javascript:melon.link.goSongDetail('30809891');" title="Girl`s Talk (이브, 츄) 곡정보" class="btn button_icons type03 song_info"><span class="none">곡정보</span></a>
+									</div></td>
+									<td><div class="wrap">
+										<div class="wrap_song_info">
+											<div class="ellipsis"><span>
+												
+												
+												
+												
+												
+												
+												<a href="javascript:melon.play.playSong('28010101',30809891);" title="Girl`s Talk (이브, 츄) 재생">Girl`s Talk (이브, 츄)</a>
+											</span></div><br>
+											<div class="ellipsis rank02">
+												
+												
+												<a href="javascript:melon.link.goArtistDetail('1229429');" title="이달의 소녀 - 페이지 이동" >이달의 소녀</a><span class="checkEllipsis" style="display:none"><a href="javascript:melon.link.goArtistDetail('1229429');" title="이달의 소녀 - 페이지 이동" >이달의 소녀</a></span>
+											</div>
+											
+										</div>
+									</div></td>							
+									<td><div class="wrap">
+										<button type="button" class="button_etc like" title="Girl`s Talk (이브, 츄) 좋아요" data-song-no="30809891" data-song-menuid="28010101">
+											<span class="odd_span">좋아요</span>
+											<span class="cnt">
+												<span class="none">총건수</span>
+												1259
+											</span>
+										</button>
+									</div></td>
+									<td><div class="wrap t_center">
+										<button type="button" title="듣기" class="button_icons play "  onClick="melon.play.playSong('28010101',30809891);"><span class="none">듣기</span></button>
+									</div></td>
+									<td><div class="wrap t_center">
+										<button type="button" title="담기" class="button_icons scrap "  onClick="melon.play.addPlayList('30809891');"><span class="none">담기</span></button>
+									</div></td>
+									<td><div class="wrap t_center">
+										<button type="button" title="다운로드" class="button_icons flac "  onClick="melon.buy.goBuyProduct('frm', '30809891', '3C0001', '','110', '28010101');"><span class="none">다운로드</span></button>
+									</div></td>
+									<td><div class="wrap t_center">
+										<button type="button" title="뮤직비디오" class="button_icons video disabled" disabled="disabled" onClick="melon.link.goMvDetail('28010101', '30809891','song');"><span class="none">뮤직비디오</span></button>
+									</div></td>
+									<td><div class="wrap t_center">
+										<button type="button" title="링/벨" class="button_icons bell disabled" disabled="disabled" onClick="melon.buy.popPhoneDecorate('0000000000000000','30809891')"><span class="none">링/벨</span></button>
+									</div></td>
+								</tr>								
+					
+				
+			
+			
+			</tbody>
+		</table>		
+	</div>
+</form>
+
+	<script type="text/javascript">
+	$(function(){
+
+		/* 좋아요 셋팅부 */
+		var LIKE_SET = {
+			likeCnt  : "<span class=\"odd_span\">{TXT}</span>\n<span class=\"cnt\">\n<span class=\"none\">총건수</span>\n{CNT}</span>",
+			likeObj  : $('div.d_song_list button.like'),
+			likeAttr : 'data-song-no',
+			likeUrl  : '/commonlike/getSongLike.json'
+		};
+
+		/* 좋아요 공통부 */
+		var contsIdList = LIKE_SET['likeObj'].map(function() { return $(this).attr(LIKE_SET['likeAttr']); }).get().join(',');
+		var tmpl, title;
+		if ( contsIdList === '' || contsIdList === null  ) { return; }
+		$.get(LIKE_SET['likeUrl'], { contsIds : contsIdList }, function(data) {
+			var robj;
+			$.each(data.contsLike, function(i, v) {
+				var SUMMCNT = MELON.WEBSVC.number.addComma(v.SUMMCNT);
+				robj  = LIKE_SET['likeObj'].eq(i);
+				tmpl  = LIKE_SET['likeCnt'];
+				title = robj.attr('title').split(' 좋아요');
+				robj[v.LIKEYN == 'Y' ? 'addClass' : 'removeClass']('on').attr('title', title[0] + (v.LIKEYN == 'Y' ? ' 좋아요 취소' : ' 좋아요'));
+				robj.html(
+					tmpl.replace(/\{TXT\}/g, (v.LIKEYN == 'Y' ? '좋아요 취소' : '좋아요')).replace(/\{CNT\}/g, SUMMCNT)
+				);
+			});
+		}).done(function(){
+			//아티스트 더보기 처리
+			var listType = '';
+			if(listType == 'CHART'){
+				WEBELLIPSIS.ellipsis("checkEllipsis","wrap_atist",210);
+			}else{
+				WEBELLIPSIS.ellipsis("checkEllipsis","wrap_atist",240);
+			}
+
+		});
+	});
+	</script>
+						
+					</div>
+					<!-- //수록곡 -->
+					
+					<!-- 앨범소개 -->
+					
+					<div class="section_albuminfo">
+						<div class="page_header">
+							<h5 class="title">앨범소개</h5>
+						</div>
+						<div class="cont_albuminfo">
+							<div class="dtl_albuminfo" id="d_video_summary">
+								<div><div>	<strong>&#39;이달의 소녀&#39; [Chuu]</strong></div><div>	&nbsp;</div><div>	한 명, 한 명의 멤버가 각자의 캐릭터를 가지고 서로를 만나가며 세계관을 만들어가는 &#39;이달의 소녀&#39;. 첫 번째 멤버 &#39;희진&#39;을 시작으로 동갑내기 친구 &#39;현진&#39;을 만나고, &#39;하슬&#39;을 소개하며 3이라는 숫자를 완성하고, 막내 &#39;여진&#39;과 홍콩에서 온 &#39;비비&#39;를 결합하는 사이 &#39;이달의 소녀&#39; 1/3이 완성되었다. 첫 사랑의 설렘을 담은 [Love&amp;Live]는 리버스되며 첫 이별의 아픔을 담은 [Love&amp;Evil]로 변화되고 이달의 소녀 1/3의 첫 번째 활동을 마무리 지었다. 그리고 이달의 소녀 &#39;오드아이써클&#39;은 사랑에 주도적인 소녀 &#39;김립&#39;, &#39;진솔&#39;, &#39;최리&#39; 셋이 모여 하나의 써클로 완성되었다. 서로가 섞이고 조화되는 [Mix&amp;Match]를 지나 한계에 도전해본다는 뜻의 [Max&amp;Match]를 만드는 사이 이달의 소녀는 컨셉과 음악, 비주얼에 있어 한 차원 더 높은 곳을 향해 달려 나갔다. 마지막 멤버들을 향한 기대감. 새로운 유닛은 &#39;이브&#39;를 시작으로 열 번째 멤버 &#39;츄&#39;를 등장 시키며 이달의 소녀의 세계관에 새로운 긴장감을 불러일으킨다. 이미 블록베리크리에이티브에 입사하기 전부터 유명 연습생이었던 &#39;지우&#39;가 &#39;츄&#39;가 되는 과정. 그리고 너처럼 되고 싶던 내 맘이 너로 인해 가득 차 &#39;이브&#39;에게 사랑을 받고 싶어하는 어린 소녀의 감정을 싱글을 통해 담아냈다. 타이틀 곡 &quot;Heart Attack&quot;은 사랑에 빠진 감정을 진지하고 심각한 것이 아니라, 살아있는 이모티콘을 보는 듯한 츄만의 발랄한 표현력으로 완성했다. 뮤직비디오에는 르네 마그리트부터 성냥팔이 소녀,Aphrodite means Death 등의 다양한 코드들이 모여 영상미를 만들었다. &#39;츄&#39;와 &#39;이브&#39;가 함께한 커플링 곡 &quot;Girl&rsquo;s Talk&quot;는 소녀들의 일상적인 대화를 곡으로 옮겨 담았다. 때론 스윗하고 어쩔 땐 시크릿한 소녀들만의 잡담의 소중함을 음악으로 되새겨낸다. &#39;희진&#39;의 &quot;ViViD&quot;부터 이달의 소녀 &#39;오드아이써클&#39;의 &quot;Uncover&quot;까지 이달의 소녀의 유니크한 음악적 색을 만들어낸 모노트리 &#39;G-High&#39;의 프로듀싱으로 또 한 번 이달의 소녀의 음악적 퀄리티를 증명한다. 에덴을 거부한 네 명의 소녀들이 모이면 파티가 시작된다.</div><div>	&nbsp;</div></div>
+							</div>
+							<!-- //앨범소개글 -->
+
+							<button type="button" title=" 앨범소개 더보기" class="button_more arrow_d" data-control="expose" data-expose-type="more" data-expose-target="#d_video_summary">
+								<span class="text">펼치기</span>
+								<i class="button_icons etc arrow_d"></i>
+							</button>
+						</div>
+					</div>
+					
+					<!-- //앨범소개 -->
+					
+					<!-- 관련영상 -->
+					<div class="section_movie" >
+						<div class="page_header">
+							<h5 class="title">관련 비디오</h5>
+						</div>						
+						
+<div class="service_list_video type03 d_video_list">	
+
+	
+							<ul>
+								
+								<li>
+									<div class="thumb">
+										<a href="javascript:melon.link.goMvDetail('28010101', '50177847')" title="Heart Attack (츄) - 페이지 이동" class="image_typeAll">
+											<img onerror="WEBPOCIMG.defaultMvImg(this);" width="237" height="139" src="http://cdnimg.melon.co.kr/cm/mv/images/wide/501/77/847/50177847_640.jpg/melon/resize/480/quality/80/optimize" alt=""/>											
+											<span class="bg_album_frame"></span>
+											
+											
+											
+											
+											
+											
+											<span class="bullet_icons age12"><span class="none">12세 이상 이용가능</span></span>
+																						
+											<span class="time">04:04</span>
+										</a>
+									</div>
+									<div class="entry">
+										<div class="info">
+											<a href="javascript:melon.link.goMvDetail('28010101', '50177847')" class="ellipsis album_name" title="비디오상세 이동">Heart Attack (츄)</a>
+											<span class="ellipsis artist">
+												<a href="javascript:melon.link.goArtistDetail('1229429');" title="이달의 소녀 - 페이지 이동" class="artist_name">이달의 소녀</a>
+											</span>
+											
+										</div>
+										<div class="meta">
+											<span class="view" title="조회"><span class="bullet_icons cnt_view"></span><span class="cnt">0</span></span>
+											<i class="bar"></i>
+											<button type="button" id="btnLikeMv" class="button_etc like" title="Heart Attack (츄) 좋아요" data-video-no="50177847" data-video-menuid="28010101">
+												<span class="odd_span">좋아요</span>
+												<span class="cnt">
+													<span class="none">총건수</span>
+													0
+												</span>
+											</button>
+										</div>
+									</div>
+								</li>			
+								
+						
+								
+								<li>
+									<div class="thumb">
+										<a href="javascript:melon.link.goMvDetail('28010101', '50177721')" title="Heart Attack (츄) (Teaser) - 페이지 이동" class="image_typeAll">
+											<img onerror="WEBPOCIMG.defaultMvImg(this);" width="237" height="139" src="http://cdnimg.melon.co.kr/cm/mv/images/wide/501/77/721/50177721_640.jpg/melon/resize/480/quality/80/optimize" alt=""/>											
+											<span class="bg_album_frame"></span>
+											
+											
+											
+											
+											
+											
+											<span class="bullet_icons age12"><span class="none">12세 이상 이용가능</span></span>
+																						
+											<span class="time">00:37</span>
+										</a>
+									</div>
+									<div class="entry">
+										<div class="info">
+											<a href="javascript:melon.link.goMvDetail('28010101', '50177721')" class="ellipsis album_name" title="비디오상세 이동">Heart Attack (츄) (Teaser)</a>
+											<span class="ellipsis artist">
+												<a href="javascript:melon.link.goArtistDetail('1229429');" title="이달의 소녀 - 페이지 이동" class="artist_name">이달의 소녀</a>
+											</span>
+											
+										</div>
+										<div class="meta">
+											<span class="view" title="조회"><span class="bullet_icons cnt_view"></span><span class="cnt">0</span></span>
+											<i class="bar"></i>
+											<button type="button" id="btnLikeMv" class="button_etc like" title="Heart Attack (츄) (Teaser) 좋아요" data-video-no="50177721" data-video-menuid="28010101">
+												<span class="odd_span">좋아요</span>
+												<span class="cnt">
+													<span class="none">총건수</span>
+													0
+												</span>
+											</button>
+										</div>
+									</div>
+								</li>			
+						
+							</ul>
+								
+						
+</div>						
+<script type="text/javascript">
+$(function(){
+
+		/* 좋아요 셋팅부 */
+	    var LIKE_SET = {
+	        likeCnt  : '<span class=\"odd_span\">{TXT}</span>\n<span class=\"cnt\">\n<span class=\"none\">총건수</span>\n{CNT}</span>',
+	        likeObj  : $('div.d_video_list button.like'),
+	        likeAttr : 'data-video-no',
+	        likeUrl  : '/commonlike/getMvLikeWithReadCnt.json'
+	    };
+
+	    /* 좋아요 공통부 */
+	    var contsIdList = LIKE_SET['likeObj'].map(function() { return $(this).attr(LIKE_SET['likeAttr']); }).get().join(',');
+	    var tmpl, title;
+	    if ( contsIdList === '' || contsIdList === null  ) { return; }
+	    $.get(LIKE_SET['likeUrl'], { contsIds : contsIdList }, function(data) {
+	        var robj;
+	        $.each(data.contsLike, function(i, v) {
+	        	var SUMMCNT = MELON.WEBSVC.number.addComma(v.LOVECNT);
+	        	var VIEWCNT = MELON.WEBSVC.number.addComma(v.READCNT);
+	            robj  = LIKE_SET['likeObj'].eq(i);
+	            tmpl  = LIKE_SET['likeCnt'];
+	            title = robj.attr('title').split(' 좋아요');
+	            
+	            robj[v.LOVEYN == 'Y' ? 'addClass' : 'removeClass']('on').attr('title', title[0] + (v.LOVEYN == 'Y' ? ' 좋아요 취소' : ' 좋아요'));
+	            robj.html(
+	                tmpl.replace(/\{TXT\}/g, (v.LOVEYN == 'Y' ? '좋아요 취소' : '좋아요')).replace(/\{CNT\}/g, SUMMCNT)
+	            );
+	            
+	            $('.section_movie').find('.service_list_video > ul > li').eq(i).find('.view > .cnt').text(VIEWCNT);
+	            
+	            /*
+				if(v.LIKEYN == 'Y') {
+					$('.section_movie').find('.service_list_video > ul > li').eq(i).find('.button_etc.like').addClass('on').attr('title', title[0] + ' 좋아요 취소');
+					$('.section_movie').find('.service_list_video > ul > li').eq(i).find('.button_etc.like > .odd_span').text('좋아요 취소');
+				}
+				else {
+					$('.section_movie').find('.service_list_video > ul > li').eq(i).find('.button_etc.like').removeClass('on').attr('title', title[0] + ' 좋아요');
+					$('.section_movie').find('.service_list_video > ul > li').eq(i).find('.button_etc.like > .odd_span').text('좋아요');
+				}
+	            $('.section_movie').find('.service_list_video > ul > li').eq(i).find('.button_etc.like > .cnt').text(SUMMCNT);
+	            */
+	            
+	        });
+	    }).done(function(){
+        });
+
+});
+</script>												
+						<div class="page">
+							<span class="wrap_btn">
+								<a href="#" title="이전" class="btn page_prev disabled"><span class="odd_span">이전</span></a>
+								<a href="#" title="다음" class="btn page_next"><span class="odd_span">다음</span></a>
+							</span>
+						</div>
+					</div>					
+					<!-- //관련영상 -->
+					
+					<!-- 나도 한마디 -->
+					<div id="section_cmt" class="section_cmt">
+						<div class="page_header">
+							<h5 class="title">댓글</h5>
+						</div>
+							
+						<div class='cmt_area' id='d_cmtpgn' data-sqwidget='templateType:pc-summary-type;textareaType:large-size;pageType:generic-page' data-sqwidget-settings='cmtPocType:pc.web;pocId:XXXX;menuId:28010101;chnlSeq:102;contsRefValue:10123637;listPageUrl:http://www.melon.com//album/detail.htm?albumId=10123637'></div>
+							<!-- //나도 한마디 영역 -->
+					</div>
+					<!-- //나도 한마디 -->
+					
+					<!-- 20171114 -->
+					<!-- 연관앨범 -->
+					
+					<!-- //연관앨범 -->
+					<!-- //20171114 -->
+															
+					<!-- 수록곡이 포함된 DJ 플레이리스트 -->
+					
+					<div class="section_playlist">
+						<div class="page_header">
+							<h5 class="title">수록곡이 포함된 DJ 플레이리스트</h5>
+						</div>
+						<div class="service_list_album type04 d_djcol_list">
+							<h3 class="none">앨범리스트</h3>
+							<ul>
+								
+								<li>
+									<div class="thumb">
+										
+										
+											
+												<a href="javascript:MELON.WEBSVC.POC.link.goDjPlaylistDetail('0','Y','N','421731133');" title="운동할 때 내적 댄스 유발하는 곡 - 페이지 이동" class="image_typeAll">
+													<img onerror="WEBPOCIMG.defaultPlaylistImg(this);" src="http://cdnimg.melon.co.kr/svc/user_images/plylst/197/98/421731133_org.jpg?tm=20180227132551/melon/resize/x180/quality/100/optimize" alt=""/>
+													<span class="bg_album_frame"></span>
+												</a>
+											
+											
+											
+										
+											
+									</div>
+									<div class="entry">
+										<div class="info">
+											
+												
+																						
+													<a href="javascript:MELON.WEBSVC.POC.link.goDjPlaylistDetail('0','Y','N','421731133');" class="ellipsis album_name" title="운동할 때 내적 댄스 유발하는 곡 -이동">운동할 때 내적 댄스 유발하는 곡</a>
+													<a href="javascript:MELON.WEBSVC.POC.link.goMyMusic('19697436');" class="ellipsis artist_name" title="mixxtape 이동">mixxtape</a>
+												
+																			
+										</div>
+										
+										<div class="meta">
+											<button type="button" class="button_etc like btn_djplylst_like" title="운동할 때 내적 댄스 유발하는 곡 좋아요" data-djcol-no="421731133" data-djcol-menuid="28010101">
+												<span class="odd_span">좋아요</span>
+												<span class="cnt">
+													<span class="none">총건수</span>0
+												</span>
+											</button>
+											<i class="bar"></i>
+											<span class="tot_song" title="운동할 때 내적 댄스 유발하는 곡 수록곡">364곡</span>								
+										</div>
+										
+										
+											<div class="tag_list">
+												
+													
+														<a href="javascript:MELON.WEBSVC.POC.link.goDjTagHub('19');" class="tag_item"><span>#운동</span></a>
+													
+												
+													
+														<a href="javascript:MELON.WEBSVC.POC.link.goDjTagHub('18');" class="tag_item"><span>#스트레스</span></a>
+													
+																						
+											</div>
+										
+									</div>
+								</li>
+								
+								<li>
+									<div class="thumb">
+										
+										
+											
+											
+											
+												<a href="javascript:MELON.WEBSVC.POC.link.goDjPlaylistDetail('0','Y','N','101647093');" title="걸그룹대전 신나gogo~~ - 페이지 이동" class="image_typeAll multi">
+													<img onerror="WEBPOCIMG.defaultPlaylistImg(this);" width="90" height="90" src="http://cdnimg.melon.co.kr/cm/album/images/021/83/646/2183646_th120.jpg/melon/resize/x90/quality/100/optimize" alt=""/>
+													<img onerror="WEBPOCIMG.defaultPlaylistImg(this);" width="90" height="90" src="http://cdnimg.melon.co.kr/cm/album/images/101/24/822/10124822_th120.jpg/melon/resize/x90/quality/100/optimize" alt=""/>
+													<img onerror="WEBPOCIMG.defaultPlaylistImg(this);" width="90" height="90" src="http://cdnimg.melon.co.kr/cm/album/images/101/09/244/10109244_th120.jpg/melon/resize/x90/quality/100/optimize" alt=""/>
+													<img onerror="WEBPOCIMG.defaultPlaylistImg(this);" width="90" height="90" src="http://cdnimg.melon.co.kr/cm/album/images/100/72/696/10072696_th120.jpg/melon/resize/x90/quality/100/optimize" alt=""/>
+													<span class="bg_album_frame"></span>
+												</a>
+											
+										
+											
+									</div>
+									<div class="entry">
+										<div class="info">
+											
+												
+																						
+													<a href="javascript:MELON.WEBSVC.POC.link.goDjPlaylistDetail('0','Y','N','101647093');" class="ellipsis album_name" title="걸그룹대전 신나gogo~~ -이동">걸그룹대전 신나gogo~~</a>
+													<a href="javascript:MELON.WEBSVC.POC.link.goMyMusic('17324226');" class="ellipsis artist_name" title="jiinyy 이동">jiinyy</a>
+												
+																			
+										</div>
+										
+										<div class="meta">
+											<button type="button" class="button_etc like btn_djplylst_like" title="걸그룹대전 신나gogo~~ 좋아요" data-djcol-no="101647093" data-djcol-menuid="28010101">
+												<span class="odd_span">좋아요</span>
+												<span class="cnt">
+													<span class="none">총건수</span>0
+												</span>
+											</button>
+											<i class="bar"></i>
+											<span class="tot_song" title="걸그룹대전 신나gogo~~ 수록곡">73곡</span>								
+										</div>
+										
+										
+											<div class="tag_list">
+												
+													
+														<a href="javascript:MELON.WEBSVC.POC.link.goDjTagHub('804');" class="tag_item"><span>#걸그룹</span></a>
+													
+												
+													
+														<a href="javascript:MELON.WEBSVC.POC.link.goDjTagHub('29');" class="tag_item"><span>#댄스</span></a>
+													
+																						
+											</div>
+										
+									</div>
+								</li>
+								
+								
+							</ul>
+						</div>
+					</div>					
+					
+					 <!-- //수록곡이 포함된 DJ 플레이리스트 -->
+										
+					<!-- 좋아요 한 사람 -->
+					<div class="section_intst" >
+						<div class="page_header bline">
+							<h5 class="title">좋아요 한 사람</h5>
+						</div>
+						<div class="wrap_list_intst">
+						</div>						
+						<div class="page">
+								<span class="page_num" style="display:none">
+									<span class="none">현제 페이지</span><strong class="d_now_page">1</strong>
+									/
+								<span class="none">전체 페이지</span><span class="d_total_page">5</span>
+								</span>
+							<span class="wrap_btn">
+								<a href="#" title="이전" class="btn page_prev disabled withLikeBtnTmp" id="withLikeBtnTmp1" data-orderby-type="MELONDJ_YN" data-limit-count="13" data-view-type="withLikeUser" data-view-contsId="10123637"><span class="odd_span">이전</span></a>
+								<a href="#" title="다음" class="btn page_next withLikeBtnTmp" id="withLikeBtnTmp2" data-orderby-type="MELONDJ_YN" data-limit-count="13" data-view-type="withLikeUser" data-view-contsId="10123637"><span class="odd_span">다음</span></a>
+							</span>
+						</div>
+					</div>
+					<!-- //좋아요 한 사람 -->				
+
+				</div>
+<!-- //contents -->
+
+			</div>
+<!-- C. 전체 공통 스크립트 -->
+
+	<script type="text/javascript">
+		var httpWww = "http://www.melon.com";
+		var httpsWww = "https://www.melon.com";
+		var POC_ID = "XXXX";
+	</script>
+
+	
+	<script type="text/javascript" src="/resource/script/web/common/melonweb_openlib.js"></script>
+	<script type="text/javascript" src="http://cdnimg.melon.co.kr/static/web/resource/script/w1/tu/7/15u99gmdn3.js"></script>
+	<script type="text/javascript" src="http://cdnimg.melon.co.kr/static/web/resource/script/w1/og/7/kv18j7iqi3.js"></script>
+	<script type="text/javascript" src="/resource/script/web/common/MPAPI.js?tm=20171129"></script> 
+	<script type="text/javascript" src="http://cdnimg.melon.co.kr/static/web/resource/script/w1/fn/n/1y0yzmf9x67.js"></script> 
+	
+
+<script type="text/javascript" src="http://cdnimg.melon.co.kr/static/web/resource/script/w1/jd/v/14ifiepkjxj.js"></script>
+	<script type="text/javascript" src="/resource/script/web/chart/json2.js"></script>
+	<script type="text/javascript" src="/resource/script/web/common/melonweb_zam.js?tm=2016042816"></script>
+	<script type="text/javascript" src="http://cdnimg.melon.co.kr/static/web/resource/script/w1/8k/8/1ed5h822hvv.js"></script>
+	<script type="text/javascript" src="http://log.melon.com/mlog.js"></script>
+
+	<script type="text/javascript">
+		var melon = MELON.WEBSVC.POC;
+
+		document.domain="melon.com";
+
+		//pocId 쿠키설정 실행
+		try {
+			melon.setPocId();
+		} catch (e){}
+	</script>
+	
+	<script type="text/javascript" src="/resource/script/web/common/socket.io.js"></script>
+<script type="text/javascript" src="http://cdnimg.melon.co.kr/static/web/resource/script/w1/fl/7/uot4m6bho9.js"></script>
+<!-- D. 해당 메뉴 관련 공통 스크립트 -->
+<script type="text/javascript" src="http://cdnimg.melon.co.kr/static/web/resource/script/w1/ry/z/13686ujiqt.js"></script>
+
+<!-- D. 화면 내부 전용 스크립트 -->
+<script type="text/javascript">
+$(function() {
+	"use strict";
+	var $doc = $(document),
+		WEBSVC = MELON.WEBSVC,
+		PBPGN = MELON.PBPGN,
+		addComma = WEBSVC.number.addComma,
+		serverTime = "2018:02:27 01:25:51"; 	// 시간은 서버에서 찍어주세요.
+		 
+		 $('.section_info').each(function() {
+			 if ($(this).find('.song_name').height() > 30) {
+				 $(this).find('.song_name').addClass('multi');
+			 }	 
+		 });
+		
+		//DJ 좋아요..
+		WEBSVC.DJCollection.init();
+		
+		WEBSVC.PlayList.init();
+
+		try  {
+	        
+			/* 좋아요 셋팅부 */
+			var LIKE_SET = {
+				likeCnt  : "<span class=\"odd_span\">{TXT}</span>\n<span id=\"d_like_count\" class=\"cnt\">\n<span class=\"none\">총건수</span>\n{CNT}</span>",
+				likeObj  : $('#btnLike'),
+				likeAttr : 'data-album-no',
+				likeUrl  : '/commonlike/getAlbumLike.json'
+			};
+	        
+			/* 좋아요 공통부 */
+			var contsIdList = LIKE_SET['likeObj'].map(function() { return $(this).attr(LIKE_SET['likeAttr']); }).get().join(',');				
+			var tmpl, title;
+			if ( contsIdList === '' || contsIdList === null  ) { return; }
+			$.get(LIKE_SET['likeUrl'], { contsIds : contsIdList }, function(data) {
+				var robj;
+				$.each(data.contsLike, function(i, v) {
+					var SUMMCNT = MELON.WEBSVC.number.addComma(v.SUMMCNT);
+					robj  = $('#btnLike');
+					tmpl  = LIKE_SET['likeCnt'];
+					title = robj.attr('title').split(' 좋아요');
+					/*
+					robj[v.LIKEYN == 'Y' ? 'addClass' : 'removeClass']('on').attr('title', title[0] + (v.LIKEYN == 'Y' ? ' 좋아요 취소' : ' 좋아요'));
+					robj.html(
+						tmpl.replace(/\{TXT\}/g, (v.LIKEYN == 'Y' ? '좋아요 취소' : '좋아요')).replace(/\{CNT\}/g, SUMMCNT)
+					);
+					*/
+					if(v.LIKEYN == 'Y') {
+						$('.section_info').find('.entry .button_etc.like').addClass('on').attr('title', title[0] + ' 좋아요 취소');
+						$('.section_info').find('.entry .button_etc.like > .odd_span').text('좋아요 취소');
+					}
+					else {
+						$('.section_info').find('.entry .button_etc.like').removeClass('on').attr('title', title[0] + ' 좋아요');
+						$('.section_info').find('.entry .button_etc.like > .odd_span').text('좋아요');
+					}
+					$('.section_info').find('.entry .button_etc.like > .cnt').text(SUMMCNT);
+				});
+			}).done(function(){
+			});
+	        
+		} catch (e) {
+	        console.log(e);
+		}
+				
+		$.ajax({
+			type:"get",
+			url: '/album/albumGradeInfo.json',
+			dataType:"json",
+			async:true,
+			data : {
+				albumId: '10123637'				
+			},
+			success:function(obj){
+				var vTempCount = MELON.WEBSVC.number.addComma(obj.infoGrade.PTCPNMPRCO);
+				$("#gradCountLayer").html(vTempCount+"명");
+				var totalAvgScore = obj.infoGrade.TOTAVRGSCORE;
+				var roundScore = parseFloat(totalAvgScore).toFixed(1);
+				$("#gradPointLayer").html(roundScore);
+				var viewValue =(obj.infoGrade.TOTAVRGSCORE)*20;
+				$("#contt_evalscore01_view").attr("style", "width:"+viewValue+"%");
+			},
+			error: function(request,error) {				
+			}
+		});
+		
+		$.ajax({
+			type:"get",
+			url: '/album/albumReviewCnt.json',
+			dataType:"json",
+			async:true,
+			data : {
+				albumId: '10123637'				
+			},
+			success:function(obj){
+				var revCnt = MELON.WEBSVC.number.addComma(obj.reviewValidCmtCnt);
+				if(revCnt > 999999) revCnt='999,999+';
+				$("#revCnt").text(revCnt+"개");
+			},
+			error: function(request,error) {				
+			}
+		});
+		
+		
+
+		
+		try  {
+	        
+	        // DJ플레이리스트의 좋아요 처리
+	        
+	        /* 좋아요 셋팅부 */
+	        var LIKE_SET = {
+	                   likeCnt  : '<span class="odd_span">{TXT}</span> <span class="cnt"> <span class="none">총건수</span> {CNT} </span>',
+	                   likeObj  : $('.btn_djplylst_like'),
+	                   likeAttr : 'data-djcol-no',
+	                   likeUrl  : '/dj/common/djcommon_listLikeCnt.json'
+	        };
+	        
+	        /* 좋아요 공통부 */
+	        var contsIdList = LIKE_SET['likeObj'].map(function() { return $(this).attr(LIKE_SET['likeAttr']); }).get().join(',');
+	        
+	        var tmpl, title;
+	        $.get(LIKE_SET['likeUrl'], { contsIds : contsIdList }, function(data) {
+	                   var robj;
+	                   $.each(data.contsLike, function(i, v) {
+	                               var SUMMCNT = MELON.WEBSVC.number.addComma(v.SUMMCNT);
+	                               robj  = $('.btn_djplylst_like').eq(i);
+	                               tmpl  = LIKE_SET['likeCnt'];
+	                               title = robj.attr('title').split(' 좋아요');
+	                               robj[v.LIKEYN == 'Y' ? 'addClass' : 'removeClass']('on').attr('title', title[0] + (v.LIKEYN == 'Y' ? ' 좋아요 취소' : ' 좋아요'));
+	                               
+	                               robj.html(
+	                                           tmpl.replace(/\{TXT\}/g, (v.LIKEYN == 'Y' ? '좋아요 취소' : '좋아요')).replace(/\{CNT\}/g, SUMMCNT)
+	                               );
+	                   });
+	        }).done(function(){
+	        });
+	        
+		} catch (e) {
+	        console.log(e);
+		}
+		
+		 
+	/* ********************************************************************************
+	 * 앨범이미지 확대
+	 ******************************************************************************** */
+	/*
+	 $("a.photoDetailThumb").click(function(e) {
+		e.preventDefault();
+
+		var $img = $(this).children('img');
+		//window.open('http://image.melon.co.kr' + $img.attr('org_src'), "이미지크게보기", "height=" + screen.height + ", width=" + screen.width + ", toolbar=no, menubar=no, scrollbars=no, resizable=yes, fullscreen=no");
+		MELON.WEBSVC.openPopup($img.attr('org_src'), screen.width, screen.height, {
+			'scrollbars':'no',
+			'toolbar' : 'no',
+			'menubar' : 'no',
+			'resizable' : 'yes',
+			'fullscreen' : 'no'
+		}, 'center', '');
+	});
+	*/
+	/* 160902 */
+	/*
+	$(document).on('click', 'a.photoDetailThumb', function(e){
+	*/
+	$('.album_prev').on('click', '.wrap_prev', function(e){
+		e.preventDefault();
+		var $img = $(this).children('img');
+				
+		$img.css({
+			'max-width' : 'none',
+			'max-height' : 'none'
+		});
+		
+		var imgHeg = $img.height(),
+			imgWid = $img.width(),
+			winPopHeg,
+			winPopWid,
+			fullSet = 'no',
+			scrollSet = 'no';
+		$img.css({
+			'max-width' : 496,
+			'max-height' : 496
+		});
+		if (imgWid > screen.width || imgHeg > screen.height) {
+			winPopWid = screen.width;
+			winPopHeg = screen.height;
+			fullSet = 'no';
+			scrollSet = 'yes';
+		}else if (imgWid < 496 && imgHeg < 496) {
+			winPopWid = 496;
+			winPopHeg = 496;
+		}else if (imgWid >=496 || imgHeg >= 496) {
+			winPopWid = imgWid;
+			winPopHeg = imgHeg;
+		};
+		
+		MELON.WEBSVC.openPopup('/album/popup/albumImgPop.htm', winPopWid, winPopHeg, {
+			'scrollbars':scrollSet,
+			'toolbar' : 'no',
+			'menubar' : 'no',
+			'resizable' : 'yes',
+			'fullscreen' : fullSet
+		}, 'center', 'albumImgPop');
+
+	});
+	/* //160902 */	
+	
+	// 평점 팝업  Show /hide SEt
+	var checkPopup = true;
+	if( "false" == 'Y') {
+		checkPopup = false;
+	}
+	$('div.stPointLayer').on('beforeshow', function(e) {
+		if( !checkPopup ) { // 만약 드롭다운이 띄워지면 안되는 조건일 때,
+			alert("이미 참여하셨습니다.");
+			e.preventDefault(); // 이 부분을 넣어주면 된다.
+			return false;
+		}
+	});
+	 // 댓글 카운트 URL SET
+	 // 리뷰 영역을 확인하여 영역보다 길경우 더보기 노출 및 영역 줄임
+	 /* 20171114 */
+	 melon.show.moreButton('d_video_summary', 141);
+	 /*//20171114 */
+
+	/* ********************************************************************************
+	 * 앨범평점
+	 ******************************************************************************** */
+	$("#d_starRate").starRating().on('changedrate', function(e, val) {
+		setTimeout(function(){  // IE 렌더링 버그 fixed
+			$('#d_rate').html(val.rate.toFixed(1));
+		}, 0);
+	}).on('click', '[data-role=ok]', function(){
+		if(!MELON.WEBSVC.POC.login.isMelonLogin()) {
+			MELON.WEBSVC.POC.login.loginPopupLayerd('');
+			return;
+		}
+		if( "false" == 'Y') {
+			alert("이미 참여하셨습니다.");
+			return;
+		}
+		// 서버 로직
+		$.ajax({
+			type:"post",
+			url: '/album/insertAlbumGrade.json',
+			dataType:"json",
+			async:true,
+			data : {
+				albumId: '10123637',
+				evalScore	: $('#d_rate').html()
+			},
+			success:function(obj){
+
+				if(obj.result.RESULT == '1') {
+					alert("평점을 등록 했습니다.");
+					var vTempCount = MELON.WEBSVC.number.addComma(obj.result.PTCPNMPRCO);
+					$("#gradCountLayer").html(vTempCount+"명");
+					var totalAvgScore = obj.result.TOTAVRGSCORE;
+					var roundScore = parseFloat(totalAvgScore).toFixed(1);
+					$("#gradPointLayer").html(roundScore);
+					var viewValue =(obj.result.TOTAVRGSCORE)*20;
+					$("#contt_evalscore01_view").attr("style", "width:"+viewValue+"%");
+					checkPopup = false;
+				} else if(obj.result.RESULT == '2'){
+					alert("이미 참여하셨습니다.");
+				} else if(obj.result.RESULT == '3'){
+					if ( confirm("공정한 평점 관리 및 중복 등록 방지를 위해 본인 인증된 아이디로 이용이 가능합니다.") ) {						
+						WEBSVC.openPopup('https://member.melon.com/muid/web/popup/realnamepopup_inform.htm?viewType=panConn', 600, 464);							
+    	    		}
+    	    		else {
+    	    			
+    	    		}
+				} else if(obj.result.RESULT == '9'){
+					alert("앨범평점 반영이 정상적으로 처리되지 않았습니다.\n잠시 후 다시 시도해 주세요.");
+				}else {
+					alert("평점 등록중 오류가 발생했습니다");
+				}
+			},
+			error: function(request,error) {
+				alert("평점 등록중 오류가 발생했습니다");
+			}
+		});
+		try {
+			$("#d_starRate").hideLayer();
+		}
+		catch(e) {
+			console.log(e);
+		}
+	});
+
+	// 시리즈앨범 탭
+	$('div.section_seris').ajaxToggle({
+		type:'count-on',
+		selectors: {
+			// 버튼 영역 [d_btn]은 공통이기 때문에 특정 클래스를 준다.
+			tabs: 'a.relationBtnTmp',
+			// 현재 페이지 DP 영역
+			nowpages: 'strong.d_now_page',
+			// 토탈 페이지 DP 영역
+			totalpages: 'span.d_total_page',
+			// AJAX 호출후 InnerHtml 해줘야할 영역
+			contents: 'div.wrap_list_seris'
+		}
+	});
+
+	// 좋아요한 사람
+	$('.section_intst').ajaxToggle({
+		type:'count-on',
+		selectors: {
+			// 버튼 영역 [d_btn]은 공통이기 때문에 특정 클래스를 준다.
+			tabs: 'a.withLikeBtnTmp',
+			nowpages: 'strong.d_now_page',
+			// 토탈 페이지 DP 영역
+			totalpages: 'span.d_total_page',
+			// AJAX 호출후 InnerHtml 해줘야할 영역
+			contents: 'div.wrap_list_intst',
+			//orderlayer : 'a.orderClass' // 정렬 Layer
+		}
+	});
+	
+	// 좋아요한 사람 정렬 클릭
+	$('a.orderClass').on('click', function(e){
+		$('.list_sort').find(">li").each(function() {
+			$(this).removeClass("on");
+		})
+		$(this).parent().addClass("on");
+		var inputId = this.id;
+		$("a.withLikeBtnTmp").each(function() {
+			$(this).attr("data-orderby-type",inputId);
+		});
+	});
+	
+	/******************SNS *****************/
+	 //페이스북
+    $("#albumFacebook").click(function(){
+    	$.albumName = "Chuu";
+		$.artistName = "이달의 소녀";
+		$.imgUrl = $("#albumImgArea img").attr("src");
+		$.menuId = $(this).attr("data-menuId");
+		melon.sns.facebook({
+			type 		: "alb",
+			contsId 	: "10123637",
+			albumName	: $.albumName,
+			artistName  : $.artistName,
+			imgUrl      : $.imgUrl,
+			menuId		: $.menuId
+		});
+    });
+    $("#albumTwitter").click(function(){
+		$.albumName = "Chuu";
+		$.artistName = "이달의 소녀";
+		$.menuId = $(this).attr("data-menuId");
+		melon.sns.twitter({
+			type 		: "alb",
+			contsId 	: "10123637",
+			albumName	: $.albumName,
+			artistName  : $.artistName,
+			menuId		: $.menuId
+		});
+	});
+
+ 	// Banner Info
+	var serverTime = "2018:02:27 01:25:51"; 	// 시간은 서버에서 찍어주세요.(yyyy:MM:dd hh:mm:ss)
+	$(document).on('limitpopup', function( e, cookieId ) {
+		if ( cookieId === 'linebanner01' ) {
+			$('div.line_ban').show();
+			$('div.line_ban').timeLimitSet({cookieType:'array',timeLocation:'local',timeType:'dayafter',selectors:{closebtn:'>button.d_fadeout', checkbox:''}});
+		}
+	});
+ 	// 바인드 후에 호출 해야함
+	PBPGN.TimeLimitPopup.init({ cookieType:'array', cookieId:'linebanner01', limitType:'day', serverTime:serverTime });
+
+	$('#btn_ver').on('click', function(){
+		if('0' == "1"){
+			melon.link.goAlbumDetail('');
+		} else {
+			WEBSVC.openPopup('/album/popup/otherAlbumPopup.htm?albumId=10123637', 834, 640);
+		}
+	});
+
+	// 북클릿 소개 배너
+	var bookletBnr = WEBSVC.Cookie.get('commerceBanner2');
+	if (!bookletBnr) {
+		$('.booklet_bnr').show();
+	};
+	$('.booklet_bnr .d_limit_btn').click(function() {
+		var expiresDay = new Date();
+		expiresDay.setDate(expiresDay.getDate() + 100000);
+		$('.booklet_bnr').hide();
+		WEBSVC.Cookie.set('commerceBanner2', true, {expires : expiresDay});
+	});
+
+	// 상단의 좋아요..
+	$('#btnLike').on('click', function(){
+		// 131114_수정
+		var $btn = $(this),
+			albumNo = $btn.attr('data-album-no'),
+			menuId = $btn.attr('data-album-menuId'),
+			title = $btn.attr('title').split(' 좋아요'),
+			isLike = $btn.hasClass('on'), doLike = !isLike,
+			addComma = WEBSVC.number.addComma,
+			$target = (function(){
+				var targetId = $btn.attr('data-target-id');
+				if(!targetId) { return $btn; }
+				targetId = targetId.substr(0, 1) === '#' ? targetId : '#' + targetId;
+				return $(targetId);
+			})(),
+			defer, event;
+
+		$btn.trigger((event = $.Event('likebefore')), [albumNo, doLike]);
+		if(event.isDefaultPrevented()){ return; }
+
+		if(isLike) {
+			WEBSVC.alert2('좋아요 취소되었습니다.',{opener :$btn, removeOnClose:true});
+			defer = WEBSVC.AlbumList.dislike(albumNo,menuId)
+		} else {
+			defer = WEBSVC.AlbumList.like(albumNo,menuId);
+		}
+
+		defer.done(function(json) {
+
+			if(json.result === true) {
+				$btn.trigger((event = $.Event('likechanged')), [albumNo, title[0], doLike, json.data.SUMMCNT.toString().replace(/(\d)(?=(?:\d{3})+$)/g, "$1,")]);
+				if(event.isDefaultPrevented()){ return; }
+
+				$btn[doLike ? 'addClass' : 'removeClass']('on').attr('title', title[0] + (doLike ? ' 좋아요 취소' : ' 좋아요'));
+
+				$target.html(json.data.SUMMCNT.toString().replace(/(\d)(?=(?:\d{3})+$)/g, "$1,"));
+				doLike && WEBSVC.alert2('좋아요 반영되었습니다.',{opener :$btn, removeOnClose:true});				
+				//loadTopLike();
+				
+				if(json.data.SUMMCNT > 0) {
+					$('.section_intst').attr('style', 'display:');
+				}
+				else {
+					$('.section_intst').attr('style', 'display:none');
+				}
+								
+				loadBottomLike();
+				loadLikeUserTotCount();
+			} else {
+				alert(json.errorMessage);
+			}
+		}).fail(function(msg){
+			alert(msg);
+		});
+	});
+
+	function loadTopLike() {
+		$.ajax({
+			url: '/album/albumTopLikeUser.htm',
+			data: {
+				contsId : '10123637',
+				viewPage : '1'
+			},
+			async : false
+		}).done(function(html) {
+			$('#albumTopLikeUserLayer').html(html);
+		});
+	}
+
+	function loadBottomLike() {
+		$.ajax({
+			url: '/album/withLikeUser.htm',
+			data: {
+				contsId : '10123637',
+				viewPage : '1'
+			},
+			async : false
+		}).done(function(html) {
+			$('.wrap_list_intst').html(html);
+		});
+	}
+	
+	loadBottomLike();
+	
+	function loadLikeUserTotCount() {
+		$.ajax({
+			url: '/album/withLikeUser.json',
+			dataType:"json",
+			data: {
+				contsId : '10123637',
+				viewPage : '1'
+			},
+			async : false
+		}).done(function(json) {
+
+			if(json.withLikeListTotCountPg == 0)
+				$("#bottomListUserLayer").hide();
+			else
+				$("#bottomListUserLayer").show();
+
+			$("#withLikeBtnTmp1").attr("data-limit-count",json.withLikeListTotCountPg);
+			$("#withLikeBtnTmp2").attr("data-limit-count",json.withLikeListTotCountPg);
+			try {
+			$('div.section_intst').ajaxToggle({
+				type:'count-on',
+				selectors: {
+					// 버튼 영역 [d_btn]은 공통이기 때문에 특정 클래스를 준다.
+					tabs: 'a.withLikeBtnTmp',
+					nowpages: 'strong.d_now_page',
+					// 토탈 페이지 DP 영역
+					totalpages: 'span.d_total_page',
+					// AJAX 호출후 InnerHtml 해줘야할 영역
+					contents: 'div.wrap_list_intst',
+					//orderlayer : 'a.orderClass' // 정렬 Layer
+				}
+			});
+			}
+			catch(e) {
+				console.log(e);
+			}
+		});
+	}
+	
+	loadLikeUserTotCount();
+	
+	function loadMvInfo() {
+		$.ajax({
+			url: '/album/albumMvInfo.htm',
+			data: {
+				albumId : '10123637'				
+			},
+			async : false
+		}).done(function(html) {
+			$('.service_list_video').html(html);
+		});
+	}
+	
+	//loadMvInfo();
+	
+	// 관련비디오 탭
+	$('.section_movie').toggleSlider({
+		type:'count-on',
+		selectors: {
+			tabs: '>div.page>span.wrap_btn>a',
+			contents: '>div.service_list_video>ul',
+			nowpages: '>div.page>span.page_num>strong',
+			totalpages: '>div.page>span.page_num>span'
+		}
+	});
+	
+	/* 20171114 */
+	// 연관앨범 탭
+	$('.section_album').toggleSlider({
+		type:'count-on',
+		selectors: {
+			tabs: '>div.page>span.wrap_btn>a',
+			contents: '>div.service_list_album>ul',
+			nowpages: '>div.page>span.page_num>strong',
+			totalpages: '>div.page>span.page_num>span'
+		}
+	});
+	/*//20171114 */
+	
+	var $modal;
+	var loadOnce = false;
+	//170329
+	$('#d_album_org').click(function() {
+		if(!loadOnce) {
+			$.ajax({
+				url: '/album/albumImgAjax.htm' + '?albumName=' + 'Chuu' + '&albumImgPath=' + '/cm/album/images/101/23/637/10123637.jpg' + '&imgFilterVal=' + '',
+				dataType: 'html'
+			}).done(function(html) {
+				loadOnce = true;
+				$modal = $('#d_almumcover').append(html);
+				$modal.modal();
+			});
+		}
+		else {
+			try {
+				$modal.modal();
+			}
+			catch(e) {
+		        console.log(e);
+			}
+		}
+	});
+
+});
+function goArtist(obj){
+	location.href="/artist/detail.htm?artistId="+obj;
+}
+function goReview(){
+	var position = $("#section_cmt").offset();
+	$("html, body").animate({scrollTop : position.top}, 0);
+}
+</script>
+<script type="text/javascript">document.domain='melon.com';</script>
+<!-- 플러그인 스크립트 -->
+<script type="text/javascript" src=" http://cmt.melon.com/cmt/plugin/release/melonweb_cmtpgn_pc_sumry_type.js"></script>
+
+</body>
+</html>
+			<!-- //contents -->
+		</div>
+	</div>
+	<!-- footer -->
+	<div id="footer" class="my_fold">
+		<div class="btn_top_wrap">
+			<a href="#skip_nav" class="btn_top" title="맨 위로 가기" style=""><span>맨 위로 가기</span></a>
+		</div>
+
+		
+		<div id="popNotice" class="wrap_pop_notice">
+			<div class="pop_notice_inner">
+				<div class="bd">
+					<h1>웹 브라우저 보안 암호화 <br />알고리즘 업그레이드 안내</h1>
+					<div class="wrap_notice">
+						<div class="info_cont">
+							<div class="txt01">
+								<p>안녕하세요. 보안 암호화 알고리즘 업그레이드 관련 멜론에서 알려드립니다. <br />지금 이용하고 계신 OS와 브라우저는 새로운 보안 암호화 알고리즘을 지원하<br />지 못하여 이용이 제한 될 수 있습니다</p>
+								<p class="pgh">현재 적용된 SHA-1 보안 암호화 알고리즘은 데이터 위조공격 가능성이 있어 <br />주요 브라우저들의 지원 중단이 예정되어있습니다. <br />멜론에서도 회원 분들의 좀 더 안전한 서비스 이용을 보장하기 위해 보안 암호<br />화 알고리즘 업그레이드를 진행 할 예정입니다.</p>
+							</div>
+							<div class="txt02">
+								<p>업그레이드 내용 : SHA-1 방식 → SHA-2 방식으로 업그레이드 </p>
+								<p class="date">적용일: <span>2016년 12월 23일</span></p>
+							</div>
+						</div>
+						<div class="info_cont cont2">
+							<div class="txt01">
+								<p>보안 암호화 알고리즘 업그레이드에 따라 SHA-2 방식을 지원하지 않는 OS나 <br />브라우저를 이용하시면 멜론서비스 이용에 제한이 있을 수 있습니다. <br />아래 지원 가능한 OS 또는 브라우저를 확인하시고 회원 분들께서는 업데이트 <br /> 후 이용해주시기 바랍니다.</p>
+							</div>
+							<div class="txt02">
+								<dl>
+									<dt>SHA-2 지원 OS / 브라우저</dt>
+									<dd>
+										<p>OS</p>
+										<ul>
+											<li>Windows XP SP3 이상</li>
+											<li>Mac OS X 10.5 이상</li>
+										</ul>
+									</dd>
+									<dd class="list">
+										<p>브라우저</p>
+										<ul>
+											<li>Internet Explorer 버전 7 이상</li>
+											<li>Chrome 버전 26 이상</li>
+											<li>FireFox: 버전 1.5 이상</li>
+											<li>Safari: 버전 3 이상 (Mac OS X 10.5 이상)</li>
+											<li>Opera: 버전 7 이상</li>
+										</ul>
+									</dd>
+								</dl>
+								<p class="refer">* 멜론서비스는 공식적으로 IE8이상 지원하며, Opera는 미지원함을 참고 부탁드립니다.</p>
+							</div>
+							<div class="txt03">
+								<p>앞으로도 좋은 서비스와 안정성으로 보답할 수 있도록 최선을 다하겠습니다. <br />감사합니다.</p>
+							</div>
+						</div>
+					</div>
+					<div class="wrap_input_box">
+						<div class="check_area d_check_on">
+							<input type="checkbox" id="todayChk" data-cookie-id="popNotice" />
+							<label for="todayChk">오늘하루 보지 않기</label>
+						</div>
+						<div class="btn-area">
+							<button type="button" class="d_close"><span>확인</span></button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<span class="shadow"></span>
+		</div>
+		<div class="footer_cont">
+			<div class="footer_menu">
+<!-- 				<ul class="fl_left"> -->
+<!-- 					<li class="menu01 d_melon_ticket"><a href="http://ticket.melon.com/main/index.htm"><span>MelOn Ticket</span></a></li> -->
+
+<!-- 					<li class="menu04"><a href="http://aztweb.melon.com/aztalk/guide/web/main.htm"><span>aztalk</span></a></li> -->
+<!-- 				</ul> -->
+				<ul class="fl_right">
+					<li class="menu05"><a href="http://www.melon.com/serviceintro/index.htm"><span>멜론4.0 둘러보기</span></a></li><!-- 160824 수정 -->
+					<li class="menu06"><a href="http://www.melon.com/customer/serviceintro/index.htm"><span>Windows 플레이어</span></a></li><!-- 160824 수정 -->
+					<li class="menu07"><a href="http://www.melon.com/customer/serviceintro/multi_pc_web.htm"><span>Mac 플레이어</span></a></li>
+					<li class="menu09"><a href="http://www.melon.com/customer/serviceintro/ipad.htm"><span>iPad</span><span class="icon_new"></span></a></li>
+					<li class="menu08"><a href="http://faqs2.melon.com/customer/index.htm"><span>고객센터</span></a></li>
+				</ul>
+			</div>
+			<ul class="footer_policy clfix">
+				<li class="first_child"><a href="http://www.iloen.com/" title="회사소개 " target="_blank">회사소개</a></li>
+				<li><a href="http://info.melon.com/terms/web/terms1_1.html" title="이용약관 " target="_blank">이용약관</a></li>
+				<li><a href="http://info.melon.com/terms/web/terms3.html" title="개인정보처리방침 " target="_blank"><strong>개인정보처리방침</strong></a></li>
+				<li><a href="http://info.melon.com/terms/web/terms5_1.html" title="청소년보호정책" target="_blank">청소년보호정책</a></li>
+				<li><a href="http://faqs2.melon.com/customer/faq/informFaq.htm?no=1&faqId=QUES20140616000001&SEARCH_KEY=&SEARCH_PAR_CATEGORY=CATE20130909000006&SEARCH_CATEGORY=CATE20130909000021" title="제휴/프로모션문의">제휴/프로모션문의</a></li>
+				<li><a href="javascript:openEmailCollectionReject();" title="이메일주소무단수집거부 ">이메일주소무단수집거부</a></li>
+				<li><a href="https://partner.melon.com/partrct/login/web/login_loginProcess.htm?t=s" title="파트너센터" target="_blank">파트너센터</a></li>
+				<li class="last_child"><a href="http://www.ftc.go.kr/info/bizinfo/communicationView.jsp?apv_perm_no=2011322016230202008&area1=&area2=&currpage=2&searchKey=01&searchVal=로엔&stdate=&endate=" title="사업자정보확인">사업자정보확인</a></li><!-- 160629 추가 -->
+			</ul>
+			<!--160531 수정 lyr-->
+			<p>
+				<span class="first">서울시 강남구 테헤란로 103길 17</span><span>대표이사 : 박성훈</span><span>사업자등록번호 : 138-81-05876</span><span>통신판매업 신고번호 : 제2011-서울강남-02008호</span><br /><span class="first">문의전화(평일 09:00~18:00) : 1566-7727 (유료)</span><span>이메일 : <a href="https://help.melon.com/web/customer/help/helpForm.htm?type=" class="btn_footer_mail" target="_blank">meloninformation@iloen.com</a></span><span>© 2016. LOEN Entertainment, Inc. ALL RIGHTS RESERVED.</span>
+			</p>
+			<!--//160531 수정 lyr-->
+			
+			<!--161209 수정 lyr-->
+			<div class="ban">
+				<!-- 180129 수정 sally -->
+				<a href="http://www.melon.com/footer/awrad.htm?pageType=02"><img width="100" height="25" src="http://cdnimg.melon.co.kr/resource/image/web/common/ban_footer01_20180125.png" alt="2018 대한민국 퍼스트브랜드 대상"/></a>
+				<a href="http://www.melon.com/footer/awrad.htm?pageType=04"><img width="125" height="25" src="http://cdnimg.melon.co.kr/resource/image/web/common/ban_footer04_20180125.png" alt="2018 소비자가 뽑은 가장 신뢰하는 브랜드 대상"/></a>
+				<!-- //180129 수정 sally -->
+				<a href="http://www.melon.com/footer/awrad.htm?pageType=03"><img width="113" height="25" src="http://cdnimg.melon.co.kr/resource/image/web/common/ban_footer02_170308.png" alt="한국능률협회컨설팅 2017 브랜드 파워 1위"/></a>
+				<a href="http://www.melon.com/footer/awrad.htm?pageType=05"><img width="118" height="25" src="http://cdnimg.melon.co.kr/resource/image/web/common/ban_footer10.png" alt="2016 대한민국 브랜드 고객충성도 1위"/></a>
+				<a href="http://www.kdce.or.kr/user/ctf/clmsCtfTransList.do?NmberBusiRegNo=1388105876&websiteName=www.melon.com&SUB=FB" target="_blank"><img width="82" height="25" src="http://cdnimg.melon.co.kr/resource/image/web/common/ban_footer06_161209.png" alt="음악저작권 이용허락 인증"/></a>
+				<a href="http://www.cleansite.org/" target="_blank"><img width="70" height="25" src="http://cdnimg.melon.co.kr/resource/image/web/common/ban_footer07_161209.png" alt="클린사이트"/></a>
+				<a class="last_child" href="http://isms.kisa.or.kr/" target="_blank"><img width="102" height="25" src="http://cdnimg.melon.co.kr/resource/image/web/common/ban_footer09_161209.png" alt="정보보호 관리체계 ISMS 인증"/></a>
+			</div>
+			<!--//161209 수정 lyr-->
+
+			<!--모바일 웹 버전, 태블릿에서만 적용됨. display none, block 으로 적용-->
+			<!--140602 추가 lyr-->
+			<div class="mobile_btn_wrap" style="display:none;">
+				<p>접속하신 단말/브라우저에서는 멜론 서비스의 사용이 일부 제한될 수 있습니다. 양해부탁드립니다.</p>
+				<a href="#" class="btn" title="모바일 웹 버전">
+					<span class="odd_span">
+						<span class="even_span">모바일 웹 버전</span>
+					</span>
+				</a>
+			</div>
+			<!--//140602 추가 lyr-->
+		</div>
+
+		<a href="#" class="btn_top" title="맨 위로 가기" style="display: none;">맨 위로 가기</a>
+
+		<script type="text/javascript">
+
+			$(function() {
+				//favicon 분기 처리
+				var pocId = MELON.WEBSVC.POC.getPocId();
+				if('AS20' == pocId || 'HT10' == pocId){
+					$('link#favicon').attr('href','http://cdnimg.melon.co.kr/resource/mobile40/cds/common/image/favicon.ico');
+					$('title').text('Melon');
+				}else if('IS20' == pocId || 'IT10' == pocId){
+					$('link#favicon').attr('type','');
+					$('link#favicon').attr('rel','apple-touch-icon-precomposed');
+					$('link#favicon').attr('href','http://cdnimg.melon.co.kr/resource/mobile40/cds/common/image/mobile_apple_120x120.png');
+					$('link#favicon').after('<link rel="apple-touch-icon-precomposed" sizes="180x180" href="http://cdnimg.melon.co.kr/resource/mobile40/cds/common/image/mobile_apple_180x180.png" />');
+					$('title').text('Melon');
+				}
+				
+				
+				// 모바일(t.com)에서 넘어온 경우 - 모바일(t.com) 서비스 종료로 삭제
+/*
+				var fromMobileWeb = getCookie("D");
+
+				if(fromMobileWeb != null && fromMobileWeb.indexOf('T') > -1){
+					$("#btnMobileWeb").css("display", "block");
+				}
+*/
+				// 엣지 브라우저이고 해당 팝업이 뜬 적이 없는 경우 체크하여 팝업을 띄운다.
+				var isEdge = (navigator.userAgent.indexOf("Edge") > 0);
+				var edgeCheckYN = getCookie("EDGE_CHECK") != 'Y';
+				
+				if(isEdge && edgeCheckYN){
+					window.open('http://www.melon.com/error_page/error_edgeTypeA.html','edgeCheck','scrollbars=no, resizable=no, location=no, width=560, height=498');
+				}
+				
+				// 타블렛이고 해당 팝업이 뜬 적이 없는 경우 체크하여 팝업을 띄운다.
+				var tabletCheckYN = getCookie("TABLET_CHECK") != 'Y';
+
+				if(melon.isTablet() && tabletCheckYN){
+					window.open('http://www.melon.com/error_page/error_tabletTypeA.html','tabletPopTypeA','scrollbars=no, resizable=no, location=no, width=560, height=483');
+				}
+				
+				// 해당 쿠키가 존재하면 쿠키 삭제
+				if(getCookie("CHECK_POP") != ''){
+					// 체크 후 해당 쿠키는 제거
+					var expireDate = new Date();
+					expireDate.setDate(expireDate.getDate()-1);
+					document.cookie = "CHECK_POP=;path=/;expires="+expireDate.toGMTString()+";domain=.melon.com";
+				}
+
+				if(isMelonLogin()){
+					var djYn = getMemberDjYn();
+					if(djYn == "" || typeof djYn == "undefined"){
+						try {
+							$.ajax({
+								url: "http://www.melon.com/gnb/check_melondj.json",
+								type : 'GET',
+								dataType: 'jsonp',
+								jsonp: 'jscallback',
+							}).done(function(json) {}).fail(function() {});
+						} catch(e){}
+					}
+				}
+				
+				// 홈탭의 경우 쇼핑/티켓을 새창띄우기로 변경한다.
+				var fromMPS = getCookie("MPS"); // 멜론 플레이어에서 왔는지 확인.
+				var fromHomeTab = !(fromMPS == null || fromMPS.indexOf("MELONPLAYER") < 0);
+				
+				if(fromHomeTab){
+					$("li.d_melon_shopping a").removeClass("mlog");
+					$("li.d_melon_shopping a").addClass("mlog_without_page_change");
+					$("li.d_melon_shopping a").attr("target", "_blank");
+					
+					$("li.d_melon_ticket a").removeClass("mlog");
+					$("li.d_melon_ticket a").addClass("mlog_without_page_change");
+					$("li.d_melon_ticket a").attr("target", "_blank");
+				}
+				
+				//SHA-2 popup
+				function uaChecker() {
+					var r = true;
+					var uav = navigator.userAgent.replace(/ /g,'');
+					var exUA = ['OSX10_1_','OSX10_2_','OSX10_3_','OSX10_4_','OSX10.1.','OSX10.2.','OSX10.3.','OSX10.4.',
+					            'Windows95','Windows98','WindowsNT4.0','WindowsNT5.0','MSIE6'];
+					$.each(exUA, function(i,v) { 
+						if ( uav.indexOf(v) > -1 ) { 
+							r = false; 
+						} 
+					});
+					if ( uav.indexOf("WindowsNT5.1") > -1 && uav.indexOf("SV1") > -1 ) {
+						r = false;
+					}
+					var chp = uav.indexOf("Chrome"); 
+					if(chp > -1){ if ( parseInt(uav.substr(chp + 7, 3)) < 26 ) { r = false; } }
+					if(chp == -1 && uav.indexOf("Safari") > -1) { if ( parseInt(uav.substr(uav.indexOf("Version") + 8, 3)) < 3 ) { r = false; } }
+					if(uav.indexOf("Firefox") > -1) { if ( parseFloat(uav.substr(uav.indexOf("Firefox") + 8, 3)) < 2 ) { r = false; } }
+					if(uav.indexOf("OPR/") > -1 || uav.indexOf("Opera/") > -1) {
+						var fv = 0;
+						if ( uav.indexOf("OPR/") > -1 ) { fv = parseFloat(uav.substr(uav.indexOf("OPR/") + 4, 3)); }
+						else if ( uav.indexOf("Opera/") > -1 ) { fv = parseFloat(uav.substr(uav.indexOf("Opera/") + 6, 3)); }
+						if ( fv < 7 ) { r = false; }
+					}
+					return r;
+				}
+				
+				 //웹 브라우저 보안 암호화 161121
+		        $('.d_check_on').on('click','label',function () {
+		            if ($(this).siblings('input').prop('checked')) {
+		                $(this).parents('.d_check_on').removeClass('on');
+		            } else {
+		                $(this).parents('.d_check_on').addClass('on');
+		            };
+		        });
+		        $(document).on('limitpopup', function( e, cookieId ) {
+					if ( !uaChecker() ) {
+						$('#'+cookieId).modal();
+					}
+				});
+		        setTimeout(function() {
+		            $("#popNotice").timeLimitSet({ cookieId:'popNotice',selectors:{closebtn:'#todayChk', checkbox:''} });
+		        },1);
+		        MELON.PBPGN.TimeLimitPopup.init({ cookieId:"popNotice", serverTime: new Date(), limitType:"day" });
+		        $("#popNotice .d_close").click(function() {  $("#popNotice").modal('hide'); });
+			});
+			
+			function goMelonTPage(){
+				// 쿠키 삭제 후 t.com으로 페이지 이동
+				var expireDate = new Date();
+				expireDate.setDate(expireDate.getDate()-1);
+				document.cookie = "D=;path=/;expires="+expireDate.toGMTString()+";domain=.melon.com";
+
+				location.href= 'http://t.melon.com';
+			}
+			
+			function openEmailCollectionReject(){
+				window.open('http://www.melon.com/emailCollectionReject.html','emailCollect', 'scrollbars=no, resizable=no, location=no, width=384, height=331');
+			}
+			
+			//다음 검색 랜딩 추가
+			if(location.href.indexOf('ref=W10600') > -1){
+				$.ajax({
+					url: '/gnb/daumsearch_list.htm',
+				}).done(function(html){
+					$('#footer').before(html);
+				});
+			}
+			
+			
+		</script>
+		<!--//140602 추가 lyr-->
+	</div>
+	<!-- //footer -->
+</div>
+</body>
+</html>
