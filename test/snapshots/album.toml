@@ -1,0 +1,16 @@
+artist-id = "iu"
+kind = "single"
+
+names = [
+  { name = "꽃갈피 둘", locale = "ko", original = true },
+  { name = "Kkotgalpi Dul", locale = "ko-Latn", default = true },
+  { name = "A Flower Bookmark 2", locale = "en" },
+]
+
+[[releases]]
+released-on = "2017-09-22"
+country = "KR"
+media = [{ kind = "digital" }]
+urls = [
+  { url = "https://lp.dev/albums/1" },
+]

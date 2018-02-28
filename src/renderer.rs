@@ -112,7 +112,58 @@ mod helpers {
 
 #[cfg(test)]
 mod tests {
-    use super::default_name;
+    use models::{Album, AlbumBuilder, AlbumKind, Name, Song};
+    use super::*;
+
+    fn build_album() -> Album {
+        let mut song_a = Song::new(3, 266);
+        song_a.add_name(Name::new("잠 못 드는 밤 비는 내리고", "ko", true, false));
+        song_a.add_name(Name::new("Jam Mot Deuneun Bam Bineun Naerigo", "ko-Latn", false, true));
+        song_a.add_name(Name::new("Sleepless Rainy Night", "en", false, false));
+
+        let mut song_b = Song::new(4, 233);
+        song_b.add_name(Name::new("어젯밤 이야기", "ko", true, false));
+        song_b.add_name(Name::new("Eojetbam Iyagi", "ko-Latn", false, true));
+        song_b.add_name(Name::new("Last Night Story", "en", false, false));
+
+        AlbumBuilder::new()
+            .set_kind(AlbumKind::Single)
+            .set_country("KR")
+            .set_released_on("2017-09-22")
+            .set_artwork_url("https://lp.dev/assets/artwork.jpg")
+            .set_url("https://lp.dev/albums/1")
+            .add_name(Name::new("꽃갈피 둘", "ko", true, false))
+            .add_name(Name::new("Kkotgalpi Dul", "ko-Latn", false, true))
+            .add_name(Name::new("A Flower Bookmark 2", "en", false, false))
+            .add_song(song_a)
+            .add_song(song_b)
+            .build()
+    }
+
+    #[test]
+    fn test_render_album() {
+        let album = build_album();
+        let renderer = Renderer::new();
+        let result = renderer.render_album("iu", &album);
+        assert_eq!(result, include_str!("../test/snapshots/album.toml"));
+    }
+
+    #[test]
+    fn test_render_song() {
+        let album = build_album();
+        let renderer = Renderer::new();
+        let result = renderer.render_song(&album.songs[0]);
+        assert_eq!(result, include_str!("../test/snapshots/song.toml"));
+    }
+
+    #[test]
+    fn test_render_tracklist() {
+        let album = build_album();
+        let renderer = Renderer::new();
+        let result = renderer.render_tracklist("iu", &album);
+        println!("{}", result);
+        assert_eq!(result, include_str!("../test/snapshots/tracklist.toml"));
+    }
 
     #[test]
     fn test_default_name() {

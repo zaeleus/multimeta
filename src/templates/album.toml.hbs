@@ -3,8 +3,7 @@ kind = "{{album.kind}}"
 
 names = [
 {{~ #each album.names}}
-  { name = "{{name}}", locale = "{{locale}}"{{#if is_original}}, original = true{{/if}}{{#if is_default}}, default = true{{/if}} },
-{{/each ~}}
+  { name = "{{name}}", locale = "{{locale}}"{{#if is_original}}, original = true{{/if}}{{#if is_default}}, default = true{{/if}} },{{/each}}
 ]
 
 [[releases]]
