@@ -5,6 +5,8 @@ extern crate url;
 use clap::{App, Arg};
 use url::Url;
 use multimeta::{Extractor, MelonExtractor};
+use multimeta::renderer::Renderer;
+use multimeta::writer::Writer;
 
 fn main() {
     let matches = App::new("multimeta")
@@ -25,8 +27,8 @@ fn main() {
              .required(true))
         .get_matches();
 
-    let _output_dir = matches.value_of("output").unwrap();
-    let _artist_id = matches.value_of("artist-id").unwrap();
+    let output_dir = matches.value_of("output").unwrap();
+    let artist_id = matches.value_of("artist-id").unwrap();
 
     let raw_url = matches.value_of("url").unwrap();
     let url = Url::parse(raw_url).expect("malformed URL");
@@ -37,5 +39,10 @@ fn main() {
         panic!("failed to match a registered extractor");
     };
 
-    let _album = extractor.extract().unwrap();
+    let album = extractor.extract().expect("extraction failed");
+
+    let renderer = Renderer::new();
+
+    let writer = Writer::new(&output_dir);
+    writer.write(&renderer, &artist_id, &album).expect("write failed");
 }

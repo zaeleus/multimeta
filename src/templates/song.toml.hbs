@@ -1,0 +1,5 @@
+names = [
+{{~ #each song.names}}
+  { name = "{{name}}", locale = "{{locale}}"{{#if is_original}}, original = true{{/if}}{{#if is_default}}, default = true{{/if}} },
+{{/each ~}}
+]

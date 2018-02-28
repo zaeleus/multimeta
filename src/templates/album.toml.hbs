@@ -1,0 +1,16 @@
+artist-id = "{{artist_id}}"
+kind = "{{album.kind}}"
+
+names = [
+{{~ #each album.names}}
+  { name = "{{name}}", locale = "{{locale}}"{{#if is_original}}, original = true{{/if}}{{#if is_default}}, default = true{{/if}} },
+{{/each ~}}
+]
+
+[[releases]]
+released-on = "{{album.released_on}}"
+country = "{{album.country}}"
+media = [{ kind = "digital" }]
+urls = [
+  { url = "{{album.url}}" },
+]

@@ -1,6 +1,6 @@
 use models::Name;
 
-#[derive(Debug)]
+#[derive(Debug, Serialize)]
 pub struct Song {
     pub position: i32,
     pub duration: i32,
@@ -11,6 +11,10 @@ pub struct Song {
 impl Song {
     pub fn new(position: i32, duration: i32) -> Song {
         Song { position: position, duration: duration, names: Vec::new() }
+    }
+
+    pub fn default_name(&self) -> Option<String> {
+        self.names.iter().find(|&n| n.is_default).map(|n| n.name.clone())
     }
 
     pub fn add_name(&mut self, name: Name) {
@@ -29,6 +33,15 @@ mod tests {
         assert_eq!(song.position, 1);
         assert_eq!(song.duration, 195);
         assert!(song.names.is_empty());
+    }
+
+    #[test]
+    fn test_default_name() {
+        let mut song = Song::new(1, 225);
+        song.add_name(Name::new("꿈꾸는 마음으로", "ko", true, false));
+        song.add_name(Name::new("Kkumkkuneun Maeumeuro", "ko-Latn", false, true));
+        song.add_name(Name::new("Dreams Come True", "en", false, false));
+        assert_eq!(song.default_name(), Some(String::from("Kkumkkuneun Maeumeuro")));
     }
 
     #[test]

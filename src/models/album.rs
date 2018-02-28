@@ -2,7 +2,8 @@ use std::fmt;
 
 use models::{Name, Song};
 
-#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize)]
+#[serde(rename_all = "lowercase")]
 pub enum AlbumKind {
     Single,
     Ep,
@@ -19,6 +20,7 @@ impl fmt::Display for AlbumKind {
     }
 }
 
+#[derive(Serialize)]
 pub struct Album {
     pub kind: AlbumKind,
     pub country: String,
@@ -28,6 +30,12 @@ pub struct Album {
 
     pub names: Vec<Name>,
     pub songs: Vec<Song>,
+}
+
+impl Album {
+    pub fn default_name(&self) -> Option<String> {
+        self.names.iter().find(|&n| n.is_default).map(|n| n.name.clone())
+    }
 }
 
 #[derive(Default)]
@@ -98,12 +106,28 @@ impl AlbumBuilder {
 
 #[cfg(test)]
 mod tests {
-    use super::AlbumKind;
+    use models::Name;
+    use super::{AlbumBuilder, AlbumKind};
 
     #[test]
     fn test_fmt() {
         assert_eq!(AlbumKind::Single.to_string(), "single");
         assert_eq!(AlbumKind::Ep.to_string(), "ep");
         assert_eq!(AlbumKind::Lp.to_string(), "lp");
+    }
+
+    #[test]
+    fn test_default_name() {
+        let album = AlbumBuilder::new()
+            .set_kind(AlbumKind::Single)
+            .set_country("KR")
+            .set_released_on("2017-01-04")
+            .set_artwork_url("http://localhost/artwork.jpg")
+            .set_url("http://localhost/albums/1")
+            .add_name(Name::new("From. 우주소녀", "ko", true, false))
+            .add_name(Name::new("From. WJSN", "en", false, true))
+            .build();
+
+        assert_eq!(album.default_name(), Some(String::from("From. WJSN")));
     }
 }
