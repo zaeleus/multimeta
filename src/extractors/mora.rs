@@ -84,15 +84,18 @@ fn parse_json(json: &str, builder: AlbumBuilder) -> Result<AlbumBuilder, Extract
         ExtractionError::Parse("malformed JSON")
     })?;
 
+    let songs = &root.track_list;
+
+    let kind = guess_album_kind(songs.len());
     let name = Name::new(&root.title, LOCALE, true, true);
 
     let builder = builder
-        .set_kind(AlbumKind::Single) // FIXME
+        .set_kind(kind)
         .set_released_on(&parse_release_date(&root.start_date)?)
         .set_artwork_url("FIXME")
         .add_name(name);
 
-    let builder = parse_songs(&root.track_list, builder)?;
+    let builder = parse_songs(songs, builder)?;
 
     Ok(builder)
 }
@@ -135,6 +138,17 @@ fn build_json_endpoint(mount_point: &str, label_id: &str, package_id: &str) -> S
     format!("{}/{}/{}/{}/{}/{}/{}", JSON_BASE_URL, mount_point, label_id, a, b, c, JSON_FILENAME)
 }
 
+// Guess the album kind based on the number of tracks.
+fn guess_album_kind(n: usize) -> AlbumKind {
+    if n <= 4 {
+        AlbumKind::Single
+    } else if n <= 6 {
+        AlbumKind::Ep
+    } else {
+        AlbumKind::Lp
+    }
+}
+
 #[derive(Deserialize)]
 #[serde(rename_all = "camelCase")]
 struct Arguments {
@@ -170,7 +184,7 @@ mod tests {
         let json = include_str!("../../test/fixtures/mora-43000001-4547366347050.json");
         let album = parse("43000001/4547366347050", json).unwrap();
 
-        assert_eq!(album.kind, AlbumKind::Single);
+        assert_eq!(album.kind, AlbumKind::Lp);
         assert_eq!(album.country, "JP");
         assert_eq!(album.released_on, "2018-02-12");
         assert_eq!(album.artwork_url, "FIXME");
@@ -225,5 +239,22 @@ mod tests {
         let actual = build_json_endpoint("0000", "00000068", "11174315");
         let expected = "http://cf.mora.jp/contents/package/0000/00000068/0011/174/315/packageMeta.json";
         assert_eq!(actual, expected);
+    }
+
+    #[test]
+    fn test_guess_album_kind() {
+        assert_eq!(guess_album_kind(1), AlbumKind::Single);
+        assert_eq!(guess_album_kind(2), AlbumKind::Single);
+        assert_eq!(guess_album_kind(3), AlbumKind::Single);
+        assert_eq!(guess_album_kind(4), AlbumKind::Single);
+
+        assert_eq!(guess_album_kind(5), AlbumKind::Ep);
+        assert_eq!(guess_album_kind(6), AlbumKind::Ep);
+
+        assert_eq!(guess_album_kind(7), AlbumKind::Lp);
+        assert_eq!(guess_album_kind(8), AlbumKind::Lp);
+        assert_eq!(guess_album_kind(9), AlbumKind::Lp);
+        assert_eq!(guess_album_kind(10), AlbumKind::Lp);
+        assert_eq!(guess_album_kind(11), AlbumKind::Lp);
     }
 }
