@@ -4,7 +4,7 @@ extern crate url;
 
 use clap::{App, Arg};
 use url::Url;
-use multimeta::{Extractor, MelonExtractor};
+use multimeta::extractors;
 use multimeta::renderer::Renderer;
 use multimeta::writer::Writer;
 
@@ -33,13 +33,9 @@ fn main() {
     let raw_url = matches.value_of("url").unwrap();
     let url = Url::parse(raw_url).expect("malformed URL");
 
-    let extractor = if MelonExtractor::matches(&url) {
-        MelonExtractor::new(&url).unwrap()
-    } else {
-        panic!("failed to match a registered extractor");
-    };
-
-    let album = extractor.extract().expect("extraction failed");
+    let album = extractors::factory(&url)
+        .and_then(|e| e.extract())
+        .unwrap_or_else(|e| panic!("{:?}", e));
 
     let renderer = Renderer::new();
 

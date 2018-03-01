@@ -22,6 +22,10 @@ pub struct MoraExtractor {
 }
 
 impl MoraExtractor {
+    pub fn matches(url: &Url) -> bool {
+        url.host_str().map(|h| h == HOST).unwrap_or(false)
+    }
+
     pub fn new(url: &Url) -> Result<MoraExtractor, ExtractionError> {
         Ok(MoraExtractor {
             album_id: parse_album_id(url)?,
@@ -48,10 +52,6 @@ impl Extractor for MoraExtractor {
         let json = fetch(&json_endpoint).map_err(|_| ExtractionError::Fetch)?;
 
         parse(&self.album_id, &json)
-    }
-
-    fn matches(url: &Url) -> bool {
-        url.host_str().map(|h| h == HOST).unwrap_or(false)
     }
 }
 
@@ -178,6 +178,21 @@ mod tests {
     use url::Url;
 
     use super::*;
+
+    #[test]
+    fn test_matches() {
+        let url = Url::parse("http://mora.jp/package/43000001/4547366347050/").unwrap();
+        assert!(MoraExtractor::matches(&url));
+
+        let url = Url::parse("http://mora.jp/index_j").unwrap();
+        assert!(MoraExtractor::matches(&url));
+
+        let url = Url::parse("http://mora.jp/").unwrap();
+        assert!(MoraExtractor::matches(&url));
+
+        let url = Url::parse("https://www.google.com/").unwrap();
+        assert!(!MoraExtractor::matches(&url))
+    }
 
     #[test]
     fn test_parse() {

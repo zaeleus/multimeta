@@ -20,6 +20,10 @@ pub struct MelonExtractor {
 }
 
 impl MelonExtractor {
+    pub fn matches(url: &Url) -> bool {
+        url.host_str().map(|h| h == HOST).unwrap_or(false)
+    }
+
     pub fn new(url: &Url) -> Result<MelonExtractor, ExtractionError> {
         Ok(MelonExtractor {
             album_id: parse_album_id(url)?,
@@ -45,10 +49,6 @@ impl Extractor for MelonExtractor {
         let html = self.fetch_html().map_err(|_| ExtractionError::Fetch)?;
         let json = self.fetch_json().map_err(|_| ExtractionError::Fetch)?;
         parse(&self.album_id, &html, &json)
-    }
-
-    fn matches(url: &Url) -> bool {
-        url.host_str().map(|h| h == HOST).unwrap_or(false)
     }
 }
 
@@ -197,6 +197,21 @@ mod tests {
         let mut data = String::new();
         reader.read_to_string(&mut data)?;
         Ok(data)
+    }
+
+    #[test]
+    fn test_matches() {
+        let url = Url::parse("http://www.melon.com/album/detail.htm?albumId=10141232").unwrap();
+        assert!(MelonExtractor::matches(&url));
+
+        let url = Url::parse("http://www.melon.com/chart/index.htm").unwrap();
+        assert!(MelonExtractor::matches(&url));
+
+        let url = Url::parse("http://www.melon.com/").unwrap();
+        assert!(MelonExtractor::matches(&url));
+
+        let url = Url::parse("https://www.google.com/").unwrap();
+        assert!(!MelonExtractor::matches(&url))
     }
 
     #[test]
