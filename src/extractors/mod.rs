@@ -1,8 +1,10 @@
 use url::Url;
 
 pub use self::melon::MelonExtractor;
+pub use self::mora::MoraExtractor;
 
 pub mod melon;
+pub mod mora;
 
 pub use models::Album;
 

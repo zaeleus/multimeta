@@ -10,7 +10,7 @@ extern crate unidecode;
 extern crate url;
 
 pub use models::{AlbumKind, Name};
-pub use extractors::{Extractor, MelonExtractor};
+pub use extractors::{Extractor, MelonExtractor, MoraExtractor};
 
 pub mod extractors;
 pub mod models;
