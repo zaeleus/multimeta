@@ -29,7 +29,10 @@ impl From<SongInput> for Song {
             position: input.position,
             duration: input.duration,
 
-            names: input.names.into_iter().map(Name::from).collect(),
+            names: input.names.into_iter()
+                .filter(|n| !n._delete)
+                .map(Name::from)
+                .collect(),
         }
     }
 }

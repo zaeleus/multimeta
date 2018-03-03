@@ -37,6 +37,8 @@ pub struct NameInput {
     pub locale: String,
     pub is_original: bool,
     pub is_default: bool,
+
+    pub _delete: bool,
 }
 
 impl<'a> From<&'a Name> for NameInput {
@@ -46,6 +48,8 @@ impl<'a> From<&'a Name> for NameInput {
             locale: name.locale.clone(),
             is_original: name.is_original,
             is_default: name.is_default,
+
+            _delete: false,
         }
     }
 }
@@ -114,15 +118,17 @@ fn edit_names(names: &mut Vec<NameInput>) {
         println!("names:");
 
         for (i, name) in names.iter().enumerate() {
+            let status = if name._delete { "*" } else { "" };
+
             println!(
-                "  {}. {} (locale: {}, original: {}, default: {})",
-                i, name.name, name.locale, name.is_original, name.is_default,
+                "  {}{}. {} (locale: {}, original: {}, default: {})",
+                i, status, name.name, name.locale, name.is_original, name.is_default,
             );
         }
 
         println!();
 
-        if let Ok(input) = readline("> Edit name? [a/e/N] ") {
+        if let Ok(input) = readline("> Edit name? [a/e/d/N] ") {
             match input.as_ref() {
                 "a" => {
                     add_name(names);
@@ -135,6 +141,13 @@ fn edit_names(names: &mut Vec<NameInput>) {
                     if i < names.len() {
                         edit_name(&mut names[i]);
                         update_name_flags(names, i);
+                    }
+                },
+                "d" => {
+                    let i = prompt_index();
+
+                    if i < names.len() {
+                        delete_name(names, i);
                     }
                 },
                 "n" | "" => break,
@@ -176,6 +189,11 @@ fn edit_name(name: &mut NameInput) {
             name.is_default = parse_boolean(&is_default);
         }
     }
+}
+
+fn delete_name(names: &mut Vec<NameInput>, i: usize) {
+    let name = &mut names[i];
+    name._delete = !name._delete;
 }
 
 fn prompt_index() -> usize {
@@ -225,6 +243,17 @@ mod tests {
         assert!(names[1].is_default);
         assert!(names[2].is_original);
         assert!(!names[2].is_default);
+    }
+
+    #[test]
+    fn test_delete_name() {
+        let mut names = vec![NameInput::default()];
+
+        delete_name(&mut names, 0);
+        assert!(names[0]._delete);
+
+        delete_name(&mut names, 0);
+        assert!(!names[0]._delete);
     }
 
     #[test]

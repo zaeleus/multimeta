@@ -48,7 +48,10 @@ impl From<AlbumInput> for Album {
             artwork_url: input.artwork_url,
             url: input.url,
 
-            names: input.names.into_iter().map(Name::from).collect(),
+            names: input.names.into_iter()
+                .filter(|n| !n._delete)
+                .map(Name::from)
+                .collect(),
             songs: input.songs.into_iter().map(Song::from).collect(),
         }
     }
