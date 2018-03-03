@@ -9,7 +9,7 @@ pub struct AlbumInput {
     pub kind: AlbumKind,
     pub country: String,
     pub released_on: String,
-    pub artwork_url: String,
+    pub artwork_url: Option<String>,
     pub url: String,
 
     pub names: Vec<NameInput>,

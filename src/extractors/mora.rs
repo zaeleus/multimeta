@@ -92,7 +92,6 @@ fn parse_json(json: &str, builder: AlbumBuilder) -> Result<AlbumBuilder, Extract
     let builder = builder
         .set_kind(kind)
         .set_released_on(&parse_release_date(&root.start_date)?)
-        .set_artwork_url("FIXME")
         .add_name(name);
 
     let builder = parse_songs(songs, builder)?;
@@ -202,7 +201,7 @@ mod tests {
         assert_eq!(album.kind, AlbumKind::Lp);
         assert_eq!(album.country, "JP");
         assert_eq!(album.released_on, "2018-02-12");
-        assert_eq!(album.artwork_url, "FIXME");
+        assert!(album.artwork_url.is_none());
         assert_eq!(album.url, "http://mora.jp/package/43000001/4547366347050/");
 
         assert_eq!(album.names.len(), 1);

@@ -224,7 +224,10 @@ mod tests {
         assert_eq!(album.kind, AlbumKind::Single);
         assert_eq!(album.country, "KR");
         assert_eq!(album.released_on, "2017-12-28");
-        assert_eq!(album.artwork_url, "https://static.melon.co.kr/cm/album/images/101/23/637/10123637_org.jpg");
+        assert_eq!(
+            album.artwork_url,
+            Some(String::from("https://static.melon.co.kr/cm/album/images/101/23/637/10123637_org.jpg")),
+        );
         assert_eq!(album.url, "http://www.melon.com/album/detail.htm?albumId=10123637");
 
         assert_eq!(album.names.len(), 1);

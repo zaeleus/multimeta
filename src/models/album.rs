@@ -26,7 +26,7 @@ pub struct Album {
     pub kind: AlbumKind,
     pub country: String,
     pub released_on: String,
-    pub artwork_url: String,
+    pub artwork_url: Option<String>,
     pub url: String,
 
     pub names: Vec<Name>,
@@ -111,7 +111,7 @@ impl AlbumBuilder {
             kind: self.kind.expect("missing kind"),
             country: self.country.expect("missing country"),
             released_on: self.released_on.expect("missing released on"),
-            artwork_url: self.artwork_url.expect("missing artwork url"),
+            artwork_url: self.artwork_url,
             url: self.url.expect("missing url"),
 
             names: self.names,
