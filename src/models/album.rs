@@ -1,5 +1,6 @@
 use std::fmt;
 
+use editor::AlbumInput;
 use models::{Name, Song};
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize)]
@@ -35,6 +36,21 @@ pub struct Album {
 impl Album {
     pub fn default_name(&self) -> Option<String> {
         self.names.iter().find(|&n| n.is_default).map(|n| n.name.clone())
+    }
+}
+
+impl From<AlbumInput> for Album {
+    fn from(input: AlbumInput) -> Album {
+        Album {
+            kind: input.kind,
+            country: input.country,
+            released_on: input.released_on,
+            artwork_url: input.artwork_url,
+            url: input.url,
+
+            names: input.names.into_iter().map(Name::from).collect(),
+            songs: input.songs.into_iter().map(Song::from).collect(),
+        }
     }
 }
 

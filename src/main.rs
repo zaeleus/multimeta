@@ -4,7 +4,7 @@ extern crate url;
 
 use clap::{App, Arg};
 use url::Url;
-use multimeta::extractors;
+use multimeta::{editor, extractors};
 use multimeta::renderer::Renderer;
 use multimeta::writer::Writer;
 
@@ -35,10 +35,10 @@ fn main() {
 
     let album = extractors::factory(&url)
         .and_then(|e| e.extract())
+        .map(|a| editor::edit(&a))
         .unwrap_or_else(|e| panic!("{:?}", e));
 
     let renderer = Renderer::new();
-
     let writer = Writer::new(&output_dir);
     writer.write(&renderer, &artist_id, &album).expect("write failed");
 }

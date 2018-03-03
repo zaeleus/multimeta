@@ -1,3 +1,4 @@
+use editor::SongInput;
 use models::Name;
 
 #[derive(Debug, Serialize)]
@@ -19,6 +20,17 @@ impl Song {
 
     pub fn add_name(&mut self, name: Name) {
         self.names.push(name);
+    }
+}
+
+impl From<SongInput> for Song {
+    fn from(input: SongInput) -> Song {
+        Song {
+            position: input.position,
+            duration: input.duration,
+
+            names: input.names.into_iter().map(Name::from).collect(),
+        }
     }
 }
 

@@ -1,3 +1,5 @@
+use editor::NameInput;
+
 #[derive(Debug, Eq, PartialEq, Serialize)]
 pub struct Name {
     pub name: String,
@@ -13,6 +15,17 @@ impl Name {
             locale: locale.to_owned(),
             is_original: is_original,
             is_default: is_default,
+        }
+    }
+}
+
+impl From<NameInput> for Name {
+    fn from(input: NameInput) -> Name {
+        Name {
+            name: input.name,
+            locale: input.locale,
+            is_original: input.is_original,
+            is_default: input.is_default,
         }
     }
 }

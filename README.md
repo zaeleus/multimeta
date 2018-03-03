@@ -7,3 +7,7 @@ multi-file TOML format, which can be seen in [lp-seeds].
 [Melon]: http://www.melon.com/
 [Mora]: http://mora.jp/
 [lp-seeds]: https://github.com/zaeleus/lp-seeds
+
+## Prerequisites
+
+  * readline
