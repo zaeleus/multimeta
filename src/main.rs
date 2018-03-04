@@ -38,7 +38,14 @@ fn main() {
         .map(|a| editor::edit(&a))
         .unwrap_or_else(|e| panic!("{:?}", e));
 
-    let renderer = Renderer::new();
     let writer = Writer::new(&output_dir);
-    writer.write(&renderer, &artist_id, &album).expect("write failed");
+
+    if album.artwork_url.is_some() {
+        if let Err(e) = writer.write_artwork(&artist_id, &album) {
+            println!("warning: failed to download artwork ({:?})", e);
+        }
+    }
+
+    let renderer = Renderer::new();
+    writer.write_templates(&renderer, &artist_id, &album).expect("write failed");
 }

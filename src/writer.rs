@@ -3,6 +3,7 @@ use std::io::prelude::*;
 use std::fs::{self, File};
 use std::path::{Path, PathBuf};
 
+use downloader::Downloader;
 use models::Album;
 use renderer::Renderer;
 use util::parameterize;
@@ -16,7 +17,7 @@ impl Writer {
         Writer { output_dir: output_dir.to_owned() }
     }
 
-    pub fn write(&self, renderer: &Renderer, artist_id: &str, album: &Album) -> io::Result<()> {
+    pub fn write_templates(&self, renderer: &Renderer, artist_id: &str, album: &Album) -> io::Result<()> {
         self.write_album(renderer, artist_id, album)?;
         self.write_songs(renderer, artist_id, album)?;
         self.write_tracklist(renderer, artist_id, album)?;
@@ -78,6 +79,32 @@ impl Writer {
         let result = renderer.render_tracklist(artist_id, album);
 
         write_file(&pathname, &result)
+    }
+
+    pub fn write_artwork(&self, artist_id: &str, album: &Album) -> io::Result<()> {
+        let album_name = album.default_name().unwrap();
+
+        let mut artwork_dir = PathBuf::from(&self.output_dir);
+        artwork_dir.push("-attachments");
+        artwork_dir.push("albums");
+        artwork_dir.push(artist_id);
+        artwork_dir.push(&parameterize(&album_name));
+        artwork_dir.push("-original");
+
+        fs::create_dir_all(&artwork_dir)?;
+
+        let mut pathname = artwork_dir.clone();
+        pathname.push("default.jpg");
+
+        if let Some(ref artwork_url) = album.artwork_url {
+            let downloader = Downloader::new();
+
+            if let Err(e) = downloader.save(artwork_url, &pathname) {
+                println!("warning: failed to download artwork ({:?})", e);
+            }
+        }
+
+        Ok(())
     }
 }
 
