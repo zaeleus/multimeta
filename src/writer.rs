@@ -6,7 +6,7 @@ use std::path::{Path, PathBuf};
 use downloader::Downloader;
 use models::Album;
 use renderer::Renderer;
-use util::parameterize;
+use util::inflector::parameterize;
 
 pub struct Writer {
     output_dir: String,

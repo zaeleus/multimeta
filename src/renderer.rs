@@ -66,10 +66,8 @@ mod helpers {
     use handlebars::{Handlebars, Helper, RenderContext, RenderError};
 
     use super::default_name as _default_name;
-    use util::{
-        parameterize as _parameterize,
-        format_duration as _format_duration,
-    };
+    use util::inflector::parameterize as _parameterize;
+    use util::format_duration as _format_duration;
 
     pub fn default_name(h: &Helper, _: &Handlebars, rc: &mut RenderContext) -> Result<(), RenderError> {
         let values = h.param(0)
