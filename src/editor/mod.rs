@@ -2,8 +2,11 @@ use self::readline::readline;
 
 mod readline;
 
+use hangeul;
+
 use models::{Album, AlbumKind, Name, Song};
 use util::format_duration;
+use util::inflector::titleize;
 
 pub struct AlbumInput {
     pub kind: AlbumKind,
@@ -128,7 +131,7 @@ fn edit_names(names: &mut Vec<NameInput>) {
 
         println!();
 
-        if let Ok(input) = readline("> Edit name? [a/e/d/N] ") {
+        if let Ok(input) = readline("> Edit name? [a/e/d/g/N] ") {
             match input.as_ref() {
                 "a" => {
                     add_name(names);
@@ -148,6 +151,12 @@ fn edit_names(names: &mut Vec<NameInput>) {
 
                     if i < names.len() {
                         delete_name(names, i);
+                    }
+                },
+                "g" => {
+                    if guess_name(names) {
+                        let i = names.len() - 1;
+                        update_name_flags(names, i);
                     }
                 },
                 "n" | "" => break,
@@ -194,6 +203,34 @@ fn edit_name(name: &mut NameInput) {
 fn delete_name(names: &mut Vec<NameInput>, i: usize) {
     let name = &mut names[i];
     name._delete = !name._delete;
+}
+
+/// Adds a new name based on some heuristics.
+///
+/// This currently only support Korean romanization.
+///
+/// It returns `true` if a new name is added and `false` if no conditions matched to add a new
+/// name.
+fn guess_name(names: &mut Vec<NameInput>) -> bool {
+    let original_name = names.iter()
+        .find(|n| n.is_original && n.locale == "ko")
+        .map(|n| n.name.clone());
+
+    if let Some(name) = original_name {
+        let new_name = NameInput {
+            name: titleize(&hangeul::romanize(&name)),
+            locale: String::from("ko-Latn"),
+            is_original: false,
+            is_default: true,
+            ..NameInput::default()
+        };
+
+        names.push(new_name);
+
+        return true;
+    }
+
+    false
 }
 
 fn prompt_index() -> usize {
@@ -254,6 +291,29 @@ mod tests {
 
         delete_name(&mut names, 0);
         assert!(!names[0]._delete);
+    }
+
+    #[test]
+    fn test_guess_name() {
+        let mut names = vec![
+            NameInput {
+                name: String::from("비밀이야"),
+                locale: String::from("ko"),
+                is_original: true,
+                is_default: true,
+                ..NameInput::default()
+            },
+        ];
+
+        guess_name(&mut names);
+
+        assert_eq!(names.len(), 2);
+
+        let name = &names[1];
+        assert_eq!(name.name, "Bimiriya");
+        assert_eq!(name.locale, "ko-Latn");
+        assert!(!name.is_original);
+        assert!(name.is_default);
     }
 
     #[test]

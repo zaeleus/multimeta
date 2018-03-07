@@ -34,7 +34,7 @@ fn is_minor_word(word: &str) -> bool {
     MINOR_WORDS.contains(word)
 }
 
-fn titleize(s: &str) -> String {
+pub fn titleize(s: &str) -> String {
     lazy_static! {
         static ref FIRST_WORD_RE: Regex = Regex::new(r"^\w+").unwrap();
         static ref REST_OF_WORDS_RE: Regex = Regex::new(r"\b([\w']+)").unwrap();

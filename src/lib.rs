@@ -1,4 +1,5 @@
 extern crate chrono;
+extern crate hangeul;
 extern crate handlebars;
 #[macro_use] extern crate lazy_static;
 extern crate libc;
