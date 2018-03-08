@@ -1,6 +1,6 @@
 use std::fs::File;
 use std::io::prelude::*;
-use std::io::{BufReader, BufWriter};
+use std::io::{self, BufReader, BufWriter};
 use std::path::Path;
 
 use pbr::{ProgressBar, Units};
@@ -11,7 +11,7 @@ const DEFAULT_BUF_SIZE: usize = 8192; // bytes
 
 #[derive(Debug)]
 pub enum Error {
-    Io,
+    Io(io::Error),
     RequestFailed,
     EmptyBody,
 }
@@ -29,7 +29,7 @@ impl Downloader {
     where
         P: AsRef<Path>,
     {
-        let file = File::create(dst).or(Err(Error::Io))?;
+        let file = File::create(dst).map_err(|e| Error::Io(e))?;
         let mut writer = BufWriter::new(file);
 
         let len = self.content_length(url)?;
@@ -80,10 +80,10 @@ where
         let len = match reader.read(&mut buf) {
             Ok(0) => break,
             Ok(len) => len,
-            Err(_) => return Err(Error::Io),
+            Err(e) => return Err(Error::Io(e)),
         };
 
-        writer.write_all(&buf[..len]).or(Err(Error::Io))?;
+        writer.write_all(&buf[..len]).map_err(|e| Error::Io(e))?;
         written += len as u64;
         cb(len as u64);
     }
