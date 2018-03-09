@@ -1,4 +1,5 @@
 pub mod inflector;
+pub mod jpeg;
 
 pub fn format_duration(t: i32) -> String {
     let minutes = t / 60;

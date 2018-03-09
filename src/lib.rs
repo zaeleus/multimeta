@@ -11,6 +11,7 @@ extern crate select;
 #[macro_use] extern crate serde_derive;
 extern crate unidecode;
 extern crate url;
+extern crate uuid;
 
 pub use models::{AlbumKind, Name};
 pub use extractors::{Extractor, MelonExtractor, MoraExtractor};

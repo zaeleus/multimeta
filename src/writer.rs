@@ -3,10 +3,11 @@ use std::io::prelude::*;
 use std::fs::{self, File};
 use std::path::{Path, PathBuf};
 
-use downloader::Downloader;
+use downloader::{self, Downloader};
 use models::Album;
 use renderer::Renderer;
 use util::inflector::parameterize;
+use util::jpeg;
 
 pub struct Writer {
     output_dir: String,
@@ -93,15 +94,30 @@ impl Writer {
 
         fs::create_dir_all(&artwork_dir)?;
 
-        let mut pathname = artwork_dir.clone();
-        pathname.push("default.jpg");
+        let mut original_pathname = artwork_dir.clone();
+        original_pathname.push("default.jpg");
+
+        artwork_dir.pop();
+
+        let mut final_pathname = artwork_dir.clone();
+        final_pathname.push("default.jpg");
 
         if let Some(ref artwork_url) = album.artwork_url {
             let downloader = Downloader::new();
 
-            if let Err(e) = downloader.save(artwork_url, &pathname) {
-                println!("warning: failed to download artwork ({:?})", e);
-            }
+            downloader.save(artwork_url, &original_pathname).map_err(|e| {
+                match e {
+                    downloader::Error::Io(inner) => inner,
+                    downloader::Error::RequestFailed => {
+                        io::Error::new(io::ErrorKind::Other, "request failed")
+                    },
+                    downloader::Error::EmptyBody => {
+                        io::Error::new(io::ErrorKind::Other, "empty body")
+                    },
+                }
+            })?;
+
+            optimize(&original_pathname, &final_pathname)?;
         }
 
         Ok(())
@@ -111,4 +127,23 @@ impl Writer {
 fn write_file<P>(pathname: P, data: &str) -> io::Result<()> where P: AsRef<Path> {
     let mut file = File::create(pathname)?;
     file.write_all(data.as_bytes())
+}
+
+fn optimize<P, Q>(src: P, dst: Q) -> io::Result<()>
+where
+    P: AsRef<Path>,
+    Q: AsRef<Path>,
+{
+    let versions = jpeg::optimize(src)?;
+
+    let info = versions.iter()
+        .map(|v| format!("{} ({} KiB)", v.name, v.filesize / 1024))
+        .collect::<Vec<String>>()
+        .join(", ");
+    eprintln!("info: {} version(s): {}", versions.len(), info);
+
+    match versions.iter().min_by_key(|v| v.filesize) {
+        Some(v) => fs::rename(&v.pathname, dst),
+        None => Err(io::Error::new(io::ErrorKind::Other, "invalid versions")),
+    }
 }
