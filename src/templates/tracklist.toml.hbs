@@ -4,6 +4,6 @@ medium-ids = [
 {{#each album.songs}}
 [[tracks]]
 position = {{position}}
-sond-id = "{{../artist_id}}/{{parameterize (default-name names)}}"
+song-id = "{{../artist_id}}/{{parameterize (default-name names)}}"
 duration = "{{format-duration duration}}"
 {{/each}}

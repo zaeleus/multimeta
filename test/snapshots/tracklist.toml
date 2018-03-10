@@ -4,10 +4,10 @@ medium-ids = [
 
 [[tracks]]
 position = 3
-sond-id = "iu/jam-mot-deuneun-bam-bineun-naerigo"
+song-id = "iu/jam-mot-deuneun-bam-bineun-naerigo"
 duration = "4:26"
 
 [[tracks]]
 position = 4
-sond-id = "iu/eojetbam-iyagi"
+song-id = "iu/eojetbam-iyagi"
 duration = "3:53"
