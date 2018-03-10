@@ -1,4 +1,4 @@
-use self::readline::readline;
+use self::readline::{editline, readline};
 
 mod readline;
 
@@ -175,7 +175,8 @@ fn add_name(names: &mut Vec<NameInput>) {
 }
 
 fn edit_name(name: &mut NameInput) {
-    if let Ok(raw_name) = readline(&format!("  name [{}]: ", name.name)) {
+    let prompt = format!("  name [{}]: ", name.name);
+    if let Ok(raw_name) = editline(&prompt, &name.name) {
         if !raw_name.is_empty() {
             name.name = raw_name;
         }
