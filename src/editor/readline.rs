@@ -18,10 +18,10 @@ mod ffi {
     use libc::{c_char, c_int};
 
     #[allow(non_camel_case_types)]
-    pub type rl_hook_func_t = extern fn() -> c_int;
+    pub type rl_hook_func_t = extern "C" fn() -> c_int;
 
 	#[link(name = "readline")]
-	extern {
+	extern "C" {
         pub static mut rl_startup_hook: rl_hook_func_t;
 
 		pub fn readline(prompt: *const c_char) -> *const c_char;
@@ -64,7 +64,7 @@ pub fn editline(prompt: &str, text: &str) -> Result<String, Error> {
     readline(prompt)
 }
 
-extern fn startup_hook_once() -> c_int {
+extern "C" fn startup_hook_once() -> c_int {
     let mut guard = STARTUP_HOOK_CALLBACK.lock().unwrap();
 
     let result = match *guard {
