@@ -16,7 +16,6 @@ extern crate uuid;
 pub use models::{AlbumKind, Name};
 pub use extractors::{Extractor, MelonExtractor, MoraExtractor};
 
-pub mod downloader;
 pub mod editor;
 pub mod extractors;
 pub mod models;

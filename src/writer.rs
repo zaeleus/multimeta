@@ -3,9 +3,9 @@ use std::io::prelude::*;
 use std::fs::{self, File};
 use std::path::{Path, PathBuf};
 
-use downloader::{self, Downloader};
 use models::Album;
 use renderer::Renderer;
+use util::http::{self, Downloader};
 use util::inflector::parameterize;
 use util::jpeg;
 
@@ -107,11 +107,11 @@ impl Writer {
 
             downloader.save(artwork_url, &original_pathname).map_err(|e| {
                 match e {
-                    downloader::Error::Io(inner) => inner,
-                    downloader::Error::RequestFailed => {
+                    http::Error::Io(inner) => inner,
+                    http::Error::RequestFailed => {
                         io::Error::new(io::ErrorKind::Other, "request failed")
                     },
-                    downloader::Error::EmptyBody => {
+                    http::Error::EmptyBody => {
                         io::Error::new(io::ErrorKind::Other, "empty body")
                     },
                 }
