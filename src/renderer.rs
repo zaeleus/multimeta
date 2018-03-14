@@ -159,7 +159,6 @@ mod tests {
         let album = build_album();
         let renderer = Renderer::new();
         let result = renderer.render_tracklist("iu", &album);
-        println!("{}", result);
         assert_eq!(result, include_str!("../test/snapshots/tracklist.toml"));
     }
 

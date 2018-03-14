@@ -29,6 +29,8 @@ impl Downloader {
     where
         P: AsRef<Path>,
     {
+        info!("downloading {}", url);
+
         let file = File::create(dst).map_err(|e| Error::Io(e))?;
         let mut writer = BufWriter::new(file);
 

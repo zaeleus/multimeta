@@ -1,9 +1,13 @@
 #[macro_use] extern crate clap;
+extern crate env_logger;
+#[macro_use] extern crate log;
 extern crate multimeta;
 extern crate url;
 
 use clap::{App, Arg};
+use log::LevelFilter;
 use url::Url;
+
 use multimeta::{editor, extractors};
 use multimeta::renderer::Renderer;
 use multimeta::writer::Writer;
@@ -17,6 +21,10 @@ fn main() {
              .value_name("DIR")
              .help("Set output directory")
              .default_value("."))
+        .arg(Arg::with_name("verbose")
+             .short("v")
+             .long("verbose")
+             .help("Use verbose logging"))
         .arg(Arg::with_name("artist-id")
              .help("The local artist ID")
              .index(1)
@@ -26,6 +34,12 @@ fn main() {
              .index(2)
              .required(true))
         .get_matches();
+
+    if matches.is_present("verbose") {
+        env_logger::Builder::from_default_env()
+            .filter(Some("multimeta"), LevelFilter::Info)
+            .init();
+    }
 
     let output_dir = matches.value_of("output").unwrap();
     let artist_id = matches.value_of("artist-id").unwrap();
@@ -42,7 +56,7 @@ fn main() {
 
     if album.artwork_url.is_some() {
         if let Err(e) = writer.write_artwork(&artist_id, &album) {
-            println!("warning: failed to download artwork ({:?})", e);
+            warn!("failed to download artwork ({:?})", e);
         }
     }
 

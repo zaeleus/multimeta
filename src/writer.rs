@@ -3,6 +3,8 @@ use std::io::prelude::*;
 use std::fs::{self, File};
 use std::path::{Path, PathBuf};
 
+use log::Level;
+
 use models::Album;
 use renderer::Renderer;
 use util::http::{self, Downloader};
@@ -136,11 +138,13 @@ where
 {
     let versions = jpeg::optimize(src)?;
 
-    let info = versions.iter()
-        .map(|v| format!("{} ({} KiB)", v.name, v.filesize / 1024))
-        .collect::<Vec<String>>()
-        .join(", ");
-    eprintln!("info: {} version(s): {}", versions.len(), info);
+    if log_enabled!(Level::Info) {
+        let info = versions.iter()
+            .map(|v| format!("{} ({} KiB)", v.name, v.filesize / 1024))
+            .collect::<Vec<String>>()
+            .join(", ");
+        info!("{} version(s): {}", versions.len(), info);
+    }
 
     match versions.iter().min_by_key(|v| v.filesize) {
         Some(v) => fs::rename(&v.pathname, dst),

@@ -3,6 +3,7 @@ extern crate hangeul;
 extern crate handlebars;
 #[macro_use] extern crate lazy_static;
 extern crate libc;
+#[macro_use] extern crate log;
 extern crate pbr;
 extern crate regex;
 extern crate reqwest;
