@@ -13,7 +13,7 @@ lazy_static! {
     };
 
     static ref ACRONYMS: HashSet<&'static str> = {
-        vec!["ost"].into_iter().collect()
+        vec!["dj", "ost"].into_iter().collect()
     };
 }
 
@@ -95,6 +95,7 @@ mod tests {
 
     #[test]
     fn test_is_acronym() {
+        assert!(is_acronym("dj"));
         assert!(is_acronym("ost"));
         assert!(!is_acronym("wjsn"));
     }
@@ -109,6 +110,7 @@ mod tests {
         assert_eq!(titleize("kkumkkuneun maeumeuro (Chinese Ver.)"), "Kkumkkuneun Maeumeuro (Chinese Ver.)");
         assert_eq!(titleize("himssenyeoja dobongsun OST Part.1"), "Himssenyeoja Dobongsun OST Part.1");
         assert_eq!(titleize("#cheotsarang"), "#Cheotsarang");
+        assert_eq!(titleize("Straight Up (Feat. DJ Wegun, kim hyo eun)"), "Straight Up (Feat. DJ Wegun, Kim Hyo Eun)");
     }
 
     #[test]
