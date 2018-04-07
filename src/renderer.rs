@@ -1,4 +1,4 @@
-use handlebars::Handlebars;
+use handlebars::{no_escape, Handlebars};
 use serde_json::Value;
 
 use models::{Album, Song};
@@ -8,6 +8,7 @@ lazy_static! {
         let mut hbs = Handlebars::new();
 
         hbs.set_strict_mode(true);
+        hbs.register_escape_fn(no_escape);
 
         hbs.register_template_string("album", include_str!("templates/album.toml.hbs")).unwrap();
         hbs.register_template_string("song", include_str!("templates/song.toml.hbs")).unwrap();
@@ -133,6 +134,7 @@ mod tests {
             .add_name(Name::new("꽃갈피 둘", "ko", true, false))
             .add_name(Name::new("Kkotgalpi Dul", "ko-Latn", false, true))
             .add_name(Name::new("A Flower Bookmark 2", "en", false, false))
+            .add_name(Name::new("I & U", "und", false, false))
             .add_song(song_a)
             .add_song(song_b)
             .build()

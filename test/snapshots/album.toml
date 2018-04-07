@@ -5,6 +5,7 @@ names = [
   { name = "꽃갈피 둘", locale = "ko", original = true },
   { name = "Kkotgalpi Dul", locale = "ko-Latn", default = true },
   { name = "A Flower Bookmark 2", locale = "en" },
+  { name = "I & U", locale = "und" },
 ]
 
 [[releases]]
