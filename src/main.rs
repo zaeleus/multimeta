@@ -13,7 +13,7 @@ use multimeta::renderer::Renderer;
 use multimeta::writer::Writer;
 
 fn main() {
-    let matches = App::new("multimeta")
+    let matches = App::new(crate_name!())
         .version(crate_version!())
         .arg(Arg::with_name("output")
              .short("o")
@@ -37,7 +37,7 @@ fn main() {
 
     if matches.is_present("verbose") {
         env_logger::Builder::from_default_env()
-            .filter(Some("multimeta"), LevelFilter::Info)
+            .filter(Some(crate_name!()), LevelFilter::Info)
             .init();
     }
 
