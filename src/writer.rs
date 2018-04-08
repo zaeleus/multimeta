@@ -28,9 +28,7 @@ impl Writer {
     }
 
     fn write_album(&self, renderer: &Renderer, artist_id: &str, album: &Album) -> io::Result<()> {
-        let mut albums_dir = PathBuf::from(&self.output_dir);
-        albums_dir.push("albums");
-        albums_dir.push(artist_id);
+        let albums_dir: PathBuf = [&self.output_dir, "albums", artist_id].iter().collect();
 
         fs::create_dir_all(&albums_dir)?;
 
@@ -45,9 +43,7 @@ impl Writer {
     }
 
     fn write_songs(&self, renderer: &Renderer, artist_id: &str, album: &Album) -> io::Result<()> {
-        let mut songs_dir = PathBuf::from(&self.output_dir);
-        songs_dir.push("songs");
-        songs_dir.push(artist_id);
+        let songs_dir: PathBuf = [&self.output_dir, "songs", artist_id].iter().collect();
 
         fs::create_dir_all(&songs_dir)?;
 
@@ -68,11 +64,13 @@ impl Writer {
     fn write_tracklist(&self, renderer: &Renderer, artist_id: &str, album: &Album) -> io::Result<()> {
         let album_name = album.default_name().unwrap();
 
-        let mut tracklist_dir = PathBuf::from(&self.output_dir);
-        tracklist_dir.push("tracklists");
-        tracklist_dir.push(artist_id);
-        tracklist_dir.push(&parameterize(&album_name));
-        tracklist_dir.push("default");
+        let tracklist_dir: PathBuf = [
+            &self.output_dir,
+            "tracklists",
+            artist_id,
+            &parameterize(&album_name),
+            "default",
+        ].iter().collect();
 
         fs::create_dir_all(&tracklist_dir)?;
 
@@ -87,12 +85,14 @@ impl Writer {
     pub fn write_artwork(&self, artist_id: &str, album: &Album) -> io::Result<()> {
         let album_name = album.default_name().unwrap();
 
-        let mut artwork_dir = PathBuf::from(&self.output_dir);
-        artwork_dir.push("-attachments");
-        artwork_dir.push("albums");
-        artwork_dir.push(artist_id);
-        artwork_dir.push(&parameterize(&album_name));
-        artwork_dir.push("-original");
+        let mut artwork_dir: PathBuf = [
+            &self.output_dir,
+            "-attachments",
+            "albums",
+            artist_id,
+            &parameterize(&album_name),
+            "-original",
+        ].iter().collect();
 
         fs::create_dir_all(&artwork_dir)?;
 
