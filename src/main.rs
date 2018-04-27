@@ -1,16 +1,66 @@
 #[macro_use] extern crate clap;
 extern crate env_logger;
+extern crate glob;
 #[macro_use] extern crate log;
 extern crate multimeta;
 extern crate url;
 
+use std::collections::HashSet;
+use std::path::Path;
+
 use clap::{App, Arg};
-use log::LevelFilter;
+use glob::glob;
+use log::{Level, LevelFilter};
 use url::Url;
 
 use multimeta::{editor, extractors};
 use multimeta::renderer::Renderer;
 use multimeta::writer::Writer;
+
+fn validate_output(s: String) -> Result<(), String> {
+    let path = Path::new(&s);
+
+    if path.is_dir() {
+        Ok(())
+    } else {
+        Err(String::from("Not a directory"))
+    }
+}
+
+fn get_artists(output_dir: &str) -> HashSet<String> {
+    static KINDS: [&'static str; 2] = ["people", "groups"];
+    static SUFFIX: &'static str = ".toml";
+
+    let mut set = HashSet::new();
+
+    for kind in &KINDS {
+        let prefix = format!("{}/artists/{}/", output_dir, kind);
+        let pattern = format!("{}**/*{}", prefix, SUFFIX);
+
+        let entries = glob(&pattern)
+            .expect("bad glob pattern")
+            .filter_map(Result::ok);
+
+        for entry in entries {
+            let path = entry.to_str().unwrap();
+            let start = prefix.len();
+            let end = path.len() - SUFFIX.len();
+            let id = &path[start..end];
+
+            set.insert(String::from(id));
+        }
+    }
+
+    set
+}
+
+fn check_artist_id(output_dir: &str, artist_id: &str) {
+    let artists = get_artists(output_dir);
+
+    if !artists.contains(artist_id) {
+        warn!("artist id '{}' does not exist", artist_id);
+    }
+}
 
 fn main() {
     let matches = App::new(crate_name!())
@@ -20,7 +70,8 @@ fn main() {
              .long("output")
              .value_name("DIR")
              .help("Set output directory")
-             .default_value("."))
+             .default_value(".")
+             .validator(validate_output))
         .arg(Arg::with_name("verbose")
              .short("v")
              .long("verbose")
@@ -44,8 +95,11 @@ fn main() {
     let output_dir = matches.value_of("output").unwrap();
     let artist_id = matches.value_of("artist-id").unwrap();
 
-    let raw_url = matches.value_of("url").unwrap();
-    let url = Url::parse(raw_url).expect("malformed URL");
+    let url = value_t!(matches, "url", Url).unwrap_or_else(|e| e.exit());
+
+    if log_enabled!(Level::Warn) {
+        check_artist_id(&output_dir, &artist_id);
+    }
 
     let album = extractors::factory(&url)
         .and_then(|e| e.extract())
