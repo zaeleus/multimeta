@@ -133,8 +133,12 @@ fn parse_album_id(url: &Url) -> Result<String, ExtractionError> {
 
 fn parse_album_kind(s: &str) -> Result<AlbumKind, ExtractionError> {
     match s {
-        // "OST" is not guaranteed, but is very likely, to be a single.
-        "싱글" | "OST" => Ok(AlbumKind::Single),
+        "싱글" => Ok(AlbumKind::Single),
+        "OST" => {
+            // "OST" is not guaranteed, but is very likely, to be a single.
+            warn!("assuming album kind 'OST' as 'single'");
+            Ok(AlbumKind::Single)
+        },
         "EP" => Ok(AlbumKind::Ep),
         "정규" => Ok(AlbumKind::Lp),
         _ => Err(ExtractionError::Parse("album kind"))
