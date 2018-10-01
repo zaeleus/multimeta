@@ -182,23 +182,12 @@ struct RawSong {
 
 #[cfg(test)]
 mod tests {
-    use std::fs::File;
-    use std::io::{self, BufReader};
-    use std::io::prelude::*;
-    use std::path::Path;
+    use std::fs;
 
     use url::Url;
 
     use models::{AlbumKind, Name};
     use super::*;
-
-    fn read_file<P>(pathname: P) -> io::Result<String> where P: AsRef<Path> {
-        let file = File::open(pathname)?;
-        let mut reader = BufReader::new(file);
-        let mut data = String::new();
-        reader.read_to_string(&mut data)?;
-        Ok(data)
-    }
 
     #[test]
     fn test_matches() {
@@ -217,8 +206,8 @@ mod tests {
 
     #[test]
     fn test_parse_html() {
-        let html = read_file("test/fixtures/melon-10123637.html").unwrap();
-        let json = read_file("test/fixtures/melon-10123637.json").unwrap();
+        let html = fs::read_to_string("test/fixtures/melon-10123637.html").unwrap();
+        let json = fs::read_to_string("test/fixtures/melon-10123637.json").unwrap();
 
         let album = parse("10123637", &html, &json).unwrap();
 

@@ -111,6 +111,8 @@ mod helpers {
 
 #[cfg(test)]
 mod tests {
+    use std::fs;
+
     use models::{Album, AlbumBuilder, AlbumKind, Name, Song};
     use super::*;
 
@@ -145,7 +147,8 @@ mod tests {
         let album = build_album();
         let renderer = Renderer::new();
         let result = renderer.render_album("iu", &album);
-        assert_eq!(result, include_str!("../test/snapshots/album.toml"));
+        let expected = fs::read_to_string("test/snapshots/album.toml").unwrap();
+        assert_eq!(result, expected);
     }
 
     #[test]
@@ -153,7 +156,8 @@ mod tests {
         let album = build_album();
         let renderer = Renderer::new();
         let result = renderer.render_song(&album.songs[0]);
-        assert_eq!(result, include_str!("../test/snapshots/song.toml"));
+        let expected = fs::read_to_string("test/snapshots/song.toml").unwrap();
+        assert_eq!(result, expected);
     }
 
     #[test]
@@ -161,7 +165,8 @@ mod tests {
         let album = build_album();
         let renderer = Renderer::new();
         let result = renderer.render_tracklist("iu", &album);
-        assert_eq!(result, include_str!("../test/snapshots/tracklist.toml"));
+        let expected = fs::read_to_string("test/snapshots/tracklist.toml").unwrap();
+        assert_eq!(result, expected);
     }
 
     #[test]
