@@ -90,6 +90,8 @@ fn main() {
         env_logger::Builder::from_default_env()
             .filter(Some(crate_name!()), LevelFilter::Info)
             .init();
+    } else {
+        env_logger::init();
     }
 
     let output_dir = matches.value_of("output").unwrap();
