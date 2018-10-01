@@ -20,13 +20,13 @@ mod ffi {
     #[allow(non_camel_case_types)]
     pub type rl_hook_func_t = extern "C" fn() -> c_int;
 
-	#[link(name = "readline")]
-	extern "C" {
+    #[link(name = "readline")]
+    extern "C" {
         pub static mut rl_startup_hook: rl_hook_func_t;
 
-		pub fn readline(prompt: *const c_char) -> *const c_char;
+        pub fn readline(prompt: *const c_char) -> *const c_char;
         pub fn rl_insert_text(text: *const c_char) -> c_int;
-	}
+    }
 }
 
 pub fn readline(prompt: &str) -> Result<String, Error> {
