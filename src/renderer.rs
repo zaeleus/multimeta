@@ -64,13 +64,19 @@ fn default_name(values: &[Value]) -> Option<String> {
 }
 
 mod helpers {
-    use handlebars::{Handlebars, Helper, RenderContext, RenderError};
+    use handlebars::{Context, Handlebars, Helper, HelperResult, Output, RenderContext, RenderError};
 
     use super::default_name as _default_name;
     use util::inflector::parameterize as _parameterize;
     use util::format_duration as _format_duration;
 
-    pub fn default_name(h: &Helper, _: &Handlebars, rc: &mut RenderContext) -> Result<(), RenderError> {
+    pub fn default_name(
+        h: &Helper,
+        _: &Handlebars,
+        _: &Context,
+        _: &mut RenderContext,
+        out: &mut Output,
+    ) -> HelperResult {
         let values = h.param(0)
             .and_then(|v| v.value().as_array())
             .ok_or(RenderError::new("default-name: first argument must be an array"))?;
@@ -78,12 +84,18 @@ mod helpers {
         let name = _default_name(&values)
             .ok_or(RenderError::new("default-name: no default name found"))?;
 
-        rc.writer.write(name.as_bytes())?;
+        out.write(&name)?;
 
         Ok(())
     }
 
-    pub fn format_duration(h: &Helper, _: &Handlebars, rc: &mut RenderContext) -> Result<(), RenderError> {
+    pub fn format_duration(
+        h: &Helper,
+        _: &Handlebars,
+        _: &Context,
+        _: &mut RenderContext,
+        out: &mut Output,
+    ) -> HelperResult {
         let t = h.param(0)
             .and_then(|v| v.value().as_i64())
             .map(|v| v as i32)
@@ -91,19 +103,25 @@ mod helpers {
 
         let duration = _format_duration(t);
 
-        rc.writer.write(duration.to_string().as_bytes())?;
+        out.write(&duration)?;
 
         Ok(())
     }
 
-    pub fn parameterize(h: &Helper, _: &Handlebars, rc: &mut RenderContext) -> Result<(), RenderError> {
+    pub fn parameterize(
+        h: &Helper,
+        _: &Handlebars,
+        _: &Context,
+        _: &mut RenderContext,
+        out: &mut Output,
+    ) -> HelperResult {
         let text = h.param(0)
             .and_then(|v| v.value().as_str())
             .ok_or(RenderError::new("parameterize: first argument must be a string"))?;
 
         let transformed = _parameterize(text);
 
-        rc.writer.write(transformed.as_bytes())?;
+        out.write(&transformed)?;
 
         Ok(())
     }
