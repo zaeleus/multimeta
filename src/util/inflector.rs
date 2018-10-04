@@ -6,10 +6,10 @@ use unidecode::unidecode;
 lazy_static! {
     static ref MINOR_WORDS: HashSet<&'static str> = {
         vec![
-			"a", "an", "as", "at", "but", "by", "for", "from",
-			"in", "into", "of", "on", "sans", "than", "the", "to",
-			"via", "with",
-		].into_iter().collect()
+            "a", "an", "as", "at", "but", "by", "for", "from",
+            "in", "into", "of", "on", "sans", "than", "the", "to",
+            "via", "with",
+        ].into_iter().collect()
     };
 
     static ref ACRONYMS: HashSet<&'static str> = {
