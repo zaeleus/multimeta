@@ -4,8 +4,7 @@ use std::io::{self, BufReader, BufWriter};
 use std::path::Path;
 
 use pbr::{ProgressBar, Units};
-use reqwest::Client;
-use reqwest::header::ContentLength;
+use reqwest::{Client, header};
 
 const DEFAULT_BUF_SIZE: usize = 8192; // bytes
 
@@ -60,8 +59,9 @@ impl Downloader {
         let res = self.client.head(url).send().or(Err(Error::RequestFailed))?;
 
         if res.status().is_success() {
-            res.headers().get::<ContentLength>()
-                .map(|len| **len)
+            res.headers().get(header::CONTENT_LENGTH)
+                .and_then(|v| v.to_str().ok())
+                .and_then(|s| s.parse().ok())
                 .ok_or(Error::EmptyBody)
         } else {
             Err(Error::RequestFailed)
