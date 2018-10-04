@@ -64,7 +64,7 @@ fn filesize<P>(path: P) -> io::Result<u64> where P: AsRef<Path> {
 
 fn tmp_pathname() -> PathBuf {
     let id = Uuid::new_v4();
-    let filename = format!("{}.jpg", id.hyphenated());
+    let filename = format!("{}.jpg", id.to_hyphenated_ref());
 
     let mut pathname = env::temp_dir();
     pathname.push(&filename);
