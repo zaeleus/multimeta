@@ -4,7 +4,7 @@ use std::io::{self, BufReader, BufWriter};
 use std::path::Path;
 
 use pbr::{ProgressBar, Units};
-use reqwest::{Client, header};
+use reqwest::{Client, Response, header};
 
 const DEFAULT_BUF_SIZE: usize = 8192; // bytes
 
@@ -33,16 +33,16 @@ impl Downloader {
         let file = File::create(dst).map_err(|e| Error::Io(e))?;
         let mut writer = BufWriter::new(file);
 
-        let len = self.content_length(url)?;
-
-        let mut pb = ProgressBar::new(len);
-        pb.set_units(Units::Bytes);
-
         let res = self.client.get(url).send().or(Err(Error::RequestFailed))?;
 
         if !res.status().is_success() {
             return Err(Error::RequestFailed);
         }
+
+        let len = content_length(&res)?;
+
+        let mut pb = ProgressBar::new(len);
+        pb.set_units(Units::Bytes);
 
         let mut reader = BufReader::new(res);
 
@@ -54,19 +54,14 @@ impl Downloader {
 
         len
     }
+}
 
-    fn content_length(&self, url: &str) -> Result<u64, Error> {
-        let res = self.client.head(url).send().or(Err(Error::RequestFailed))?;
-
-        if res.status().is_success() {
-            res.headers().get(header::CONTENT_LENGTH)
-                .and_then(|v| v.to_str().ok())
-                .and_then(|s| s.parse().ok())
-                .ok_or(Error::EmptyBody)
-        } else {
-            Err(Error::RequestFailed)
-        }
-    }
+fn content_length(response: &Response) -> Result<u64, Error> {
+    response.headers()
+        .get(header::CONTENT_LENGTH)
+        .and_then(|v| v.to_str().ok())
+        .and_then(|s| s.parse().ok())
+        .ok_or(Error::EmptyBody)
 }
 
 fn copy<R, W, F>(reader: &mut R, writer: &mut W, mut cb: F) -> Result<u64, Error>
