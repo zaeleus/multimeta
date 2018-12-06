@@ -147,7 +147,7 @@ where
     }
 
     match versions.iter().min_by_key(|v| v.filesize) {
-        Some(v) => fs::rename(&v.pathname, dst),
+        Some(v) => fs::rename(&v.src, dst),
         None => Err(io::Error::new(io::ErrorKind::Other, "invalid versions")),
     }
 }

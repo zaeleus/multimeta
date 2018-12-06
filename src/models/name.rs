@@ -9,12 +9,16 @@ pub struct Name {
 }
 
 impl Name {
-    pub fn new(name: &str, locale: &str, is_original: bool, is_default: bool) -> Name {
+    pub fn new<S, T>(name: S, locale: T, is_original: bool, is_default: bool) -> Name
+    where
+        S: Into<String>,
+        T: Into<String>,
+    {
         Name {
-            name: name.to_owned(),
-            locale: locale.to_owned(),
-            is_original: is_original,
-            is_default: is_default,
+            name: name.into(),
+            locale: locale.into(),
+            is_original,
+            is_default,
         }
     }
 }

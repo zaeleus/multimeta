@@ -20,11 +20,11 @@ pub trait Extractor {
     fn extract(&self) -> Result<Album, ExtractionError>;
 }
 
-pub fn factory(url: &Url) -> Result<Box<dyn Extractor>, ExtractionError> {
+pub fn factory(url: &Url) -> Result<Box<Extractor>, ExtractionError> {
     if MelonExtractor::matches(&url) {
-        Ok(Box::new(MelonExtractor::new(&url)?))
+        Ok(Box::new(MelonExtractor::from_url(&url)?))
     } else if MoraExtractor::matches(&url) {
-        Ok(Box::new(MoraExtractor::new(&url)?))
+        Ok(Box::new(MoraExtractor::from_url(&url)?))
     } else {
         Err(ExtractionError::Factory("failed to match url to a suitable extractor"))
     }

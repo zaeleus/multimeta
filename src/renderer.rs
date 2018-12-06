@@ -26,7 +26,7 @@ pub struct Renderer;
 
 impl Renderer {
     pub fn new() -> Renderer {
-        Renderer
+        Renderer::default()
     }
 
     pub fn render_album(&self, artist_id: &str, album: &Album) -> String {
@@ -47,6 +47,12 @@ impl Renderer {
         result.pop();
 
         result
+    }
+}
+
+impl Default for Renderer {
+    fn default() -> Renderer {
+        Renderer
     }
 }
 
@@ -79,10 +85,14 @@ mod helpers {
     ) -> HelperResult {
         let values = h.param(0)
             .and_then(|v| v.value().as_array())
-            .ok_or(RenderError::new("default-name: first argument must be an array"))?;
+            .ok_or_else(|| {
+                RenderError::new("default-name: first argument must be an array")
+            })?;
 
         let name = _default_name(&values)
-            .ok_or(RenderError::new("default-name: no default name found"))?;
+            .ok_or_else(|| {
+                RenderError::new("default-name: no default name found")
+            })?;
 
         out.write(&name)?;
 
@@ -99,7 +109,9 @@ mod helpers {
         let t = h.param(0)
             .and_then(|v| v.value().as_i64())
             .map(|v| v as i32)
-            .ok_or(RenderError::new("format-duration: first argument must be a number"))?;
+            .ok_or_else(|| {
+                RenderError::new("format-duration: first argument must be a number")
+            })?;
 
         let duration = _format_duration(t);
 
@@ -117,7 +129,9 @@ mod helpers {
     ) -> HelperResult {
         let text = h.param(0)
             .and_then(|v| v.value().as_str())
-            .ok_or(RenderError::new("parameterize: first argument must be a string"))?;
+            .ok_or_else(|| {
+                RenderError::new("parameterize: first argument must be a string")
+            })?;
 
         let transformed = _parameterize(text);
 

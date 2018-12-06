@@ -24,10 +24,12 @@ impl MelonExtractor {
         url.host_str().map(|h| h == HOST).unwrap_or(false)
     }
 
-    pub fn new(url: &Url) -> Result<MelonExtractor, ExtractionError> {
-        Ok(MelonExtractor {
-            album_id: parse_album_id(url)?,
-        })
+    pub fn from_url(url: &Url) -> Result<MelonExtractor, ExtractionError> {
+        parse_album_id(url).map(MelonExtractor::new)
+    }
+
+    pub fn new<I>(album_id: I) -> MelonExtractor where I: Into<String> {
+        MelonExtractor { album_id: album_id.into() }
     }
 
     fn fetch_html(&self) -> Result<String, reqwest::Error> {
@@ -66,7 +68,7 @@ fn parse(album_id: &str, html: &str, json: &str) -> Result<Album, ExtractionErro
 }
 
 fn parse_html(html: &str, builder: AlbumBuilder) -> Result<AlbumBuilder, ExtractionError> {
-    let document = Document::from(html.as_ref());
+    let document = Document::from(html);
 
     let mut node = document.find(Class("gubun"));
 
@@ -92,7 +94,7 @@ fn parse_json(json: &str, builder: AlbumBuilder) -> Result<AlbumBuilder, Extract
 
     let builder = if let Some(song) = songs.first() {
         let raw_name = normalize_name(&song.album_name_web_list);
-        let name = Name::new(&raw_name, LOCALE, true, true);
+        let name = Name::new(raw_name, LOCALE, true, true);
 
         builder
             .set_released_on(&parse_release_date(&song.issue_date)?)
@@ -110,7 +112,7 @@ fn parse_json(json: &str, builder: AlbumBuilder) -> Result<AlbumBuilder, Extract
 fn parse_songs(songs: &[RawSong], mut builder: AlbumBuilder) -> Result<AlbumBuilder, ExtractionError> {
     for song in songs {
         let raw_name = normalize_name(&song.song_name);
-        let name = Name::new(&raw_name, LOCALE, true, true);
+        let name = Name::new(raw_name, LOCALE, true, true);
 
         let position = parse_position(&song.track_no)?;
         let duration = song.play_time;

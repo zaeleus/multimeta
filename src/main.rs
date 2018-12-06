@@ -17,6 +17,8 @@ use multimeta::{editor, extractors};
 use multimeta::renderer::Renderer;
 use multimeta::writer::Writer;
 
+// This is required to be `Fn(String) -> _` to be used as a clap validator.
+#[allow(clippy::needless_pass_by_value)]
 fn validate_output(s: String) -> Result<(), String> {
     let path = Path::new(&s);
 

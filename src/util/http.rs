@@ -21,7 +21,7 @@ pub struct Downloader {
 
 impl Downloader {
     pub fn new() -> Downloader {
-        Downloader { client: Client::new() }
+        Downloader::default()
     }
 
     pub fn save<P>(&self, url: &str, dst: P) -> Result<u64, Error>
@@ -30,7 +30,7 @@ impl Downloader {
     {
         info!("downloading {}", url);
 
-        let file = File::create(dst).map_err(|e| Error::Io(e))?;
+        let file = File::create(dst).map_err(Error::Io)?;
         let mut writer = BufWriter::new(file);
 
         let res = self.client.get(url).send().or(Err(Error::RequestFailed))?;
@@ -53,6 +53,12 @@ impl Downloader {
         pb.finish();
 
         len
+    }
+}
+
+impl Default for Downloader {
+    fn default() -> Downloader {
+        Downloader { client: Client::new() }
     }
 }
 
@@ -80,7 +86,7 @@ where
             Err(e) => return Err(Error::Io(e)),
         };
 
-        writer.write_all(&buf[..len]).map_err(|e| Error::Io(e))?;
+        writer.write_all(&buf[..len]).map_err(Error::Io)?;
         written += len as u64;
         cb(len as u64);
     }

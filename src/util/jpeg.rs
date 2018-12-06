@@ -1,5 +1,4 @@
 use std::env;
-use std::fs;
 use std::io;
 use std::path::{Path, PathBuf};
 use std::process::{Command, Output};
@@ -8,17 +7,25 @@ use uuid::Uuid;
 
 pub struct Version {
     pub name: String,
-    pub pathname: PathBuf,
+    pub src: PathBuf,
     pub filesize: u64,
 }
 
 impl Version {
-    pub fn new<P>(name: &str, pathname: P) -> io::Result<Version> where P: AsRef<Path> {
-        Ok(Version {
-            name: name.to_owned(),
-            pathname: pathname.as_ref().to_path_buf(),
-            filesize: filesize(pathname)?,
-        })
+    pub fn open<P>(name: &str, src: P) -> io::Result<Version> where P: AsRef<Path> {
+        filesize(&src).map(|filesize| Version::new(name, src, filesize))
+    }
+
+    pub fn new<N, P>(name: N, src: P, filesize: u64) -> Version
+    where
+        N: Into<String>,
+        P: AsRef<Path>,
+    {
+        Version {
+            name: name.into(),
+            src: src.as_ref().to_path_buf(),
+            filesize,
+        }
     }
 }
 
@@ -31,7 +38,7 @@ pub fn optimize<P>(src: P) -> io::Result<Vec<Version>> where P: AsRef<Path> {
 }
 
 fn noop<P>(src: P) -> io::Result<Version> where P: AsRef<Path> {
-    Version::new("original", &src)
+    Version::open("original", &src)
 }
 
 fn reencode<P>(src: P) -> io::Result<Version> where P: AsRef<Path> {
@@ -39,7 +46,7 @@ fn reencode<P>(src: P) -> io::Result<Version> where P: AsRef<Path> {
     let result = cjpeg(&src, &dst)?;
 
     if result.status.success() {
-        Version::new("reencoded", &dst)
+        Version::open("reencoded", &dst)
     } else {
         let message = String::from_utf8_lossy(&result.stderr);
         Err(io::Error::new(io::ErrorKind::Other, message))
@@ -51,7 +58,7 @@ fn recompress<P>(src: P) -> io::Result<Version> where P: AsRef<Path> {
     let result = jpegtran(&src, &dst)?;
 
     if result.status.success() {
-        Version::new("recompressed", &dst)
+        Version::open("recompressed", &dst)
     } else {
         let message = String::from_utf8_lossy(&result.stderr);
         Err(io::Error::new(io::ErrorKind::Other, message))
@@ -59,7 +66,7 @@ fn recompress<P>(src: P) -> io::Result<Version> where P: AsRef<Path> {
 }
 
 fn filesize<P>(path: P) -> io::Result<u64> where P: AsRef<Path> {
-    fs::metadata(path).map(|m| m.len())
+    path.as_ref().metadata().map(|m| m.len())
 }
 
 fn tmp_pathname() -> PathBuf {
@@ -73,7 +80,7 @@ fn tmp_pathname() -> PathBuf {
 }
 
 fn search_path() -> String {
-    env::var("MOZJPEG_HOME").unwrap_or(String::from("/usr/local/opt/mozjpeg"))
+    env::var("MOZJPEG_HOME").unwrap_or_else(|_| String::from("/usr/local/opt/mozjpeg"))
 }
 
 fn cjpeg_bin() -> PathBuf {
@@ -112,16 +119,16 @@ where
 mod tests {
     use super::*;
 
-    static FIXTURE_PATHNAME: &'static str = "test/fixtures/96x96-q100.jpg";
+    static FIXTURE_SRC: &'static str = "test/fixtures/96x96-q100.jpg";
 
     #[test]
     fn test_filesize() {
-        assert_eq!(filesize(FIXTURE_PATHNAME).unwrap(), 828);
+        assert_eq!(filesize(FIXTURE_SRC).unwrap(), 828);
     }
 
     #[test]
     fn test_optimize() {
-        let versions = optimize(FIXTURE_PATHNAME).unwrap();
+        let versions = optimize(FIXTURE_SRC).unwrap();
         assert_eq!(versions.len(), 3);
     }
 }

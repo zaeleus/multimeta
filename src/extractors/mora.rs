@@ -26,10 +26,12 @@ impl MoraExtractor {
         url.host_str().map(|h| h == HOST).unwrap_or(false)
     }
 
-    pub fn new(url: &Url) -> Result<MoraExtractor, ExtractionError> {
-        Ok(MoraExtractor {
-            album_id: parse_album_id(url)?,
-        })
+    pub fn from_url(url: &Url) -> Result<MoraExtractor, ExtractionError> {
+        parse_album_id(url).map(MoraExtractor::new)
+    }
+
+    pub fn new<I>(album_id: I) -> MoraExtractor where I: Into<String> {
+        MoraExtractor { album_id: album_id.into() }
     }
 
     fn fetch_html(&self) -> Result<String, reqwest::Error> {
@@ -87,7 +89,7 @@ fn parse_json(json: &str, builder: AlbumBuilder) -> Result<AlbumBuilder, Extract
     let songs = &root.track_list;
 
     let kind = guess_album_kind(songs.len());
-    let name = Name::new(&root.title, LOCALE, true, true);
+    let name = Name::new(root.title.as_str(), LOCALE, true, true);
 
     let builder = builder
         .set_kind(kind)
@@ -101,7 +103,7 @@ fn parse_json(json: &str, builder: AlbumBuilder) -> Result<AlbumBuilder, Extract
 
 fn parse_songs(songs: &[RawSong], mut builder: AlbumBuilder) -> Result<AlbumBuilder, ExtractionError> {
     for song in songs {
-        let name = Name::new(&song.title, LOCALE, true, true);
+        let name = Name::new(song.title.as_str(), LOCALE, true, true);
 
         let mut song = Song::new(song.track_no, song.duration);
         song.add_name(name);

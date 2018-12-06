@@ -11,7 +11,7 @@ pub struct Song {
 
 impl Song {
     pub fn new(position: i32, duration: i32) -> Song {
-        Song { position: position, duration: duration, names: Vec::new() }
+        Song { position, duration, names: Vec::new() }
     }
 
     pub fn default_name(&self) -> Option<String> {
