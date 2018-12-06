@@ -14,8 +14,8 @@ extern crate unidecode;
 extern crate url;
 extern crate uuid;
 
-pub use models::{AlbumKind, Name};
-pub use extractors::{Extractor, MelonExtractor, MoraExtractor};
+pub use crate::models::{AlbumKind, Name};
+pub use crate::extractors::{Extractor, MelonExtractor, MoraExtractor};
 
 pub mod editor;
 pub mod extractors;

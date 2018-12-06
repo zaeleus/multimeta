@@ -5,8 +5,8 @@ use select::predicate::{self, And, Attr};
 use serde_json;
 use url::Url;
 
-use extractors::{ExtractionError, Extractor};
-use models::{Album, AlbumBuilder, AlbumKind, Name, Song};
+use crate::extractors::{ExtractionError, Extractor};
+use crate::models::{Album, AlbumBuilder, AlbumKind, Name, Song};
 
 static HOST: &'static str = "mora.jp";
 

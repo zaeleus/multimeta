@@ -1,7 +1,7 @@
 use handlebars::{no_escape, Handlebars};
 use serde_json::Value;
 
-use models::{Album, Song};
+use crate::models::{Album, Song};
 
 lazy_static! {
     static ref HBS: Handlebars = {
@@ -67,8 +67,8 @@ mod helpers {
     use handlebars::{Context, Handlebars, Helper, HelperResult, Output, RenderContext, RenderError};
 
     use super::default_name as _default_name;
-    use util::inflector::parameterize as _parameterize;
-    use util::format_duration as _format_duration;
+    use crate::util::inflector::parameterize as _parameterize;
+    use crate::util::format_duration as _format_duration;
 
     pub fn default_name(
         h: &Helper,
@@ -131,7 +131,7 @@ mod helpers {
 mod tests {
     use std::fs;
 
-    use models::{Album, AlbumBuilder, AlbumKind, Name, Song};
+    use crate::models::{Album, AlbumBuilder, AlbumKind, Name, Song};
     use super::*;
 
     fn build_album() -> Album {

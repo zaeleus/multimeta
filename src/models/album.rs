@@ -1,7 +1,7 @@
 use std::fmt;
 
-use editor::AlbumInput;
-use models::{Name, Song};
+use crate::editor::AlbumInput;
+use crate::models::{Name, Song};
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize)]
 #[serde(rename_all = "lowercase")]
@@ -125,7 +125,7 @@ impl AlbumBuilder {
 
 #[cfg(test)]
 mod tests {
-    use models::Name;
+    use crate::models::Name;
     use super::{AlbumBuilder, AlbumKind};
 
     #[test]

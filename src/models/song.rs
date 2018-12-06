@@ -1,5 +1,5 @@
-use editor::SongInput;
-use models::Name;
+use crate::editor::SongInput;
+use crate::models::Name;
 
 #[derive(Debug, Serialize)]
 pub struct Song {
@@ -39,7 +39,7 @@ impl From<SongInput> for Song {
 
 #[cfg(test)]
 mod tests {
-    use models::Name;
+    use crate::models::Name;
     use super::Song;
 
     #[test]

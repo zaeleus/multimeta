@@ -5,11 +5,11 @@ use std::path::{Path, PathBuf};
 
 use log::Level;
 
-use models::Album;
-use renderer::Renderer;
-use util::http::{self, Downloader};
-use util::inflector::parameterize;
-use util::jpeg;
+use crate::models::Album;
+use crate::renderer::Renderer;
+use crate::util::http::{self, Downloader};
+use crate::util::inflector::parameterize;
+use crate::util::jpeg;
 
 pub struct Writer {
     output_dir: String,

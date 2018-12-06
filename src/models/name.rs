@@ -1,4 +1,4 @@
-use editor::NameInput;
+use crate::editor::NameInput;
 
 #[derive(Debug, Eq, PartialEq, Serialize)]
 pub struct Name {

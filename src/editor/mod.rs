@@ -4,9 +4,9 @@ mod readline;
 
 use hangeul;
 
-use models::{Album, AlbumKind, Name, Song};
-use util::format_duration;
-use util::inflector::titleize;
+use crate::models::{Album, AlbumKind, Name, Song};
+use crate::util::format_duration;
+use crate::util::inflector::titleize;
 
 pub struct AlbumInput {
     pub kind: AlbumKind,

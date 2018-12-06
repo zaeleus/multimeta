@@ -6,7 +6,7 @@ pub use self::mora::MoraExtractor;
 pub mod melon;
 pub mod mora;
 
-pub use models::Album;
+pub use crate::models::Album;
 
 #[derive(Debug, Eq, PartialEq)]
 pub enum ExtractionError {
@@ -20,7 +20,7 @@ pub trait Extractor {
     fn extract(&self) -> Result<Album, ExtractionError>;
 }
 
-pub fn factory(url: &Url) -> Result<Box<Extractor>, ExtractionError> {
+pub fn factory(url: &Url) -> Result<Box<dyn Extractor>, ExtractionError> {
     if MelonExtractor::matches(&url) {
         Ok(Box::new(MelonExtractor::new(&url)?))
     } else if MoraExtractor::matches(&url) {

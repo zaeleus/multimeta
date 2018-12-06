@@ -5,8 +5,8 @@ use select::predicate::Class;
 use serde_json;
 use url::Url;
 
-use extractors::{ExtractionError, Extractor};
-use models::{Album, AlbumBuilder, AlbumKind, Name, Song};
+use crate::extractors::{ExtractionError, Extractor};
+use crate::models::{Album, AlbumBuilder, AlbumKind, Name, Song};
 
 static HOST: &'static str = "www.melon.com";
 static HTML_ENDPOINT: &'static str = "http://www.melon.com/album/detail.htm";
@@ -190,7 +190,7 @@ mod tests {
 
     use url::Url;
 
-    use models::{AlbumKind, Name};
+    use crate::models::{AlbumKind, Name};
     use super::*;
 
     #[test]
