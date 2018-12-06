@@ -6,7 +6,7 @@ authors = ["Michael Macias <zaeleus@gmail.com>"]
 [dependencies]
 chrono = "0.4.0"
 clap = "2.30.0"
-env_logger = "0.5.5"
+env_logger = "0.6.0"
 glob = "0.2.11"
 handlebars = "1.0.5"
 hangeul = { git = "https://github.com/zaeleus/hangeul.git" }
