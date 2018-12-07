@@ -1,4 +1,5 @@
 use chrono::NaiveDate;
+use log::warn;
 use reqwest;
 use select::document::Document;
 use select::predicate::Class;

@@ -1,6 +1,7 @@
 use std::ffi::{CStr, CString};
 use std::sync::Mutex;
 
+use lazy_static::lazy_static;
 use libc::{self, c_int, c_void};
 
 lazy_static! {

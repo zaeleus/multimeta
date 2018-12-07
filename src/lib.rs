@@ -1,18 +1,4 @@
-extern crate chrono;
-extern crate hangeul;
-extern crate handlebars;
-#[macro_use] extern crate lazy_static;
-extern crate libc;
-#[macro_use] extern crate log;
-extern crate pbr;
-extern crate regex;
-extern crate reqwest;
-extern crate select;
-#[macro_use] extern crate serde_json;
 #[macro_use] extern crate serde_derive;
-extern crate unidecode;
-extern crate url;
-extern crate uuid;
 
 pub use crate::models::{AlbumKind, Name};
 pub use crate::extractors::{Extractor, MelonExtractor, MoraExtractor};

@@ -3,6 +3,7 @@ use std::io::prelude::*;
 use std::io::{self, BufReader, BufWriter};
 use std::path::Path;
 
+use log::info;
 use pbr::{ProgressBar, Units};
 use reqwest::{Client, Response, header};
 

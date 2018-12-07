@@ -3,7 +3,7 @@ use std::io::prelude::*;
 use std::fs::{self, File};
 use std::path::{Path, PathBuf};
 
-use log::Level;
+use log::{info, Level, log_enabled};
 
 use crate::models::Album;
 use crate::renderer::Renderer;

@@ -1,16 +1,9 @@
-#[macro_use] extern crate clap;
-extern crate env_logger;
-extern crate glob;
-#[macro_use] extern crate log;
-extern crate multimeta;
-extern crate url;
-
 use std::collections::HashSet;
 use std::path::Path;
 
-use clap::{App, Arg};
+use clap::{App, Arg, crate_name, crate_version, value_t};
 use glob::glob;
-use log::{Level, LevelFilter};
+use log::{Level, LevelFilter, log_enabled, warn};
 use url::Url;
 
 use multimeta::{editor, extractors};
