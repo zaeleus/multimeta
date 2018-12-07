@@ -5,7 +5,7 @@ use lazy_static::lazy_static;
 use libc::{self, c_int, c_void};
 
 lazy_static! {
-    static ref STARTUP_HOOK_CALLBACK: Mutex<Option<Box<Fn() -> i32 + Send>>> = Default::default();
+    static ref STARTUP_HOOK_CALLBACK: Mutex<Option<Box<dyn Fn() -> i32 + Send>>> = Default::default();
 }
 
 #[derive(Debug, Eq, PartialEq)]
