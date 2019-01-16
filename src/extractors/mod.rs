@@ -10,6 +10,8 @@ pub mod up_front_works;
 
 pub use crate::models::Album;
 
+pub type Result<T> = std::result::Result<T, ExtractionError>;
+
 #[derive(Debug)]
 pub enum ExtractionError {
     Factory(&'static str),
@@ -19,10 +21,10 @@ pub enum ExtractionError {
 }
 
 pub trait Extractor {
-    fn extract(&self) -> Result<Album, ExtractionError>;
+    fn extract(&self) -> self::Result<Album>;
 }
 
-pub fn factory(url: &Url) -> Result<Box<dyn Extractor>, ExtractionError> {
+pub fn factory(url: &Url) -> self::Result<Box<dyn Extractor>> {
     if MelonExtractor::matches(&url) {
         Ok(Box::new(MelonExtractor::from_url(&url)?))
     } else if MoraExtractor::matches(&url) {

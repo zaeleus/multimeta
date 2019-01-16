@@ -5,7 +5,7 @@ use select::predicate::{self, And, Attr};
 use serde_json;
 use url::Url;
 
-use crate::extractors::{ExtractionError, Extractor};
+use crate::extractors::{self, ExtractionError, Extractor};
 use crate::models::{Album, AlbumBuilder, AlbumKind, Name, Song};
 
 static HOST: &'static str = "mora.jp";
@@ -26,7 +26,7 @@ impl MoraExtractor {
         url.host_str().map(|h| h == HOST).unwrap_or(false)
     }
 
-    pub fn from_url(url: &Url) -> Result<MoraExtractor, ExtractionError> {
+    pub fn from_url(url: &Url) -> extractors::Result<MoraExtractor> {
         parse_album_id(url).map(MoraExtractor::new)
     }
 
@@ -41,7 +41,7 @@ impl MoraExtractor {
 }
 
 impl Extractor for MoraExtractor {
-    fn extract(&self) -> Result<Album, ExtractionError> {
+    fn extract(&self) -> extractors::Result<Album> {
         let html = self.fetch_html().map_err(ExtractionError::Fetch)?;
 
         let arguments = parse_html(&html)?;
@@ -61,7 +61,7 @@ fn fetch(url: &str) -> Result<String, reqwest::Error> {
     reqwest::get(url).and_then(|mut r| r.text())
 }
 
-fn parse(album_id: &str, json: &str) -> Result<Album, ExtractionError> {
+fn parse(album_id: &str, json: &str) -> extractors::Result<Album> {
     let builder = AlbumBuilder::new()
         .set_country(COUNTRY)
         .set_url(&format!("{}/{}/", HTML_BASE_URL, album_id));
@@ -71,7 +71,7 @@ fn parse(album_id: &str, json: &str) -> Result<Album, ExtractionError> {
     Ok(builder.build())
 }
 
-fn parse_html(html: &str) -> Result<Arguments, ExtractionError> {
+fn parse_html(html: &str) -> extractors::Result<Arguments> {
     Document::from(html)
         .find(And(predicate::Name("meta"), Attr("name", "msApplication-Arguments")))
         .next()
@@ -81,7 +81,7 @@ fn parse_html(html: &str) -> Result<Arguments, ExtractionError> {
         .ok_or(ExtractionError::Parse("arguments"))
 }
 
-fn parse_json(json: &str, builder: AlbumBuilder) -> Result<AlbumBuilder, ExtractionError> {
+fn parse_json(json: &str, builder: AlbumBuilder) -> extractors::Result<AlbumBuilder> {
     let root: Root = serde_json::from_str(json).map_err(|_| {
         ExtractionError::Parse("malformed JSON")
     })?;
@@ -101,7 +101,7 @@ fn parse_json(json: &str, builder: AlbumBuilder) -> Result<AlbumBuilder, Extract
     Ok(builder)
 }
 
-fn parse_songs(songs: &[RawSong], mut builder: AlbumBuilder) -> Result<AlbumBuilder, ExtractionError> {
+fn parse_songs(songs: &[RawSong], mut builder: AlbumBuilder) -> extractors::Result<AlbumBuilder> {
     for song in songs {
         let name = Name::new(song.title.as_str(), LOCALE, true, true);
 
@@ -114,7 +114,7 @@ fn parse_songs(songs: &[RawSong], mut builder: AlbumBuilder) -> Result<AlbumBuil
     Ok(builder)
 }
 
-fn parse_album_id(url: &Url) -> Result<String, ExtractionError> {
+fn parse_album_id(url: &Url) -> extractors::Result<String> {
     let pieces: Vec<&str> = url.path()
         .split('/')
         .filter(|p| !p.is_empty())
@@ -127,7 +127,7 @@ fn parse_album_id(url: &Url) -> Result<String, ExtractionError> {
     Ok(pieces[pieces.len() - 2..].join("/"))
 }
 
-fn parse_release_date(s: &str) -> Result<String, ExtractionError> {
+fn parse_release_date(s: &str) -> extractors::Result<String> {
     NaiveDate::parse_from_str(s, "%Y/%m/%d %H:%M:%S")
         .map(|d| d.format("%F").to_string())
         .map_err(|_| ExtractionError::Parse("release date"))

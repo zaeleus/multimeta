@@ -6,7 +6,7 @@ use select::predicate::Class;
 use serde_json;
 use url::Url;
 
-use crate::extractors::{ExtractionError, Extractor};
+use crate::extractors::{self, ExtractionError, Extractor};
 use crate::models::{Album, AlbumBuilder, AlbumKind, Name, Song};
 
 static HOST: &'static str = "www.melon.com";
@@ -25,7 +25,7 @@ impl MelonExtractor {
         url.host_str().map(|h| h == HOST).unwrap_or(false)
     }
 
-    pub fn from_url(url: &Url) -> Result<MelonExtractor, ExtractionError> {
+    pub fn from_url(url: &Url) -> extractors::Result<MelonExtractor> {
         parse_album_id(url).map(MelonExtractor::new)
     }
 
@@ -48,14 +48,14 @@ impl MelonExtractor {
 }
 
 impl Extractor for MelonExtractor {
-    fn extract(&self) -> Result<Album, ExtractionError> {
+    fn extract(&self) -> extractors::Result<Album> {
         let html = self.fetch_html().map_err(ExtractionError::Fetch)?;
         let json = self.fetch_json().map_err(ExtractionError::Fetch)?;
         parse(&self.album_id, &html, &json)
     }
 }
 
-fn parse(album_id: &str, html: &str, json: &str) -> Result<Album, ExtractionError> {
+fn parse(album_id: &str, html: &str, json: &str) -> extractors::Result<Album> {
     let builder = AlbumBuilder::new();
 
     let builder = builder
@@ -68,7 +68,7 @@ fn parse(album_id: &str, html: &str, json: &str) -> Result<Album, ExtractionErro
     Ok(builder.build())
 }
 
-fn parse_html(html: &str, builder: AlbumBuilder) -> Result<AlbumBuilder, ExtractionError> {
+fn parse_html(html: &str, builder: AlbumBuilder) -> extractors::Result<AlbumBuilder> {
     let document = Document::from(html);
 
     let mut node = document.find(Class("gubun"));
@@ -86,7 +86,7 @@ fn parse_html(html: &str, builder: AlbumBuilder) -> Result<AlbumBuilder, Extract
     Ok(builder)
 }
 
-fn parse_json(json: &str, builder: AlbumBuilder) -> Result<AlbumBuilder, ExtractionError> {
+fn parse_json(json: &str, builder: AlbumBuilder) -> extractors::Result<AlbumBuilder> {
     let root: Root = serde_json::from_str(json).map_err(|_| {
         ExtractionError::Parse("malformed JSON")
     })?;
@@ -110,7 +110,7 @@ fn parse_json(json: &str, builder: AlbumBuilder) -> Result<AlbumBuilder, Extract
     Ok(builder)
 }
 
-fn parse_songs(songs: &[RawSong], mut builder: AlbumBuilder) -> Result<AlbumBuilder, ExtractionError> {
+fn parse_songs(songs: &[RawSong], mut builder: AlbumBuilder) -> extractors::Result<AlbumBuilder> {
     for song in songs {
         let raw_name = normalize_name(&song.song_name);
         let name = Name::new(raw_name, LOCALE, true, true);
@@ -127,14 +127,14 @@ fn parse_songs(songs: &[RawSong], mut builder: AlbumBuilder) -> Result<AlbumBuil
     Ok(builder)
 }
 
-fn parse_album_id(url: &Url) -> Result<String, ExtractionError> {
+fn parse_album_id(url: &Url) -> extractors::Result<String> {
     url.query_pairs()
         .find(|&(ref k, _)| k == "albumId")
         .and_then(|(_, v)| Some(v.into_owned()))
         .ok_or(ExtractionError::Url("missing query param `albumId`"))
 }
 
-fn parse_album_kind(s: &str) -> Result<AlbumKind, ExtractionError> {
+fn parse_album_kind(s: &str) -> extractors::Result<AlbumKind> {
     match s {
         "싱글" => Ok(AlbumKind::Single),
         "OST" => {
@@ -154,11 +154,11 @@ fn parse_artwork_url(s: &str) -> String {
     format!("https://static.melon.co.kr{}_org.jpg", segment)
 }
 
-fn parse_position(s: &str) -> Result<i32, ExtractionError> {
+fn parse_position(s: &str) -> extractors::Result<i32> {
     s.parse().map_err(|_| ExtractionError::Parse("position"))
 }
 
-fn parse_release_date(s: &str) -> Result<String, ExtractionError> {
+fn parse_release_date(s: &str) -> extractors::Result<String> {
     NaiveDate::parse_from_str(s, "%Y%m%d")
         .map(|d| d.format("%F").to_string())
         .map_err(|_| ExtractionError::Parse("release date"))

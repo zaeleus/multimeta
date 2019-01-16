@@ -6,7 +6,7 @@ use select::{
 use url::Url;
 
 use crate::{
-    extractors::{ExtractionError, Extractor},
+    extractors::{self, ExtractionError, Extractor},
     models::{Album, AlbumBuilder, AlbumKind, Name, Song},
 };
 
@@ -26,7 +26,7 @@ impl UpFrontWorksExtractor {
         url.host_str().map(|h| h == HOST).unwrap_or(false)
     }
 
-    pub fn from_url(url: &Url) -> Result<UpFrontWorksExtractor, ExtractionError> {
+    pub fn from_url(url: &Url) -> extractors::Result<UpFrontWorksExtractor> {
         parse_album_id(url).map(UpFrontWorksExtractor::new)
     }
 
@@ -41,13 +41,13 @@ impl UpFrontWorksExtractor {
 }
 
 impl Extractor for UpFrontWorksExtractor {
-    fn extract(&self) -> Result<Album, ExtractionError> {
+    fn extract(&self) -> extractors::Result<Album> {
         let html = self.fetch().map_err(ExtractionError::Fetch)?;
         parse(&self.album_id, &html)
     }
 }
 
-fn parse(album_id: &str, html: &str) -> Result<Album, ExtractionError> {
+fn parse(album_id: &str, html: &str) -> extractors::Result<Album> {
     let url = format!("{}/{}/", BASE_URL, album_id);
 
     let builder = AlbumBuilder::new()
@@ -59,7 +59,7 @@ fn parse(album_id: &str, html: &str) -> Result<Album, ExtractionError> {
     Ok(builder.build())
 }
 
-fn parse_html(html: &str, builder: AlbumBuilder) -> Result<AlbumBuilder, ExtractionError> {
+fn parse_html(html: &str, builder: AlbumBuilder) -> extractors::Result<AlbumBuilder> {
     let document = Document::from(html);
 
     let name = document.find(Class("product_title"))
@@ -95,7 +95,7 @@ fn parse_html(html: &str, builder: AlbumBuilder) -> Result<AlbumBuilder, Extract
 fn parse_songs(
     document: &Document,
     mut builder: AlbumBuilder,
-) -> Result<AlbumBuilder, ExtractionError> {
+) -> extractors::Result<AlbumBuilder> {
     let table = document
         .find(Class("data2"))
         .next()
@@ -139,11 +139,11 @@ fn parse_songs(
     Ok(builder)
 }
 
-fn parse_position(s: &str) -> Result<i32, ExtractionError> {
+fn parse_position(s: &str) -> extractors::Result<i32> {
     s.parse().map_err(|_| ExtractionError::Parse("position"))
 }
 
-fn parse_duration(s: &str) -> Result<i32, ExtractionError> {
+fn parse_duration(s: &str) -> extractors::Result<i32> {
     let mut pieces = s.split(':');
 
     let minutes: i32 = pieces
@@ -159,7 +159,7 @@ fn parse_duration(s: &str) -> Result<i32, ExtractionError> {
     Ok(minutes * 60 + seconds)
 }
 
-fn parse_album_id(url: &Url) -> Result<String, ExtractionError> {
+fn parse_album_id(url: &Url) -> extractors::Result<String> {
     url
         .path()
         .split('/')
@@ -175,7 +175,7 @@ fn parse_album_id(url: &Url) -> Result<String, ExtractionError> {
         .ok_or_else(|| ExtractionError::Url("missing album ID in path"))
 }
 
-fn parse_kind(s: &str) -> Result<AlbumKind, ExtractionError> {
+fn parse_kind(s: &str) -> extractors::Result<AlbumKind> {
     match s {
         "CDシングル" => Ok(AlbumKind::Single),
         "CDミニアルバム" => Ok(AlbumKind::Ep),
@@ -184,7 +184,7 @@ fn parse_kind(s: &str) -> Result<AlbumKind, ExtractionError> {
     }
 }
 
-fn parse_release_date(s: &str) -> Result<String, ExtractionError> {
+fn parse_release_date(s: &str) -> extractors::Result<String> {
     NaiveDate::parse_from_str(s, "%Y/%m/%d")
 	.map(|d| d.format("%F").to_string())
         .map_err(|_| ExtractionError::Parse("release date"))
