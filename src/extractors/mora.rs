@@ -42,7 +42,7 @@ impl MoraExtractor {
 
 impl Extractor for MoraExtractor {
     fn extract(&self) -> Result<Album, ExtractionError> {
-        let html = self.fetch_html().map_err(|_| ExtractionError::Fetch)?;
+        let html = self.fetch_html().map_err(ExtractionError::Fetch)?;
 
         let arguments = parse_html(&html)?;
         let json_endpoint = build_json_endpoint(
@@ -51,7 +51,7 @@ impl Extractor for MoraExtractor {
             &arguments.material_no,
         );
 
-        let json = fetch(&json_endpoint).map_err(|_| ExtractionError::Fetch)?;
+        let json = fetch(&json_endpoint).map_err(ExtractionError::Fetch)?;
 
         parse(&self.album_id, &json)
     }
@@ -240,7 +240,7 @@ mod tests {
     #[test]
     fn test_parse_album_id() {
         let url = Url::parse("http://mora.jp/package/43000001/4547366347050/").unwrap();
-        assert_eq!(parse_album_id(&url), Ok(String::from("43000001/4547366347050")));
+        assert_eq!(parse_album_id(&url).unwrap(), "43000001/4547366347050");
 
         let url = Url::parse("http://mora.jp/index_j").unwrap();
         assert!(parse_album_id(&url).is_err());
@@ -248,7 +248,7 @@ mod tests {
 
     #[test]
     fn test_parse_release_date() {
-        assert_eq!(parse_release_date("2018/02/12 00:00:00"), Ok(String::from("2018-02-12")));
+        assert_eq!(parse_release_date("2018/02/12 00:00:00").unwrap(), "2018-02-12");
         assert!(parse_release_date("2018").is_err());
     }
 

@@ -10,10 +10,10 @@ pub mod up_front_works;
 
 pub use crate::models::Album;
 
-#[derive(Debug, Eq, PartialEq)]
+#[derive(Debug)]
 pub enum ExtractionError {
     Factory(&'static str),
-    Fetch,
+    Fetch(reqwest::Error),
     Parse(&'static str),
     Url(&'static str),
 }

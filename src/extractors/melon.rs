@@ -49,8 +49,8 @@ impl MelonExtractor {
 
 impl Extractor for MelonExtractor {
     fn extract(&self) -> Result<Album, ExtractionError> {
-        let html = self.fetch_html().map_err(|_| ExtractionError::Fetch)?;
-        let json = self.fetch_json().map_err(|_| ExtractionError::Fetch)?;
+        let html = self.fetch_html().map_err(ExtractionError::Fetch)?;
+        let json = self.fetch_json().map_err(ExtractionError::Fetch)?;
         parse(&self.album_id, &html, &json)
     }
 }
@@ -260,7 +260,7 @@ mod tests {
     #[test]
     fn test_parse_album_id() {
         let url = Url::parse("http://www.melon.com/album/detail.htm?albumId=10141232").unwrap();
-        assert_eq!(parse_album_id(&url), Ok(String::from("10141232")));
+        assert_eq!(parse_album_id(&url).unwrap(), "10141232");
 
         let url = Url::parse("http://www.melon.com/album/detail.html").unwrap();
         assert!(parse_album_id(&url).is_err());
@@ -268,10 +268,10 @@ mod tests {
 
     #[test]
     fn test_parse_album_kind() {
-        assert_eq!(parse_album_kind("싱글"), Ok(AlbumKind::Single));
-        assert_eq!(parse_album_kind("EP"), Ok(AlbumKind::Ep));
-        assert_eq!(parse_album_kind("정규"), Ok(AlbumKind::Lp));
-        assert_eq!(parse_album_kind("OST"), Ok(AlbumKind::Single));
+        assert_eq!(parse_album_kind("싱글").unwrap(), AlbumKind::Single);
+        assert_eq!(parse_album_kind("EP").unwrap(), AlbumKind::Ep);
+        assert_eq!(parse_album_kind("정규").unwrap(), AlbumKind::Lp);
+        assert_eq!(parse_album_kind("OST").unwrap(), AlbumKind::Single);
 
         assert!(parse_album_kind("foo").is_err());
     }
@@ -285,7 +285,7 @@ mod tests {
 
     #[test]
     fn test_parse_release_date() {
-        assert_eq!(parse_release_date("20171228"), Ok(String::from("2017-12-28")));
+        assert_eq!(parse_release_date("20171228").unwrap(), "2017-12-28");
         assert!(parse_release_date("2017").is_err());
     }
 

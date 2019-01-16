@@ -42,7 +42,7 @@ impl UpFrontWorksExtractor {
 
 impl Extractor for UpFrontWorksExtractor {
     fn extract(&self) -> Result<Album, ExtractionError> {
-        let html = self.fetch().or(Err(ExtractionError::Fetch))?;
+        let html = self.fetch().map_err(ExtractionError::Fetch)?;
         parse(&self.album_id, &html)
     }
 }
@@ -244,9 +244,9 @@ mod tests {
 
     #[test]
     fn test_parse_position() {
-        assert_eq!(parse_position("1"), Ok(1));
-        assert_eq!(parse_position("4"), Ok(4));
-        assert_eq!(parse_position("11"), Ok(11));
+        assert_eq!(parse_position("1").unwrap(), 1);
+        assert_eq!(parse_position("4").unwrap(), 4);
+        assert_eq!(parse_position("11").unwrap(), 11);
 
         assert!(parse_position("").is_err());
         assert!(parse_position("abc").is_err());
@@ -254,10 +254,10 @@ mod tests {
 
     #[test]
     fn test_parse_duration() {
-        assert_eq!(parse_duration("00:21"), Ok(21));
-        assert_eq!(parse_duration("01:11"), Ok(71));
-        assert_eq!(parse_duration("04:10"), Ok(250));
-        assert_eq!(parse_duration("05:47"), Ok(347));
+        assert_eq!(parse_duration("00:21").unwrap(), 21);
+        assert_eq!(parse_duration("01:11").unwrap(), 71);
+        assert_eq!(parse_duration("04:10").unwrap(), 250);
+        assert_eq!(parse_duration("05:47").unwrap(), 347);
 
         assert!(parse_duration("").is_err());
         assert!(parse_duration("144").is_err());
@@ -268,7 +268,7 @@ mod tests {
     #[test]
     fn test_parse_album_id() {
         let url = Url::parse("http://www.up-front-works.jp/release/detail/EPCE-7387/").unwrap();
-        assert_eq!(parse_album_id(&url), Ok(String::from("EPCE-7387")));
+        assert_eq!(parse_album_id(&url).unwrap(), "EPCE-7387");
 
         let url = Url::parse("http://www.up-front-works.jp/artist/").unwrap();
         assert!(parse_album_id(&url).is_err());
@@ -276,8 +276,8 @@ mod tests {
 
     #[test]
     fn test_parse_kind() {
-        assert_eq!(parse_kind("CDシングル"), Ok(AlbumKind::Single));
-        assert_eq!(parse_kind("CDアルバム"), Ok(AlbumKind::Lp));
+        assert_eq!(parse_kind("CDシングル").unwrap(), AlbumKind::Single);
+        assert_eq!(parse_kind("CDアルバム").unwrap(), AlbumKind::Lp);
 
         assert!(parse_kind("").is_err());
         assert!(parse_kind("album").is_err());
@@ -285,7 +285,7 @@ mod tests {
 
     #[test]
     fn test_parse_release_date() {
-        assert_eq!(parse_release_date("2018/02/07"), Ok(String::from("2018-02-07")));
+        assert_eq!(parse_release_date("2018/02/07").unwrap(), "2018-02-07");
 
         assert!(parse_release_date("").is_err());
         assert!(parse_release_date("2018").is_err());
