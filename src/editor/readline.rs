@@ -42,7 +42,7 @@ pub fn readline(prompt: &str) -> Result<String, Error> {
     unsafe {
         let line = CStr::from_ptr(line_ptr)
             .to_str()
-            .map(|s| s.to_owned())
+            .map(String::from)
             .or(Err(Error::InvalidUtf8));
 
         libc::free(line_ptr as *mut c_void);
