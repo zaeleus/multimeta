@@ -23,6 +23,7 @@ lazy_static! {
     };
 }
 
+#[derive(Default)]
 pub struct Renderer;
 
 impl Renderer {
@@ -48,12 +49,6 @@ impl Renderer {
         result.pop();
 
         result
-    }
-}
-
-impl Default for Renderer {
-    fn default() -> Renderer {
-        Renderer
     }
 }
 
