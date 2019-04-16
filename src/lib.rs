@@ -1,6 +1,3 @@
-#[macro_use]
-extern crate serde_derive;
-
 pub use crate::extractors::{Extractor, MelonExtractor, MoraExtractor};
 pub use crate::models::{AlbumKind, Name};
 

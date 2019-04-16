@@ -1,3 +1,5 @@
+use serde::Serialize;
+
 use crate::editor::SongInput;
 use crate::models::Name;
 

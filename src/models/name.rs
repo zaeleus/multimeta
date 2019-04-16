@@ -1,3 +1,5 @@
+use serde::Serialize;
+
 use crate::editor::NameInput;
 
 #[derive(Debug, Eq, PartialEq, Serialize)]

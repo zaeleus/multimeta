@@ -2,6 +2,7 @@ use chrono::NaiveDate;
 use reqwest;
 use select::document::Document;
 use select::predicate::{self, And, Attr};
+use serde::Deserialize;
 use serde_json;
 use url::Url;
 

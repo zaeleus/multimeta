@@ -1,5 +1,7 @@
 use std::fmt;
 
+use serde::Serialize;
+
 use crate::editor::AlbumInput;
 use crate::models::{Name, Song};
 
