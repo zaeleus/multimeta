@@ -1,15 +1,20 @@
-use std::fs::{self, File};
-use std::io;
-use std::io::prelude::*;
-use std::path::{Path, PathBuf};
+use std::{
+    fs::{self, File},
+    io::{self, Write},
+    path::{Path, PathBuf},
+};
 
 use log::{info, log_enabled, Level};
 
-use crate::models::Album;
-use crate::renderer::Renderer;
-use crate::util::http::{self, Downloader};
-use crate::util::inflector::parameterize;
-use crate::util::jpeg;
+use crate::{
+    models::Album,
+    renderer::Renderer,
+    util::{
+        http::{self, Downloader},
+        inflector::parameterize,
+        jpeg,
+    },
+};
 
 pub struct Writer {
     output_dir: String,

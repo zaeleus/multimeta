@@ -2,11 +2,10 @@ use self::readline::{editline, readline};
 
 mod readline;
 
-use hangeul;
-
-use crate::models::{Album, AlbumKind, Name, Song};
-use crate::util::format_duration;
-use crate::util::inflector::titleize;
+use crate::{
+    models::{Album, AlbumKind, Name, Song},
+    util::{format_duration, inflector::titleize},
+};
 
 pub struct AlbumInput {
     pub kind: AlbumKind,

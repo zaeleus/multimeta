@@ -1,14 +1,13 @@
 use chrono::NaiveDate;
 use log::warn;
-use reqwest;
-use select::document::Document;
-use select::predicate::Class;
+use select::{document::Document, predicate::Class};
 use serde::Deserialize;
-use serde_json;
 use url::Url;
 
-use crate::extractors::{self, ExtractionError, Extractor};
-use crate::models::{Album, AlbumBuilder, AlbumKind, Name, Song};
+use crate::{
+    extractors::{self, ExtractionError, Extractor},
+    models::{Album, AlbumBuilder, AlbumKind, Name, Song},
+};
 
 static HOST: &'static str = "www.melon.com";
 static HTML_ENDPOINT: &'static str = "http://www.melon.com/album/detail.htm";

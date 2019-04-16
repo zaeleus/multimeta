@@ -1,8 +1,10 @@
-use std::ffi::{CStr, CString};
-use std::sync::Mutex;
+use std::{
+    ffi::{CStr, CString},
+    sync::Mutex,
+};
 
 use lazy_static::lazy_static;
-use libc::{self, c_int, c_void};
+use libc::{c_int, c_void};
 
 lazy_static! {
     static ref STARTUP_HOOK_CALLBACK: Mutex<Option<Box<dyn Fn() -> i32 + Send>>> =

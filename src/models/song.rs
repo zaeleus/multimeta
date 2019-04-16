@@ -1,7 +1,6 @@
 use serde::Serialize;
 
-use crate::editor::SongInput;
-use crate::models::Name;
+use crate::{editor::SongInput, models::Name};
 
 #[derive(Debug, Serialize)]
 pub struct Song {

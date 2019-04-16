@@ -1,7 +1,8 @@
-use std::fs::File;
-use std::io::prelude::*;
-use std::io::{self, BufReader, BufWriter};
-use std::path::Path;
+use std::{
+    fs::File,
+    io::{self, BufReader, BufWriter, Read, Write},
+    path::Path,
+};
 
 use log::info;
 use pbr::{ProgressBar, Units};

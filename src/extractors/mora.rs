@@ -1,13 +1,15 @@
 use chrono::NaiveDate;
-use reqwest;
-use select::document::Document;
-use select::predicate::{self, And, Attr};
+use select::{
+    document::Document,
+    predicate::{self, And, Attr},
+};
 use serde::Deserialize;
-use serde_json;
 use url::Url;
 
-use crate::extractors::{self, ExtractionError, Extractor};
-use crate::models::{Album, AlbumBuilder, AlbumKind, Name, Song};
+use crate::{
+    extractors::{self, ExtractionError, Extractor},
+    models::{Album, AlbumBuilder, AlbumKind, Name, Song},
+};
 
 static HOST: &'static str = "mora.jp";
 

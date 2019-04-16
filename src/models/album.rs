@@ -2,8 +2,10 @@ use std::fmt;
 
 use serde::Serialize;
 
-use crate::editor::AlbumInput;
-use crate::models::{Name, Song};
+use crate::{
+    editor::AlbumInput,
+    models::{Name, Song},
+};
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize)]
 #[serde(rename_all = "lowercase")]

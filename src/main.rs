@@ -1,14 +1,11 @@
-use std::collections::HashSet;
-use std::path::Path;
+use std::{collections::HashSet, path::Path};
 
 use clap::{crate_name, crate_version, value_t, App, Arg};
 use glob::glob;
 use log::{log_enabled, warn, Level, LevelFilter};
 use url::Url;
 
-use multimeta::renderer::Renderer;
-use multimeta::writer::Writer;
-use multimeta::{editor, extractors};
+use multimeta::{editor, extractors, renderer::Renderer, writer::Writer};
 
 // This is required to be `Fn(String) -> _` to be used as a clap validator.
 #[allow(clippy::needless_pass_by_value)]
