@@ -12,7 +12,10 @@ pub struct Version {
 }
 
 impl Version {
-    pub fn open<P>(name: &str, src: P) -> io::Result<Version> where P: AsRef<Path> {
+    pub fn open<P>(name: &str, src: P) -> io::Result<Version>
+    where
+        P: AsRef<Path>,
+    {
         filesize(&src).map(|filesize| Version::new(name, src, filesize))
     }
 
@@ -29,19 +32,24 @@ impl Version {
     }
 }
 
-pub fn optimize<P>(src: P) -> io::Result<Vec<Version>> where P: AsRef<Path> {
-    Ok(vec![
-        noop(&src)?,
-        reencode(&src)?,
-        recompress(&src)?,
-    ])
+pub fn optimize<P>(src: P) -> io::Result<Vec<Version>>
+where
+    P: AsRef<Path>,
+{
+    Ok(vec![noop(&src)?, reencode(&src)?, recompress(&src)?])
 }
 
-fn noop<P>(src: P) -> io::Result<Version> where P: AsRef<Path> {
+fn noop<P>(src: P) -> io::Result<Version>
+where
+    P: AsRef<Path>,
+{
     Version::open("original", &src)
 }
 
-fn reencode<P>(src: P) -> io::Result<Version> where P: AsRef<Path> {
+fn reencode<P>(src: P) -> io::Result<Version>
+where
+    P: AsRef<Path>,
+{
     let dst = tmp_pathname();
     let result = cjpeg(&src, &dst)?;
 
@@ -53,7 +61,10 @@ fn reencode<P>(src: P) -> io::Result<Version> where P: AsRef<Path> {
     }
 }
 
-fn recompress<P>(src: P) -> io::Result<Version> where P: AsRef<Path> {
+fn recompress<P>(src: P) -> io::Result<Version>
+where
+    P: AsRef<Path>,
+{
     let dst = tmp_pathname();
     let result = jpegtran(&src, &dst)?;
 
@@ -65,7 +76,10 @@ fn recompress<P>(src: P) -> io::Result<Version> where P: AsRef<Path> {
     }
 }
 
-fn filesize<P>(path: P) -> io::Result<u64> where P: AsRef<Path> {
+fn filesize<P>(path: P) -> io::Result<u64>
+where
+    P: AsRef<Path>,
+{
     path.as_ref().metadata().map(|m| m.len())
 }
 
@@ -93,8 +107,10 @@ where
     Q: AsRef<Path>,
 {
     Command::new(cjpeg_bin())
-        .arg("-quality").arg("90")
-        .arg("-outfile").arg(dst.as_ref())
+        .arg("-quality")
+        .arg("90")
+        .arg("-outfile")
+        .arg(dst.as_ref())
         .arg(src.as_ref())
         .output()
 }
@@ -109,8 +125,10 @@ where
     Q: AsRef<Path>,
 {
     Command::new(jpegtran_bin())
-        .arg("-copy").arg("none")
-        .arg("-outfile").arg(dst.as_ref())
+        .arg("-copy")
+        .arg("none")
+        .arg("-outfile")
+        .arg(dst.as_ref())
         .arg(src.as_ref())
         .output()
 }

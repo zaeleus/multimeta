@@ -11,11 +11,18 @@ pub struct Song {
 
 impl Song {
     pub fn new(position: i32, duration: i32) -> Song {
-        Song { position, duration, names: Vec::new() }
+        Song {
+            position,
+            duration,
+            names: Vec::new(),
+        }
     }
 
     pub fn default_name(&self) -> Option<String> {
-        self.names.iter().find(|&n| n.is_default).map(|n| n.name.clone())
+        self.names
+            .iter()
+            .find(|&n| n.is_default)
+            .map(|n| n.name.clone())
     }
 
     pub fn add_name(&mut self, name: Name) {
@@ -29,7 +36,9 @@ impl From<SongInput> for Song {
             position: input.position,
             duration: input.duration,
 
-            names: input.names.into_iter()
+            names: input
+                .names
+                .into_iter()
                 .filter(|n| !n._delete)
                 .map(Name::from)
                 .collect(),
@@ -39,8 +48,8 @@ impl From<SongInput> for Song {
 
 #[cfg(test)]
 mod tests {
-    use crate::models::Name;
     use super::Song;
+    use crate::models::Name;
 
     #[test]
     fn test_new() {
@@ -56,7 +65,10 @@ mod tests {
         song.add_name(Name::new("꿈꾸는 마음으로", "ko", true, false));
         song.add_name(Name::new("Kkumkkuneun Maeumeuro", "ko-Latn", false, true));
         song.add_name(Name::new("Dreams Come True", "en", false, false));
-        assert_eq!(song.default_name(), Some(String::from("Kkumkkuneun Maeumeuro")));
+        assert_eq!(
+            song.default_name(),
+            Some(String::from("Kkumkkuneun Maeumeuro"))
+        );
     }
 
     #[test]

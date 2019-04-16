@@ -1,14 +1,14 @@
 use std::collections::HashSet;
 use std::path::Path;
 
-use clap::{App, Arg, crate_name, crate_version, value_t};
+use clap::{crate_name, crate_version, value_t, App, Arg};
 use glob::glob;
-use log::{Level, LevelFilter, log_enabled, warn};
+use log::{log_enabled, warn, Level, LevelFilter};
 use url::Url;
 
-use multimeta::{editor, extractors};
 use multimeta::renderer::Renderer;
 use multimeta::writer::Writer;
+use multimeta::{editor, extractors};
 
 // This is required to be `Fn(String) -> _` to be used as a clap validator.
 #[allow(clippy::needless_pass_by_value)]
@@ -60,25 +60,33 @@ fn check_artist_id(output_dir: &str, artist_id: &str) {
 fn main() {
     let matches = App::new(crate_name!())
         .version(crate_version!())
-        .arg(Arg::with_name("output")
-             .short("o")
-             .long("output")
-             .value_name("DIR")
-             .help("Set output directory")
-             .default_value(".")
-             .validator(validate_output))
-        .arg(Arg::with_name("verbose")
-             .short("v")
-             .long("verbose")
-             .help("Use verbose logging"))
-        .arg(Arg::with_name("artist-id")
-             .help("The local artist ID")
-             .index(1)
-             .required(true))
-        .arg(Arg::with_name("url")
-             .help("The remote URL to scrape")
-             .index(2)
-             .required(true))
+        .arg(
+            Arg::with_name("output")
+                .short("o")
+                .long("output")
+                .value_name("DIR")
+                .help("Set output directory")
+                .default_value(".")
+                .validator(validate_output),
+        )
+        .arg(
+            Arg::with_name("verbose")
+                .short("v")
+                .long("verbose")
+                .help("Use verbose logging"),
+        )
+        .arg(
+            Arg::with_name("artist-id")
+                .help("The local artist ID")
+                .index(1)
+                .required(true),
+        )
+        .arg(
+            Arg::with_name("url")
+                .help("The remote URL to scrape")
+                .index(2)
+                .required(true),
+        )
         .get_matches();
 
     if matches.is_present("verbose") {
@@ -112,5 +120,7 @@ fn main() {
     }
 
     let renderer = Renderer::new();
-    writer.write_templates(&renderer, &artist_id, &album).expect("write failed");
+    writer
+        .write_templates(&renderer, &artist_id, &album)
+        .expect("write failed");
 }

@@ -11,9 +11,12 @@ lazy_static! {
         hbs.set_strict_mode(true);
         hbs.register_escape_fn(no_escape);
 
-        hbs.register_template_string("album", include_str!("templates/album.toml.hbs")).unwrap();
-        hbs.register_template_string("song", include_str!("templates/song.toml.hbs")).unwrap();
-        hbs.register_template_string("tracklist", include_str!("templates/tracklist.toml.hbs")).unwrap();
+        hbs.register_template_string("album", include_str!("templates/album.toml.hbs"))
+            .unwrap();
+        hbs.register_template_string("song", include_str!("templates/song.toml.hbs"))
+            .unwrap();
+        hbs.register_template_string("tracklist", include_str!("templates/tracklist.toml.hbs"))
+            .unwrap();
 
         hbs.register_helper("default-name", Box::new(helpers::default_name));
         hbs.register_helper("parameterize", Box::new(helpers::parameterize));
@@ -44,7 +47,9 @@ impl Renderer {
     pub fn render_tracklist(&self, artist_id: &str, album: &Album) -> String {
         let data = json!({ "artist_id": artist_id, "album": album });
 
-        let mut result = HBS.render("tracklist", &data).expect("failed to render tracklist");
+        let mut result = HBS
+            .render("tracklist", &data)
+            .expect("failed to render tracklist");
         // Remove the consecutive trailing new line.
         result.pop();
 
@@ -53,7 +58,8 @@ impl Renderer {
 }
 
 fn default_name(values: &[Value]) -> Option<String> {
-    values.iter()
+    values
+        .iter()
         .filter_map(|value| {
             value.as_object().map(|o| {
                 let name = o["name"].as_str().unwrap_or("");
@@ -66,11 +72,13 @@ fn default_name(values: &[Value]) -> Option<String> {
 }
 
 mod helpers {
-    use handlebars::{Context, Handlebars, Helper, HelperResult, Output, RenderContext, RenderError};
+    use handlebars::{
+        Context, Handlebars, Helper, HelperResult, Output, RenderContext, RenderError,
+    };
 
     use super::default_name as _default_name;
-    use crate::util::inflector::parameterize as _parameterize;
     use crate::util::format_duration as _format_duration;
+    use crate::util::inflector::parameterize as _parameterize;
 
     pub fn default_name(
         h: &Helper,
@@ -79,16 +87,13 @@ mod helpers {
         _: &mut RenderContext,
         out: &mut Output,
     ) -> HelperResult {
-        let values = h.param(0)
+        let values = h
+            .param(0)
             .and_then(|v| v.value().as_array())
-            .ok_or_else(|| {
-                RenderError::new("default-name: first argument must be an array")
-            })?;
+            .ok_or_else(|| RenderError::new("default-name: first argument must be an array"))?;
 
         let name = _default_name(&values)
-            .ok_or_else(|| {
-                RenderError::new("default-name: no default name found")
-            })?;
+            .ok_or_else(|| RenderError::new("default-name: no default name found"))?;
 
         out.write(&name)?;
 
@@ -102,12 +107,11 @@ mod helpers {
         _: &mut RenderContext,
         out: &mut Output,
     ) -> HelperResult {
-        let t = h.param(0)
+        let t = h
+            .param(0)
             .and_then(|v| v.value().as_i64())
             .map(|v| v as i32)
-            .ok_or_else(|| {
-                RenderError::new("format-duration: first argument must be a number")
-            })?;
+            .ok_or_else(|| RenderError::new("format-duration: first argument must be a number"))?;
 
         let duration = _format_duration(t);
 
@@ -123,11 +127,10 @@ mod helpers {
         _: &mut RenderContext,
         out: &mut Output,
     ) -> HelperResult {
-        let text = h.param(0)
+        let text = h
+            .param(0)
             .and_then(|v| v.value().as_str())
-            .ok_or_else(|| {
-                RenderError::new("parameterize: first argument must be a string")
-            })?;
+            .ok_or_else(|| RenderError::new("parameterize: first argument must be a string"))?;
 
         let transformed = _parameterize(text);
 
@@ -141,13 +144,23 @@ mod helpers {
 mod tests {
     use std::fs;
 
-    use crate::models::{Album, AlbumBuilder, AlbumKind, Name, Song};
     use super::*;
+    use crate::models::{Album, AlbumBuilder, AlbumKind, Name, Song};
 
     fn build_album() -> Album {
         let mut song_a = Song::new(3, 266);
-        song_a.add_name(Name::new("잠 못 드는 밤 비는 내리고", "ko", true, false));
-        song_a.add_name(Name::new("Jam Mot Deuneun Bam Bineun Naerigo", "ko-Latn", false, true));
+        song_a.add_name(Name::new(
+            "잠 못 드는 밤 비는 내리고",
+            "ko",
+            true,
+            false,
+        ));
+        song_a.add_name(Name::new(
+            "Jam Mot Deuneun Bam Bineun Naerigo",
+            "ko-Latn",
+            false,
+            true,
+        ));
         song_a.add_name(Name::new("Sleepless Rainy Night", "en", false, false));
 
         let mut song_b = Song::new(4, 233);

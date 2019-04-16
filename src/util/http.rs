@@ -5,7 +5,7 @@ use std::path::Path;
 
 use log::info;
 use pbr::{ProgressBar, Units};
-use reqwest::{Client, Response, header};
+use reqwest::{header, Client, Response};
 
 const DEFAULT_BUF_SIZE: usize = 8192; // bytes
 
@@ -59,12 +59,15 @@ impl Downloader {
 
 impl Default for Downloader {
     fn default() -> Downloader {
-        Downloader { client: Client::new() }
+        Downloader {
+            client: Client::new(),
+        }
     }
 }
 
 fn content_length(response: &Response) -> Result<u64, Error> {
-    response.headers()
+    response
+        .headers()
         .get(header::CONTENT_LENGTH)
         .and_then(|v| v.to_str().ok())
         .and_then(|s| s.parse().ok())

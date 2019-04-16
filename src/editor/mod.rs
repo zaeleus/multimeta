@@ -137,7 +137,7 @@ fn edit_names(names: &mut Vec<NameInput>) {
                     add_name(names);
                     let i = names.len() - 1;
                     update_name_flags(names, i);
-                },
+                }
                 "e" => {
                     let i = prompt_index();
 
@@ -145,22 +145,22 @@ fn edit_names(names: &mut Vec<NameInput>) {
                         edit_name(&mut names[i]);
                         update_name_flags(names, i);
                     }
-                },
+                }
                 "d" => {
                     let i = prompt_index();
 
                     if i < names.len() {
                         delete_name(names, i);
                     }
-                },
+                }
                 "g" => {
                     if guess_name(names) {
                         let i = names.len() - 1;
                         update_name_flags(names, i);
                     }
-                },
+                }
                 "n" | "" => break,
-                _ => {},
+                _ => {}
             }
         }
 
@@ -213,7 +213,8 @@ fn delete_name(names: &mut Vec<NameInput>, i: usize) {
 /// It returns `true` if a new name is added and `false` if no conditions matched to add a new
 /// name.
 fn guess_name(names: &mut Vec<NameInput>) -> bool {
-    let original_name = names.iter()
+    let original_name = names
+        .iter()
         .find(|n| n.is_original && n.locale == "ko")
         .map(|n| n.name.clone());
 
@@ -235,7 +236,10 @@ fn guess_name(names: &mut Vec<NameInput>) -> bool {
 }
 
 fn prompt_index() -> usize {
-    readline("> Index: ").ok().and_then(|i| i.parse().ok()).unwrap_or(0)
+    readline("> Index: ")
+        .ok()
+        .and_then(|i| i.parse().ok())
+        .unwrap_or(0)
 }
 
 fn update_name_flags(names: &mut [NameInput], i: usize) {
@@ -245,7 +249,9 @@ fn update_name_flags(names: &mut [NameInput], i: usize) {
     };
 
     for (j, name) in names.iter_mut().enumerate() {
-        if i == j { continue; }
+        if i == j {
+            continue;
+        }
 
         if is_original {
             name.is_original = false;
@@ -268,9 +274,18 @@ mod tests {
     #[test]
     fn test_update_name_flags() {
         let mut names = vec![
-            NameInput { is_original: true, ..NameInput::default() },
-            NameInput { is_default: true, ..NameInput::default() },
-            NameInput { is_original: true, ..NameInput::default() },
+            NameInput {
+                is_original: true,
+                ..NameInput::default()
+            },
+            NameInput {
+                is_default: true,
+                ..NameInput::default()
+            },
+            NameInput {
+                is_original: true,
+                ..NameInput::default()
+            },
         ];
 
         update_name_flags(&mut names, 2);
@@ -296,15 +311,13 @@ mod tests {
 
     #[test]
     fn test_guess_name() {
-        let mut names = vec![
-            NameInput {
-                name: String::from("비밀이야"),
-                locale: String::from("ko"),
-                is_original: true,
-                is_default: true,
-                ..NameInput::default()
-            },
-        ];
+        let mut names = vec![NameInput {
+            name: String::from("비밀이야"),
+            locale: String::from("ko"),
+            is_original: true,
+            is_default: true,
+            ..NameInput::default()
+        }];
 
         guess_name(&mut names);
 

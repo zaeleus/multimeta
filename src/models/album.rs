@@ -35,7 +35,10 @@ pub struct Album {
 
 impl Album {
     pub fn default_name(&self) -> Option<String> {
-        self.names.iter().find(|&n| n.is_default).map(|n| n.name.clone())
+        self.names
+            .iter()
+            .find(|&n| n.is_default)
+            .map(|n| n.name.clone())
     }
 }
 
@@ -48,7 +51,9 @@ impl From<AlbumInput> for Album {
             artwork_url: input.artwork_url,
             url: input.url,
 
-            names: input.names.into_iter()
+            names: input
+                .names
+                .into_iter()
                 .filter(|n| !n._delete)
                 .map(Name::from)
                 .collect(),
@@ -125,8 +130,8 @@ impl AlbumBuilder {
 
 #[cfg(test)]
 mod tests {
-    use crate::models::Name;
     use super::{AlbumBuilder, AlbumKind};
+    use crate::models::Name;
 
     #[test]
     fn test_fmt() {

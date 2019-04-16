@@ -1,9 +1,9 @@
+use std::fs::{self, File};
 use std::io;
 use std::io::prelude::*;
-use std::fs::{self, File};
 use std::path::{Path, PathBuf};
 
-use log::{info, Level, log_enabled};
+use log::{info, log_enabled, Level};
 
 use crate::models::Album;
 use crate::renderer::Renderer;
@@ -17,10 +17,17 @@ pub struct Writer {
 
 impl Writer {
     pub fn new(output_dir: &str) -> Writer {
-        Writer { output_dir: output_dir.to_owned() }
+        Writer {
+            output_dir: output_dir.to_owned(),
+        }
     }
 
-    pub fn write_templates(&self, renderer: &Renderer, artist_id: &str, album: &Album) -> io::Result<()> {
+    pub fn write_templates(
+        &self,
+        renderer: &Renderer,
+        artist_id: &str,
+        album: &Album,
+    ) -> io::Result<()> {
         self.write_album(renderer, artist_id, album)?;
         self.write_songs(renderer, artist_id, album)?;
         self.write_tracklist(renderer, artist_id, album)?;
@@ -61,7 +68,12 @@ impl Writer {
         Ok(())
     }
 
-    fn write_tracklist(&self, renderer: &Renderer, artist_id: &str, album: &Album) -> io::Result<()> {
+    fn write_tracklist(
+        &self,
+        renderer: &Renderer,
+        artist_id: &str,
+        album: &Album,
+    ) -> io::Result<()> {
         let album_name = album.default_name().unwrap();
 
         let tracklist_dir: PathBuf = [
@@ -70,7 +82,9 @@ impl Writer {
             artist_id,
             &parameterize(&album_name),
             "default",
-        ].iter().collect();
+        ]
+        .iter()
+        .collect();
 
         fs::create_dir_all(&tracklist_dir)?;
 
@@ -92,7 +106,9 @@ impl Writer {
             artist_id,
             &parameterize(&album_name),
             "-original",
-        ].iter().collect();
+        ]
+        .iter()
+        .collect();
 
         fs::create_dir_all(&artwork_dir)?;
 
@@ -107,17 +123,15 @@ impl Writer {
         if let Some(ref artwork_url) = album.artwork_url {
             let downloader = Downloader::new();
 
-            downloader.save(artwork_url, &original_pathname).map_err(|e| {
-                match e {
+            downloader
+                .save(artwork_url, &original_pathname)
+                .map_err(|e| match e {
                     http::Error::Io(inner) => inner,
                     http::Error::RequestFailed => {
                         io::Error::new(io::ErrorKind::Other, "request failed")
-                    },
-                    http::Error::EmptyBody => {
-                        io::Error::new(io::ErrorKind::Other, "empty body")
-                    },
-                }
-            })?;
+                    }
+                    http::Error::EmptyBody => io::Error::new(io::ErrorKind::Other, "empty body"),
+                })?;
 
             optimize(&original_pathname, &final_pathname)?;
         }
@@ -126,7 +140,10 @@ impl Writer {
     }
 }
 
-fn write_file<P>(pathname: P, data: &str) -> io::Result<()> where P: AsRef<Path> {
+fn write_file<P>(pathname: P, data: &str) -> io::Result<()>
+where
+    P: AsRef<Path>,
+{
     let mut file = File::create(pathname)?;
     file.write_all(data.as_bytes())
 }
@@ -139,7 +156,8 @@ where
     let versions = jpeg::optimize(src)?;
 
     if log_enabled!(Level::Info) {
-        let info = versions.iter()
+        let info = versions
+            .iter()
             .map(|v| format!("{} ({} KiB)", v.name, v.filesize / 1024))
             .collect::<Vec<String>>()
             .join(", ");

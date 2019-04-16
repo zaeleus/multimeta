@@ -30,8 +30,13 @@ impl MoraExtractor {
         parse_album_id(url).map(MoraExtractor::new)
     }
 
-    pub fn new<I>(album_id: I) -> MoraExtractor where I: Into<String> {
-        MoraExtractor { album_id: album_id.into() }
+    pub fn new<I>(album_id: I) -> MoraExtractor
+    where
+        I: Into<String>,
+    {
+        MoraExtractor {
+            album_id: album_id.into(),
+        }
     }
 
     fn fetch_html(&self) -> Result<String, reqwest::Error> {
@@ -73,7 +78,10 @@ fn parse(album_id: &str, json: &str) -> extractors::Result<Album> {
 
 fn parse_html(html: &str) -> extractors::Result<Arguments> {
     Document::from(html)
-        .find(And(predicate::Name("meta"), Attr("name", "msApplication-Arguments")))
+        .find(And(
+            predicate::Name("meta"),
+            Attr("name", "msApplication-Arguments"),
+        ))
         .next()
         .and_then(|n| n.attr("content"))
         .map(|content| content.replace("&quot;", "\""))
@@ -82,9 +90,8 @@ fn parse_html(html: &str) -> extractors::Result<Arguments> {
 }
 
 fn parse_json(json: &str, builder: AlbumBuilder) -> extractors::Result<AlbumBuilder> {
-    let root: Root = serde_json::from_str(json).map_err(|_| {
-        ExtractionError::Parse("malformed JSON")
-    })?;
+    let root: Root =
+        serde_json::from_str(json).map_err(|_| ExtractionError::Parse("malformed JSON"))?;
 
     let songs = &root.track_list;
 
@@ -115,10 +122,7 @@ fn parse_songs(songs: &[RawSong], mut builder: AlbumBuilder) -> extractors::Resu
 }
 
 fn parse_album_id(url: &Url) -> extractors::Result<String> {
-    let pieces: Vec<&str> = url.path()
-        .split('/')
-        .filter(|p| !p.is_empty())
-        .collect();
+    let pieces: Vec<&str> = url.path().split('/').filter(|p| !p.is_empty()).collect();
 
     if pieces.len() < 2 {
         return Err(ExtractionError::Url("missing album ID in path"));
@@ -136,7 +140,10 @@ fn parse_release_date(s: &str) -> extractors::Result<String> {
 fn build_json_endpoint(mount_point: &str, label_id: &str, package_id: &str) -> String {
     let id = format!("{:0>10}", package_id);
     let (a, b, c) = (&id[0..4], &id[4..7], &id[7..10]);
-    format!("{}/{}/{}/{}/{}/{}/{}", JSON_BASE_URL, mount_point, label_id, a, b, c, JSON_FILENAME)
+    format!(
+        "{}/{}/{}/{}/{}/{}/{}",
+        JSON_BASE_URL, mount_point, label_id, a, b, c, JSON_FILENAME
+    )
 }
 
 // Guess the album kind based on the number of tracks.
@@ -153,9 +160,9 @@ fn guess_album_kind(n: usize) -> AlbumKind {
 #[derive(Deserialize)]
 #[serde(rename_all = "camelCase")]
 struct Arguments {
-  mount_point: String,
-  label_id: String,
-  material_no: String,
+    mount_point: String,
+    label_id: String,
+    material_no: String,
 }
 
 #[derive(Deserialize)]
@@ -217,7 +224,10 @@ mod tests {
         assert_eq!(song.position, 1);
         assert_eq!(song.duration, 210);
         assert_eq!(song.names.len(), 1);
-        assert_eq!(&song.names[0], &Name::new("プラットホームシンドローム", "ja", true, true));
+        assert_eq!(
+            &song.names[0],
+            &Name::new("プラットホームシンドローム", "ja", true, true)
+        );
     }
 
     #[test]
@@ -248,14 +258,18 @@ mod tests {
 
     #[test]
     fn test_parse_release_date() {
-        assert_eq!(parse_release_date("2018/02/12 00:00:00").unwrap(), "2018-02-12");
+        assert_eq!(
+            parse_release_date("2018/02/12 00:00:00").unwrap(),
+            "2018-02-12"
+        );
         assert!(parse_release_date("2018").is_err());
     }
 
     #[test]
     fn test_build_json_endpoint() {
         let actual = build_json_endpoint("0000", "00000068", "11174315");
-        let expected = "http://cf.mora.jp/contents/package/0000/00000068/0011/174/315/packageMeta.json";
+        let expected =
+            "http://cf.mora.jp/contents/package/0000/00000068/0011/174/315/packageMeta.json";
         assert_eq!(actual, expected);
     }
 

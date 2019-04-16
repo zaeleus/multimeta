@@ -29,8 +29,13 @@ impl MelonExtractor {
         parse_album_id(url).map(MelonExtractor::new)
     }
 
-    pub fn new<I>(album_id: I) -> MelonExtractor where I: Into<String> {
-        MelonExtractor { album_id: album_id.into() }
+    pub fn new<I>(album_id: I) -> MelonExtractor
+    where
+        I: Into<String>,
+    {
+        MelonExtractor {
+            album_id: album_id.into(),
+        }
     }
 
     fn fetch_html(&self) -> Result<String, reqwest::Error> {
@@ -42,7 +47,8 @@ impl MelonExtractor {
     fn fetch_json(&self) -> Result<String, reqwest::Error> {
         let mut url = Url::parse(JSON_ENDPOINT).unwrap();
         url.query_pairs_mut().append_pair("contsType", "A");
-        url.query_pairs_mut().append_pair("contsIds", &self.album_id);
+        url.query_pairs_mut()
+            .append_pair("contsIds", &self.album_id);
         reqwest::get(&url.into_string()).and_then(|mut r| r.text())
     }
 }
@@ -73,7 +79,8 @@ fn parse_html(html: &str, builder: AlbumBuilder) -> extractors::Result<AlbumBuil
 
     let mut node = document.find(Class("gubun"));
 
-    let raw_kind = node.next()
+    let raw_kind = node
+        .next()
         .map(|n| n.text())
         .ok_or(ExtractionError::Parse("album kind"))?;
     let raw_kind = raw_kind.trim();
@@ -87,9 +94,8 @@ fn parse_html(html: &str, builder: AlbumBuilder) -> extractors::Result<AlbumBuil
 }
 
 fn parse_json(json: &str, builder: AlbumBuilder) -> extractors::Result<AlbumBuilder> {
-    let root: Root = serde_json::from_str(json).map_err(|_| {
-        ExtractionError::Parse("malformed JSON")
-    })?;
+    let root: Root =
+        serde_json::from_str(json).map_err(|_| ExtractionError::Parse("malformed JSON"))?;
 
     let songs = root.conts_list;
 
@@ -141,14 +147,14 @@ fn parse_album_kind(s: &str) -> extractors::Result<AlbumKind> {
             // "OST" is not guaranteed, but is very likely, to be a single.
             warn!("assuming album kind 'OST' as 'single'");
             Ok(AlbumKind::Single)
-        },
+        }
         "리믹스" => {
             warn!("assuming album kind '리믹스' as 'single'");
             Ok(AlbumKind::Single)
-        },
+        }
         "EP" => Ok(AlbumKind::Ep),
         "정규" => Ok(AlbumKind::Lp),
-        _ => Err(ExtractionError::Parse("album kind"))
+        _ => Err(ExtractionError::Parse("album kind")),
     }
 }
 
@@ -197,8 +203,8 @@ mod tests {
 
     use url::Url;
 
-    use crate::models::{AlbumKind, Name};
     use super::*;
+    use crate::models::{AlbumKind, Name};
 
     #[test]
     fn test_matches() {
@@ -227,9 +233,14 @@ mod tests {
         assert_eq!(album.released_on, "2017-12-28");
         assert_eq!(
             album.artwork_url,
-            Some(String::from("https://static.melon.co.kr/cm/album/images/101/23/637/10123637_org.jpg")),
+            Some(String::from(
+                "https://static.melon.co.kr/cm/album/images/101/23/637/10123637_org.jpg"
+            )),
         );
-        assert_eq!(album.url, "http://www.melon.com/album/detail.htm?albumId=10123637");
+        assert_eq!(
+            album.url,
+            "http://www.melon.com/album/detail.htm?albumId=10123637"
+        );
 
         assert_eq!(album.names.len(), 1);
         assert_eq!(&album.names[0], &Name::new("Chuu", "ko", true, true));
@@ -240,13 +251,19 @@ mod tests {
         assert_eq!(song.position, 1);
         assert_eq!(song.duration, 195);
         assert_eq!(song.names.len(), 1);
-        assert_eq!(&song.names[0], &Name::new("Heart Attack (츄)", "ko", true, true));
+        assert_eq!(
+            &song.names[0],
+            &Name::new("Heart Attack (츄)", "ko", true, true)
+        );
 
         let song = &album.songs[1];
         assert_eq!(song.position, 2);
         assert_eq!(song.duration, 197);
         assert_eq!(song.names.len(), 1);
-        assert_eq!(&song.names[0], &Name::new("Girl's Talk (이브, 츄)", "ko", true, true));
+        assert_eq!(
+            &song.names[0],
+            &Name::new("Girl's Talk (이브, 츄)", "ko", true, true)
+        );
     }
 
     #[test]
@@ -296,7 +313,10 @@ mod tests {
 
     #[test]
     fn test_normalize_name() {
-        assert_eq!(normalize_name("Girl`s Talk (이브, 츄)"), "Girl's Talk (이브, 츄)");
+        assert_eq!(
+            normalize_name("Girl`s Talk (이브, 츄)"),
+            "Girl's Talk (이브, 츄)"
+        );
 
         assert_eq!(normalize_name("I Don’t Care"), "I Don't Care");
 

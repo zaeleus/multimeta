@@ -30,8 +30,13 @@ impl UpFrontWorksExtractor {
         parse_album_id(url).map(UpFrontWorksExtractor::new)
     }
 
-    pub fn new<I>(album_id: I) -> UpFrontWorksExtractor where I: Into<String> {
-        UpFrontWorksExtractor{ album_id: album_id.into() }
+    pub fn new<I>(album_id: I) -> UpFrontWorksExtractor
+    where
+        I: Into<String>,
+    {
+        UpFrontWorksExtractor {
+            album_id: album_id.into(),
+        }
     }
 
     fn fetch(&self) -> Result<String, reqwest::Error> {
@@ -50,9 +55,7 @@ impl Extractor for UpFrontWorksExtractor {
 fn parse(album_id: &str, html: &str) -> extractors::Result<Album> {
     let url = format!("{}/{}/", BASE_URL, album_id);
 
-    let builder = AlbumBuilder::new()
-        .set_country(COUNTRY)
-        .set_url(&url);
+    let builder = AlbumBuilder::new().set_country(COUNTRY).set_url(&url);
 
     let builder = parse_html(html, builder)?;
 
@@ -62,7 +65,8 @@ fn parse(album_id: &str, html: &str) -> extractors::Result<Album> {
 fn parse_html(html: &str, builder: AlbumBuilder) -> extractors::Result<AlbumBuilder> {
     let document = Document::from(html);
 
-    let name = document.find(Class("product_title"))
+    let name = document
+        .find(Class("product_title"))
         .next()
         .map(|n| n.text())
         .map(|n| Name::new(n, LOCALE, true, true))
@@ -92,10 +96,7 @@ fn parse_html(html: &str, builder: AlbumBuilder) -> extractors::Result<AlbumBuil
     Ok(builder)
 }
 
-fn parse_songs(
-    document: &Document,
-    mut builder: AlbumBuilder,
-) -> extractors::Result<AlbumBuilder> {
+fn parse_songs(document: &Document, mut builder: AlbumBuilder) -> extractors::Result<AlbumBuilder> {
     let table = document
         .find(Class("data2"))
         .next()
@@ -108,7 +109,9 @@ fn parse_songs(
 
     for (i, row) in rows.enumerate() {
         // skip odd rows with track artist
-        if i % 2 != 0 { continue; }
+        if i % 2 != 0 {
+            continue;
+        }
 
         let mut cells = row.find(predicate::Name("td"));
 
@@ -160,8 +163,7 @@ fn parse_duration(s: &str) -> extractors::Result<i32> {
 }
 
 fn parse_album_id(url: &Url) -> extractors::Result<String> {
-    url
-        .path()
+    url.path()
         .split('/')
         .filter(|p| !p.is_empty())
         .last()
@@ -186,7 +188,7 @@ fn parse_kind(s: &str) -> extractors::Result<AlbumKind> {
 
 fn parse_release_date(s: &str) -> extractors::Result<String> {
     NaiveDate::parse_from_str(s, "%Y/%m/%d")
-	.map(|d| d.format("%F").to_string())
+        .map(|d| d.format("%F").to_string())
         .map_err(|_| ExtractionError::Parse("release date"))
 }
 
@@ -222,10 +224,16 @@ mod tests {
         assert_eq!(album.country, "JP");
         assert_eq!(album.released_on, "2018-02-07");
         assert!(album.artwork_url.is_none());
-        assert_eq!(album.url, "http://www.up-front-works.jp/release/detail/EPCE-7387/");
+        assert_eq!(
+            album.url,
+            "http://www.up-front-works.jp/release/detail/EPCE-7387/"
+        );
 
         assert_eq!(album.names.len(), 1);
-        assert_eq!(&album.names[0], &Name::new("二十歳のモーニング娘。", "ja", true, true));
+        assert_eq!(
+            &album.names[0],
+            &Name::new("二十歳のモーニング娘。", "ja", true, true)
+        );
 
         assert_eq!(album.songs.len(), 8);
 
@@ -233,13 +241,24 @@ mod tests {
         assert_eq!(song.position, 1);
         assert_eq!(song.duration, 250);
         assert_eq!(song.names.len(), 1);
-        assert_eq!(&song.names[0], &Name::new("モーニングコーヒー(20th Anniversary Ver.)", "ja", true, true));
+        assert_eq!(
+            &song.names[0],
+            &Name::new(
+                "モーニングコーヒー(20th Anniversary Ver.)",
+                "ja",
+                true,
+                true
+            )
+        );
 
         let song = &album.songs[7];
         assert_eq!(song.position, 8);
         assert_eq!(song.duration, 250);
         assert_eq!(song.names.len(), 1);
-        assert_eq!(&song.names[0], &Name::new("愛の種(20th Anniversary Ver.)", "ja", true, true));
+        assert_eq!(
+            &song.names[0],
+            &Name::new("愛の種(20th Anniversary Ver.)", "ja", true, true)
+        );
     }
 
     #[test]
