@@ -1,8 +1,8 @@
 use chrono::NaiveDate;
 use log::warn;
+use reqwest::Url;
 use select::{document::Document, predicate::Class};
 use serde::Deserialize;
-use url::Url;
 
 use crate::{
     extractors::{self, ExtractionError, Extractor},
@@ -201,7 +201,7 @@ struct RawSong {
 mod tests {
     use std::fs;
 
-    use url::Url;
+    use reqwest::Url;
 
     use super::*;
     use crate::models::{AlbumKind, Name};

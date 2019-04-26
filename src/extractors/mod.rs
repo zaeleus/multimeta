@@ -1,4 +1,4 @@
-use url::Url;
+use reqwest::Url;
 
 pub use self::melon::MelonExtractor;
 pub use self::mora::MoraExtractor;
@@ -40,7 +40,7 @@ pub fn factory(url: &Url) -> self::Result<Box<dyn Extractor>> {
 
 #[cfg(test)]
 mod tests {
-    use url::Url;
+    use reqwest::Url;
 
     use super::factory;
 

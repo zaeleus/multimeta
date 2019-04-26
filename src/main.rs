@@ -4,7 +4,7 @@ use clap::{crate_name, value_t, App, Arg};
 use git_testament::{git_testament, render_testament};
 use glob::glob;
 use log::{log_enabled, warn, Level, LevelFilter};
-use url::Url;
+use reqwest::Url;
 
 use multimeta::{editor, extractors, renderer::Renderer, writer::Writer};
 

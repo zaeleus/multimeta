@@ -1,10 +1,10 @@
 use chrono::NaiveDate;
+use reqwest::Url;
 use select::{
     document::Document,
     predicate::{self, And, Attr},
 };
 use serde::Deserialize;
-use url::Url;
 
 use crate::{
     extractors::{self, ExtractionError, Extractor},
@@ -188,7 +188,7 @@ struct RawSong {
 mod tests {
     use std::fs;
 
-    use url::Url;
+    use reqwest::Url;
 
     use super::*;
 

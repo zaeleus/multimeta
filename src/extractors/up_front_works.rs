@@ -1,9 +1,9 @@
 use chrono::NaiveDate;
+use reqwest::Url;
 use select::{
     document::Document,
     predicate::{self, Class, Descendant},
 };
-use url::Url;
 
 use crate::{
     extractors::{self, ExtractionError, Extractor},
@@ -196,7 +196,7 @@ fn parse_release_date(s: &str) -> extractors::Result<String> {
 mod tests {
     use std::fs;
 
-    use url::Url;
+    use reqwest::Url;
 
     use super::*;
 
