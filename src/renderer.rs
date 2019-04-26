@@ -46,14 +46,8 @@ impl Renderer {
 
     pub fn render_tracklist(&self, artist_id: &str, album: &Album) -> String {
         let data = json!({ "artist_id": artist_id, "album": album });
-
-        let mut result = HBS
-            .render("tracklist", &data)
-            .expect("failed to render tracklist");
-        // Remove the consecutive trailing new line.
-        result.pop();
-
-        result
+        HBS.render("tracklist", &data)
+            .expect("failed to render tracklist")
     }
 }
 
