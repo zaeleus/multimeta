@@ -6,7 +6,7 @@ use std::{
 
 use log::info;
 use pbr::{ProgressBar, Units};
-use reqwest::{header, Client, Response};
+use reqwest::Client;
 
 const DEFAULT_BUF_SIZE: usize = 8192; // bytes
 
@@ -41,7 +41,7 @@ impl Downloader {
             return Err(Error::RequestFailed);
         }
 
-        let len = content_length(&res)?;
+        let len = res.content_length().ok_or_else(|| Error::EmptyBody)?;
 
         let mut pb = ProgressBar::new(len);
         pb.set_units(Units::Bytes);
@@ -64,15 +64,6 @@ impl Default for Downloader {
             client: Client::new(),
         }
     }
-}
-
-fn content_length(response: &Response) -> Result<u64, Error> {
-    response
-        .headers()
-        .get(header::CONTENT_LENGTH)
-        .and_then(|v| v.to_str().ok())
-        .and_then(|s| s.parse().ok())
-        .ok_or(Error::EmptyBody)
 }
 
 fn copy<R, W, F>(reader: &mut R, writer: &mut W, mut cb: F) -> Result<u64, Error>
