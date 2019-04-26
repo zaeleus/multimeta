@@ -1,11 +1,14 @@
 use std::{collections::HashSet, path::Path};
 
-use clap::{crate_name, crate_version, value_t, App, Arg};
+use clap::{crate_name, value_t, App, Arg};
+use git_testament::{git_testament, render_testament};
 use glob::glob;
 use log::{log_enabled, warn, Level, LevelFilter};
 use url::Url;
 
 use multimeta::{editor, extractors, renderer::Renderer, writer::Writer};
+
+git_testament!(TESTAMENT);
 
 // This is required to be `Fn(String) -> _` to be used as a clap validator.
 #[allow(clippy::needless_pass_by_value)]
@@ -56,7 +59,7 @@ fn check_artist_id(output_dir: &str, artist_id: &str) {
 
 fn main() {
     let matches = App::new(crate_name!())
-        .version(crate_version!())
+        .version(render_testament!(TESTAMENT).as_str())
         .arg(
             Arg::with_name("output")
                 .short("o")

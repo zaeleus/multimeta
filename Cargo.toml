@@ -12,6 +12,7 @@ env_logger = "0.6.0"
 glob = "0.3.0"
 handlebars = "1.0.5"
 hangeul = { git = "https://github.com/zaeleus/hangeul.git" }
+git-testament = "0.1.4"
 lazy_static = "1.0.0"
 libc = "0.2.37"
 log = "0.4.1"
