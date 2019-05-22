@@ -176,6 +176,7 @@ fn parse_release_date(s: &str) -> extractors::Result<String> {
 
 fn normalize_name(name: &str) -> String {
     name.replace("`", "'")
+        .replace("‘", "'")
         .replace("’", "'")
         .replace(" Of ", " of ")
 }
@@ -319,6 +320,11 @@ mod tests {
         );
 
         assert_eq!(normalize_name("I Don’t Care"), "I Don't Care");
+
+        assert_eq!(
+            normalize_name("3YE 1st Digital Single ‘DMT`"),
+            "3YE 1st Digital Single 'DMT'"
+        );
 
         let actual = normalize_name("Love Don`t Hurt (Feat. Amber Of f(x))");
         let expected = "Love Don't Hurt (Feat. Amber of f(x))";
