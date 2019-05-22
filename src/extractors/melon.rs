@@ -39,17 +39,15 @@ impl MelonExtractor {
     }
 
     fn fetch_html(&self) -> Result<String, reqwest::Error> {
-        let mut url = Url::parse(HTML_ENDPOINT).unwrap();
-        url.query_pairs_mut().append_pair("albumId", &self.album_id);
-        reqwest::get(&url.into_string()).and_then(|mut r| r.text())
+        let params = [("albumId", &self.album_id)];
+        let url = Url::parse_with_params(HTML_ENDPOINT, &params).unwrap();
+        reqwest::get(url).and_then(|mut r| r.text())
     }
 
     fn fetch_json(&self) -> Result<String, reqwest::Error> {
-        let mut url = Url::parse(JSON_ENDPOINT).unwrap();
-        url.query_pairs_mut().append_pair("contsType", "A");
-        url.query_pairs_mut()
-            .append_pair("contsIds", &self.album_id);
-        reqwest::get(&url.into_string()).and_then(|mut r| r.text())
+        let params = [("contsType", "A"), ("contsIds", &self.album_id)];
+        let url = Url::parse_with_params(JSON_ENDPOINT, &params).unwrap();
+        reqwest::get(url).and_then(|mut r| r.text())
     }
 }
 
