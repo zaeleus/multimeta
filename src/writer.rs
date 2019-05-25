@@ -17,13 +17,13 @@ use crate::{
 };
 
 pub struct Writer {
-    output_dir: String,
+    dst_prefix: String,
 }
 
 impl Writer {
-    pub fn new(output_dir: &str) -> Writer {
+    pub fn new(dst_prefix: &str) -> Writer {
         Writer {
-            output_dir: output_dir.to_owned(),
+            dst_prefix: dst_prefix.into(),
         }
     }
 
@@ -40,34 +40,32 @@ impl Writer {
     }
 
     fn write_album(&self, renderer: &Renderer, artist_id: &str, album: &Album) -> io::Result<()> {
-        let albums_dir: PathBuf = [&self.output_dir, "albums", artist_id].iter().collect();
+        let dst_prefix: PathBuf = [&self.dst_prefix, "albums", artist_id].iter().collect();
 
-        fs::create_dir_all(&albums_dir)?;
+        fs::create_dir_all(&dst_prefix)?;
 
         let album_name = album.default_name().expect("no default album name");
         let basename = parameterize(&album_name);
-        let mut pathname = albums_dir.clone();
-        pathname.push(&format!("{}.toml", basename));
+        let dst = dst_prefix.join(format!("{}.toml", basename));
 
         let result = renderer.render_album(artist_id, album);
 
-        write_file(&pathname, &result)
+        write_file(&dst, result.as_bytes())
     }
 
     fn write_songs(&self, renderer: &Renderer, artist_id: &str, album: &Album) -> io::Result<()> {
-        let songs_dir: PathBuf = [&self.output_dir, "songs", artist_id].iter().collect();
+        let dst_prefix: PathBuf = [&self.dst_prefix, "songs", artist_id].iter().collect();
 
-        fs::create_dir_all(&songs_dir)?;
+        fs::create_dir_all(&dst_prefix)?;
 
         for song in &album.songs {
             let song_name = song.default_name().expect("no default name");
             let basename = parameterize(&song_name);
-            let mut pathname = songs_dir.clone();
-            pathname.push(&format!("{}.toml", basename));
+            let dst = dst_prefix.join(format!("{}.toml", basename));
 
             let result = renderer.render_song(song);
 
-            write_file(&pathname, &result)?;
+            write_file(&dst, result.as_bytes())?;
         }
 
         Ok(())
@@ -79,10 +77,10 @@ impl Writer {
         artist_id: &str,
         album: &Album,
     ) -> io::Result<()> {
-        let album_name = album.default_name().unwrap();
+        let album_name = album.default_name().expect("no default album name");
 
-        let tracklist_dir: PathBuf = [
-            &self.output_dir,
+        let dst_prefix: PathBuf = [
+            &self.dst_prefix,
             "tracklists",
             artist_id,
             &parameterize(&album_name),
@@ -91,21 +89,20 @@ impl Writer {
         .iter()
         .collect();
 
-        fs::create_dir_all(&tracklist_dir)?;
+        fs::create_dir_all(&dst_prefix)?;
 
-        let mut pathname = tracklist_dir.clone();
-        pathname.push("digital1.toml");
+        let dst = dst_prefix.join("digital1.toml");
 
         let result = renderer.render_tracklist(artist_id, album);
 
-        write_file(&pathname, &result)
+        write_file(&dst, result.as_bytes())
     }
 
     pub fn write_artwork(&self, artist_id: &str, album: &Album) -> io::Result<()> {
-        let album_name = album.default_name().unwrap();
+        let album_name = album.default_name().expect("no default album name");
 
-        let mut artwork_dir: PathBuf = [
-            &self.output_dir,
+        let mut dst_prefix: PathBuf = [
+            &self.dst_prefix,
             "-attachments",
             "albums",
             artist_id,
@@ -115,21 +112,18 @@ impl Writer {
         .iter()
         .collect();
 
-        fs::create_dir_all(&artwork_dir)?;
+        fs::create_dir_all(&dst_prefix)?;
 
-        let mut original_pathname = artwork_dir.clone();
-        original_pathname.push("default.jpg");
+        let original_dst = dst_prefix.join("default.jpg");
 
-        artwork_dir.pop();
-
-        let mut final_pathname = artwork_dir.clone();
-        final_pathname.push("default.jpg");
+        dst_prefix.pop();
+        let final_dst = dst_prefix.join("default.jpg");
 
         if let Some(ref artwork_url) = album.artwork_url {
             let downloader = Downloader::new();
 
             downloader
-                .save(artwork_url, &original_pathname)
+                .save(artwork_url, &original_dst)
                 .map_err(|e| match e {
                     http::Error::Io(inner) => inner,
                     http::Error::RequestFailed => {
@@ -138,19 +132,19 @@ impl Writer {
                     http::Error::EmptyBody => io::Error::new(io::ErrorKind::Other, "empty body"),
                 })?;
 
-            optimize(&original_pathname, &final_pathname)?;
+            optimize(&original_dst, &final_dst)?;
         }
 
         Ok(())
     }
 }
 
-fn write_file<P>(pathname: P, data: &str) -> io::Result<()>
+fn write_file<P>(pathname: P, data: &[u8]) -> io::Result<()>
 where
     P: AsRef<Path>,
 {
     let mut file = File::create(pathname)?;
-    file.write_all(data.as_bytes())
+    file.write_all(data)
 }
 
 fn optimize<P, Q>(src: P, dst: Q) -> io::Result<()>
