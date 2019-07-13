@@ -10,8 +10,8 @@ use crate::{
 };
 
 static HOST: &'static str = "www.melon.com";
-static HTML_ENDPOINT: &'static str = "http://www.melon.com/album/detail.htm";
-static JSON_ENDPOINT: &'static str = "http://www.melon.com/webplayer/getContsInfo.json";
+static HTML_ENDPOINT: &'static str = "https://www.melon.com/album/detail.htm";
+static JSON_ENDPOINT: &'static str = "https://www.melon.com/webplayer/getContsInfo.json";
 
 static COUNTRY: &'static str = "KR";
 static LOCALE: &'static str = "ko";
@@ -238,7 +238,7 @@ mod tests {
         );
         assert_eq!(
             album.url,
-            "http://www.melon.com/album/detail.htm?albumId=10123637"
+            "https://www.melon.com/album/detail.htm?albumId=10123637"
         );
 
         assert_eq!(album.names.len(), 1);
@@ -279,10 +279,10 @@ mod tests {
 
     #[test]
     fn test_parse_album_id() {
-        let url = Url::parse("http://www.melon.com/album/detail.htm?albumId=10141232").unwrap();
+        let url = Url::parse("https://www.melon.com/album/detail.htm?albumId=10141232").unwrap();
         assert_eq!(parse_album_id(&url).unwrap(), "10141232");
 
-        let url = Url::parse("http://www.melon.com/album/detail.html").unwrap();
+        let url = Url::parse("https://www.melon.com/album/detail.html").unwrap();
         assert!(parse_album_id(&url).is_err());
     }
 
