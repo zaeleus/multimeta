@@ -176,6 +176,7 @@ fn normalize_name(name: &str) -> String {
     name.replace("`", "'")
         .replace("‘", "'")
         .replace("’", "'")
+        .replace("&#39;", "'")
         .replace(" Of ", " of ")
 }
 
@@ -322,6 +323,11 @@ mod tests {
         assert_eq!(
             normalize_name("3YE 1st Digital Single ‘DMT`"),
             "3YE 1st Digital Single 'DMT'"
+        );
+
+        assert_eq!(
+            normalize_name("서핑해 (Surfin&#39;)"),
+            "서핑해 (Surfin')"
         );
 
         let actual = normalize_name("Love Don`t Hurt (Feat. Amber Of f(x))");
