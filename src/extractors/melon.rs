@@ -176,6 +176,7 @@ fn normalize_name(name: &str) -> String {
     name.replace("`", "'")
         .replace("‘", "'")
         .replace("’", "'")
+        .replace("&#34;", "\"")
         .replace("&#39;", "'")
         .replace(" Of ", " of ")
 }
@@ -323,6 +324,11 @@ mod tests {
         assert_eq!(
             normalize_name("3YE 1st Digital Single ‘DMT`"),
             "3YE 1st Digital Single 'DMT'"
+        );
+
+        assert_eq!(
+            normalize_name("&#34;개 같은 하루 (with TTG)&#34; OST"),
+            r#""개 같은 하루 (with TTG)" OST"#,
         );
 
         assert_eq!(
