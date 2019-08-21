@@ -16,7 +16,7 @@ pub enum AlbumKind {
 }
 
 impl fmt::Display for AlbumKind {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match *self {
             AlbumKind::Single => write!(f, "single"),
             AlbumKind::Ep => write!(f, "ep"),

@@ -75,11 +75,11 @@ mod helpers {
     use crate::util::inflector::parameterize as _parameterize;
 
     pub fn default_name(
-        h: &Helper,
+        h: &Helper<'_, '_>,
         _: &Handlebars,
         _: &Context,
-        _: &mut RenderContext,
-        out: &mut Output,
+        _: &mut RenderContext<'_>,
+        out: &mut dyn Output,
     ) -> HelperResult {
         let values = h
             .param(0)
@@ -95,11 +95,11 @@ mod helpers {
     }
 
     pub fn format_duration(
-        h: &Helper,
+        h: &Helper<'_, '_>,
         _: &Handlebars,
         _: &Context,
-        _: &mut RenderContext,
-        out: &mut Output,
+        _: &mut RenderContext<'_>,
+        out: &mut dyn Output,
     ) -> HelperResult {
         let t = h
             .param(0)
@@ -115,11 +115,11 @@ mod helpers {
     }
 
     pub fn parameterize(
-        h: &Helper,
+        h: &Helper<'_, '_>,
         _: &Handlebars,
         _: &Context,
-        _: &mut RenderContext,
-        out: &mut Output,
+        _: &mut RenderContext<'_>,
+        out: &mut dyn Output,
     ) -> HelperResult {
         let text = h
             .param(0)

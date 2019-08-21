@@ -41,9 +41,9 @@ pub fn titleize(s: &str) -> String {
 
     let s = s.to_lowercase();
 
-    let s = FIRST_WORD_RE.replace(&s, |caps: &Captures| capitalize(&caps[0]));
+    let s = FIRST_WORD_RE.replace(&s, |caps: &Captures<'_>| capitalize(&caps[0]));
 
-    let s = REST_OF_WORDS_RE.replace_all(&s, |caps: &Captures| {
+    let s = REST_OF_WORDS_RE.replace_all(&s, |caps: &Captures<'_>| {
         let word = &caps[1];
 
         if is_minor_word(word) {
