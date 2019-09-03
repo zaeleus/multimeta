@@ -3,13 +3,11 @@ use std::{
     sync::Mutex,
 };
 
-use lazy_static::lazy_static;
 use libc::{c_int, c_void};
+use once_cell::sync::Lazy;
 
-lazy_static! {
-    static ref STARTUP_HOOK_CALLBACK: Mutex<Option<Box<dyn Fn() -> i32 + Send>>> =
-        Default::default();
-}
+static STARTUP_HOOK_CALLBACK: Lazy<Mutex<Option<Box<dyn Fn() -> i32 + Send>>>> =
+    Lazy::new(|| Default::default());
 
 #[derive(Debug, Eq, PartialEq)]
 pub enum Error {

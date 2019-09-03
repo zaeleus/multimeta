@@ -1,20 +1,20 @@
 use std::collections::HashSet;
 
-use lazy_static::lazy_static;
+use once_cell::sync::Lazy;
 use regex::{Captures, Regex};
 use unidecode::unidecode;
 
-lazy_static! {
-    static ref MINOR_WORDS: HashSet<&'static str> = {
-        vec![
-            "a", "an", "as", "at", "but", "by", "for", "from", "in", "into", "of", "on", "sans",
-            "than", "the", "to", "via", "with",
-        ]
-        .into_iter()
-        .collect()
-    };
-    static ref ACRONYMS: HashSet<&'static str> = { vec!["dj", "ost"].into_iter().collect() };
-}
+static MINOR_WORDS: Lazy<HashSet<&'static str>> = Lazy::new(|| {
+    vec![
+        "a", "an", "as", "at", "but", "by", "for", "from", "in", "into", "of", "on", "sans",
+        "than", "the", "to", "via", "with",
+    ]
+    .into_iter()
+    .collect()
+});
+
+static ACRONYMS: Lazy<HashSet<&'static str>> =
+    Lazy::new(|| vec!["dj", "ost"].into_iter().collect());
 
 pub fn capitalize(s: &str) -> String {
     let mut chs = s.chars();
@@ -34,10 +34,8 @@ fn is_minor_word(word: &str) -> bool {
 }
 
 pub fn titleize(s: &str) -> String {
-    lazy_static! {
-        static ref FIRST_WORD_RE: Regex = Regex::new(r"^\w+").unwrap();
-        static ref REST_OF_WORDS_RE: Regex = Regex::new(r"\b([\w']+)").unwrap();
-    }
+    static FIRST_WORD_RE: Lazy<Regex> = Lazy::new(|| Regex::new(r"^\w+").unwrap());
+    static REST_OF_WORDS_RE: Lazy<Regex> = Lazy::new(|| Regex::new(r"\b([\w']+)").unwrap());
 
     let s = s.to_lowercase();
 
@@ -60,10 +58,8 @@ pub fn titleize(s: &str) -> String {
 
 // This works similarly to `ActiveSupport::Inflector.parameterize`.
 pub fn parameterize(s: &str) -> String {
-    lazy_static! {
-        static ref RE1: Regex = Regex::new(r"(?i)[^a-z0-9-_]+").unwrap();
-        static ref RE2: Regex = Regex::new(r"-{2,}").unwrap();
-    }
+    static RE1: Lazy<Regex> = Lazy::new(|| Regex::new(r"(?i)[^a-z0-9-_]+").unwrap());
+    static RE2: Lazy<Regex> = Lazy::new(|| Regex::new(r"-{2,}").unwrap());
 
     let s = unidecode(s);
     let s = RE1.replace_all(&s, "-");

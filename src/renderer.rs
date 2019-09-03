@@ -1,30 +1,28 @@
 use handlebars::{no_escape, Handlebars};
-use lazy_static::lazy_static;
+use once_cell::sync::Lazy;
 use serde_json::{json, Value};
 
 use crate::models::{Album, Song};
 
-lazy_static! {
-    static ref HBS: Handlebars = {
-        let mut hbs = Handlebars::new();
+static HBS: Lazy<Handlebars> = Lazy::new(|| {
+    let mut hbs = Handlebars::new();
 
-        hbs.set_strict_mode(true);
-        hbs.register_escape_fn(no_escape);
+    hbs.set_strict_mode(true);
+    hbs.register_escape_fn(no_escape);
 
-        hbs.register_template_string("album", include_str!("templates/album.toml.hbs"))
-            .unwrap();
-        hbs.register_template_string("song", include_str!("templates/song.toml.hbs"))
-            .unwrap();
-        hbs.register_template_string("tracklist", include_str!("templates/tracklist.toml.hbs"))
-            .unwrap();
+    hbs.register_template_string("album", include_str!("templates/album.toml.hbs"))
+        .unwrap();
+    hbs.register_template_string("song", include_str!("templates/song.toml.hbs"))
+        .unwrap();
+    hbs.register_template_string("tracklist", include_str!("templates/tracklist.toml.hbs"))
+        .unwrap();
 
-        hbs.register_helper("default-name", Box::new(helpers::default_name));
-        hbs.register_helper("parameterize", Box::new(helpers::parameterize));
-        hbs.register_helper("format-duration", Box::new(helpers::format_duration));
+    hbs.register_helper("default-name", Box::new(helpers::default_name));
+    hbs.register_helper("parameterize", Box::new(helpers::parameterize));
+    hbs.register_helper("format-duration", Box::new(helpers::format_duration));
 
-        hbs
-    };
-}
+    hbs
+});
 
 #[derive(Default)]
 pub struct Renderer;
