@@ -9,12 +9,12 @@ use crate::{
     models::{Album, AlbumBuilder, AlbumKind, Name, Song},
 };
 
-static HOST: &'static str = "www.melon.com";
-static HTML_ENDPOINT: &'static str = "https://www.melon.com/album/detail.htm";
-static JSON_ENDPOINT: &'static str = "https://www.melon.com/webplayer/getContsInfo.json";
+static HOST: &str = "www.melon.com";
+static HTML_ENDPOINT: &str = "https://www.melon.com/album/detail.htm";
+static JSON_ENDPOINT: &str = "https://www.melon.com/webplayer/getContsInfo.json";
 
-static COUNTRY: &'static str = "KR";
-static LOCALE: &'static str = "ko";
+static COUNTRY: &str = "KR";
+static LOCALE: &str = "ko";
 
 pub struct MelonExtractor {
     album_id: String,

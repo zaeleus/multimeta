@@ -11,14 +11,14 @@ use crate::{
     models::{Album, AlbumBuilder, AlbumKind, Name, Song},
 };
 
-static HOST: &'static str = "mora.jp";
+static HOST: &str = "mora.jp";
 
-static HTML_BASE_URL: &'static str = "http://mora.jp/package";
-static JSON_BASE_URL: &'static str = "http://cf.mora.jp/contents/package";
-static JSON_FILENAME: &'static str = "packageMeta.json";
+static HTML_BASE_URL: &str = "http://mora.jp/package";
+static JSON_BASE_URL: &str = "http://cf.mora.jp/contents/package";
+static JSON_FILENAME: &str = "packageMeta.json";
 
-static COUNTRY: &'static str = "JP";
-static LOCALE: &'static str = "ja";
+static COUNTRY: &str = "JP";
+static LOCALE: &str = "ja";
 
 pub struct MoraExtractor {
     album_id: String,

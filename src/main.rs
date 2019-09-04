@@ -23,8 +23,8 @@ fn validate_output(s: String) -> Result<(), String> {
 }
 
 fn get_artists(output_dir: &str) -> HashSet<String> {
-    static KINDS: [&'static str; 2] = ["people", "groups"];
-    static SUFFIX: &'static str = ".toml";
+    static KINDS: [&str; 2] = ["people", "groups"];
+    static SUFFIX: &str = ".toml";
 
     let mut set = HashSet::new();
 
