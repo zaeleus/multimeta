@@ -1,5 +1,7 @@
 # multimeta
 
+[![GitHub Actions status](https://github.com/zaeleus/multimeta/workflows/CI/badge.svg)](https://github.com/zaeleus/multimeta/actions)
+
 **multimeta** is a music metadata scraper for multiple Asian music stores. It
 currently supports [Melon] (KR) and [Mora] (JP). The output is a relational,
 multi-file TOML format, which can be seen in [lp-seeds].
