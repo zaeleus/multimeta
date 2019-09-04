@@ -1,0 +1,47 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  clippy:
+    runs-on: ubuntu-18.04
+
+    steps:
+      - uses: actions/checkout@v1
+      - run: |
+          rustup update stable
+          rustup default stable
+          rustup component add clippy
+      - run: cargo clippy -- --deny warnings
+
+  rustfmt:
+    runs-on: ubuntu-18.04
+
+    steps:
+      - uses: actions/checkout@v1
+      - run: |
+          rustup update stable
+          rustup default stable
+          rustup component add rustfmt
+      - run: cargo fmt -- --check
+
+  test:
+    runs-on: ubuntu-18.04
+
+    steps:
+      - uses: actions/checkout@v1
+      - run: docker image build --target env --tag multimeta-env .
+      - run: |
+          docker container run \
+            --env MOZJPEG_HOME=/opt/mozjpeg \
+            --mount type=bind,source=$(pwd)/test,target=/tmp/multimeta/test,readonly \
+            multimeta-env \
+            cargo test --manifest-path /tmp/multimeta/Cargo.toml
+
+  run:
+    runs-on: ubuntu-18.04
+
+    steps:
+      - uses: actions/checkout@v1
+      - run: docker image build --tag multimeta .
+      - run: docker container run multimeta --version
