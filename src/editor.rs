@@ -1,6 +1,4 @@
-use self::readline::{editline, readline};
-
-mod readline;
+use rustyline::{self, error::ReadlineError};
 
 use crate::{
     models::{Album, AlbumKind, Name, Song},
@@ -264,6 +262,27 @@ fn update_name_flags(names: &mut [NameInput], i: usize) {
 
 fn parse_boolean(s: &str) -> bool {
     s == "true" || s == "t"
+}
+
+fn readline(prompt: &str) -> rustyline::Result<String> {
+    let mut rl = rustyline::Editor::<()>::new();
+    exit_on_interrupted(rl.readline(prompt))
+}
+
+fn editline(prompt: &str, text: &str) -> rustyline::Result<String> {
+    let mut rl = rustyline::Editor::<()>::new();
+    exit_on_interrupted(rl.readline_with_initial(prompt, (text, "")))
+}
+
+fn exit_on_interrupted(result: rustyline::Result<String>) -> rustyline::Result<String> {
+    match result {
+        Ok(s) => Ok(s),
+        Err(e) => match e {
+            // Errno 130 matches the behavior of readline.
+            ReadlineError::Interrupted => std::process::exit(130),
+            _ => Err(e),
+        },
+    }
 }
 
 #[cfg(test)]

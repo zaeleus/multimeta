@@ -13,9 +13,7 @@ multi-file TOML format, which can be seen in [lp-seeds].
 ## Prerequisites
 
   * [mozjpeg] ^3.0.0 (provides `cjpeg` and `jpegtran`)
-  * [readline] >= 7.0
   * [rust] ^1.32.0
 
 [mozjpeg]: https://github.com/mozilla/mozjpeg
-[readline]: https://tiswww.case.edu/php/chet/readline/rltop.html
 [rust]: https://www.rust-lang.org/

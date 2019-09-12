@@ -15,7 +15,7 @@ RUN cd /tmp \
       && make --jobs $(nproc) install \
       && rm -r /tmp/mozjpeg-3.3.1
 
-COPY build.rs Cargo.lock Cargo.toml /tmp/multimeta/
+COPY Cargo.lock Cargo.toml /tmp/multimeta/
 COPY .git/ /tmp/multimeta/.git
 COPY src/ /tmp/multimeta/src/
 
@@ -25,7 +25,6 @@ RUN cargo build --release --manifest-path /tmp/multimeta/Cargo.toml
 
 FROM debian:buster
 
-COPY --from=env /lib/x86_64-linux-gnu/libreadline.so.7 /lib/x86_64-linux-gnu/
 COPY --from=env /opt/mozjpeg/ /opt/mozjpeg/
 COPY --from=builder /tmp/multimeta/target/release/multimeta /opt/multimeta/bin/
 
