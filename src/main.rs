@@ -1,4 +1,7 @@
-use std::{collections::HashSet, path::Path};
+use std::{
+    collections::HashSet,
+    path::{Path, PathBuf},
+};
 
 use clap::{crate_name, value_t, App, Arg};
 use git_testament::{git_testament, render_testament};
@@ -22,11 +25,16 @@ fn validate_output(s: String) -> Result<(), String> {
     }
 }
 
-fn get_artists(output_dir: &str) -> HashSet<String> {
+fn get_artists<P>(output_dir: P) -> HashSet<String>
+where
+    P: AsRef<Path>,
+{
     static KINDS: [&str; 2] = ["people", "groups"];
     static SUFFIX: &str = ".toml";
 
     let mut set = HashSet::new();
+
+    let output_dir = output_dir.as_ref().to_str().unwrap();
 
     for kind in &KINDS {
         let prefix = format!("{}/artists/{}/", output_dir, kind);
@@ -49,7 +57,10 @@ fn get_artists(output_dir: &str) -> HashSet<String> {
     set
 }
 
-fn check_artist_id(output_dir: &str, artist_id: &str) {
+fn check_artist_id<P>(output_dir: P, artist_id: &str)
+where
+    P: AsRef<Path>,
+{
     let artists = get_artists(output_dir);
 
     if !artists.contains(artist_id) {
@@ -97,9 +108,9 @@ fn main() {
         env_logger::init();
     }
 
-    let output_dir = matches.value_of("output").unwrap();
-    let artist_id = matches.value_of("artist-id").unwrap();
+    let output_dir = value_t!(matches, "output", PathBuf).unwrap_or_else(|e| e.exit());
 
+    let artist_id = matches.value_of("artist-id").unwrap();
     let url = value_t!(matches, "url", Url).unwrap_or_else(|e| e.exit());
 
     if log_enabled!(Level::Warn) {

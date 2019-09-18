@@ -17,13 +17,16 @@ use crate::{
 };
 
 pub struct Writer {
-    dst_prefix: String,
+    dst_prefix: PathBuf,
 }
 
 impl Writer {
-    pub fn new(dst_prefix: &str) -> Writer {
+    pub fn new<P>(dst_prefix: P) -> Writer
+    where
+        P: AsRef<Path>,
+    {
         Writer {
-            dst_prefix: dst_prefix.into(),
+            dst_prefix: dst_prefix.as_ref().into(),
         }
     }
 
@@ -40,7 +43,7 @@ impl Writer {
     }
 
     fn write_album(&self, renderer: &Renderer, artist_id: &str, album: &Album) -> io::Result<()> {
-        let dst_prefix: PathBuf = [&self.dst_prefix, "albums", artist_id].iter().collect();
+        let dst_prefix = self.dst_prefix.join("albums").join(artist_id);
 
         fs::create_dir_all(&dst_prefix)?;
 
@@ -54,7 +57,7 @@ impl Writer {
     }
 
     fn write_songs(&self, renderer: &Renderer, artist_id: &str, album: &Album) -> io::Result<()> {
-        let dst_prefix: PathBuf = [&self.dst_prefix, "songs", artist_id].iter().collect();
+        let dst_prefix = self.dst_prefix.join("songs").join(artist_id);
 
         fs::create_dir_all(&dst_prefix)?;
 
@@ -79,15 +82,12 @@ impl Writer {
     ) -> io::Result<()> {
         let album_name = album.default_name().expect("no default album name");
 
-        let dst_prefix: PathBuf = [
-            &self.dst_prefix,
-            "tracklists",
-            artist_id,
-            &parameterize(&album_name),
-            "default",
-        ]
-        .iter()
-        .collect();
+        let dst_prefix = self
+            .dst_prefix
+            .join("tracklists")
+            .join(artist_id)
+            .join(parameterize(&album_name))
+            .join("default");
 
         fs::create_dir_all(&dst_prefix)?;
 
@@ -101,16 +101,13 @@ impl Writer {
     pub fn write_artwork(&self, artist_id: &str, album: &Album) -> io::Result<()> {
         let album_name = album.default_name().expect("no default album name");
 
-        let mut dst_prefix: PathBuf = [
-            &self.dst_prefix,
-            "-attachments",
-            "albums",
-            artist_id,
-            &parameterize(&album_name),
-            "-original",
-        ]
-        .iter()
-        .collect();
+        let mut dst_prefix = self
+            .dst_prefix
+            .join("-attachments")
+            .join("albums")
+            .join(artist_id)
+            .join(parameterize(&album_name))
+            .join("-original");
 
         fs::create_dir_all(&dst_prefix)?;
 
