@@ -38,7 +38,7 @@ pub struct NameInput {
     pub is_original: bool,
     pub is_default: bool,
 
-    pub _delete: bool,
+    pub delete: bool,
 }
 
 impl<'a> From<&'a Name> for NameInput {
@@ -49,7 +49,7 @@ impl<'a> From<&'a Name> for NameInput {
             is_original: name.is_original,
             is_default: name.is_default,
 
-            _delete: false,
+            delete: false,
         }
     }
 }
@@ -118,7 +118,7 @@ fn edit_names(names: &mut Vec<NameInput>) {
         println!("names:");
 
         for (i, name) in names.iter().enumerate() {
-            let status = if name._delete { "*" } else { "" };
+            let status = if name.delete { "*" } else { "" };
 
             println!(
                 "  {}{}. {} (locale: {}, original: {}, default: {})",
@@ -200,7 +200,7 @@ fn edit_name(name: &mut NameInput) {
 
 fn delete_name(names: &mut Vec<NameInput>, i: usize) {
     let name = &mut names[i];
-    name._delete = !name._delete;
+    name.delete = !name.delete;
 }
 
 /// Adds a new name based on some heuristics.
@@ -321,10 +321,10 @@ mod tests {
         let mut names = vec![NameInput::default()];
 
         delete_name(&mut names, 0);
-        assert!(names[0]._delete);
+        assert!(names[0].delete);
 
         delete_name(&mut names, 0);
-        assert!(!names[0]._delete);
+        assert!(!names[0].delete);
     }
 
     #[test]

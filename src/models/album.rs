@@ -58,7 +58,7 @@ impl From<AlbumInput> for Album {
             names: input
                 .names
                 .into_iter()
-                .filter(|n| !n._delete)
+                .filter(|n| !n.delete)
                 .map(Name::from)
                 .collect(),
             songs: input.songs.into_iter().map(Song::from).collect(),

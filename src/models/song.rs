@@ -40,7 +40,7 @@ impl From<SongInput> for Song {
             names: input
                 .names
                 .into_iter()
-                .filter(|n| !n._delete)
+                .filter(|n| !n.delete)
                 .map(Name::from)
                 .collect(),
         }
