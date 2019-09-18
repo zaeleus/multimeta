@@ -30,26 +30,29 @@ where
     P: AsRef<Path>,
 {
     static KINDS: [&str; 2] = ["people", "groups"];
-    static SUFFIX: &str = ".toml";
 
     let mut set = HashSet::new();
 
-    let output_dir = output_dir.as_ref().to_str().unwrap();
+    // Resolve the absolute path since a leading current directory component
+    // does not appear in the glob results.
+    let output_dir = output_dir.as_ref().canonicalize().unwrap();
 
     for kind in &KINDS {
-        let prefix = format!("{}/artists/{}/", output_dir, kind);
-        let pattern = format!("{}**/*{}", prefix, SUFFIX);
+        let prefix = output_dir.join("artists").join(kind);
+        let pattern = prefix.join("**/*.toml");
+        let pattern = pattern.to_str().unwrap();
 
-        let entries = glob(&pattern)
-            .expect("bad glob pattern")
+        let entries = glob(pattern)
+            .expect("invalid glob pattern")
             .filter_map(Result::ok);
 
         for entry in entries {
-            let path = entry.to_str().unwrap();
-            let start = prefix.len();
-            let end = path.len() - SUFFIX.len();
-            let id = &path[start..end];
+            let path = entry
+                .strip_prefix(&prefix)
+                .map(|p| p.with_extension(""))
+                .expect("entry must have prefix");
 
+            let id = path.to_str().unwrap();
             set.insert(String::from(id));
         }
     }
@@ -134,4 +137,20 @@ fn main() {
     writer
         .write_templates(&renderer, &artist_id, &album)
         .expect("write failed");
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_get_artists() {
+        let artists = get_artists("test/fixtures/fs");
+
+        assert_eq!(artists.len(), 3);
+
+        assert!(artists.contains("apink/chorong"));
+        assert!(artists.contains("bol4"));
+        assert!(artists.contains("i"));
+    }
 }
