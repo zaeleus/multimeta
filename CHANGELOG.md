@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+### Added
+
+  * melon: Parse "옴니버스" ("omnibus") album kind as an LP. Omnibus albums are
+    likely to be either an EP or LP, but since it's typically a collection of
+    many songs, it's assumed to be an LP.
+
 ### Changed
 
   * The line editor changed from [Readline] to [Rustyline]. Rustyline provides

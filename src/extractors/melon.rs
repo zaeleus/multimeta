@@ -152,6 +152,12 @@ fn parse_album_kind(s: &str) -> extractors::Result<AlbumKind> {
         }
         "EP" => Ok(AlbumKind::Ep),
         "정규" => Ok(AlbumKind::Lp),
+        "옴니버스" => {
+            // "Omnibus" is probably either an EP or LP, but since it's
+            // typically a collection, assume it's an album.
+            warn!("assuming album kind '옴니버스' as 'LP'");
+            Ok(AlbumKind::Lp)
+        }
         _ => Err(ExtractionError::Parse("album kind")),
     }
 }
@@ -295,6 +301,7 @@ mod tests {
         assert_eq!(parse_album_kind("정규").unwrap(), AlbumKind::Lp);
         assert_eq!(parse_album_kind("OST").unwrap(), AlbumKind::Single);
         assert_eq!(parse_album_kind("리믹스").unwrap(), AlbumKind::Single);
+        assert_eq!(parse_album_kind("옴니버스").unwrap(), AlbumKind::Lp);
 
         assert!(parse_album_kind("foo").is_err());
     }
