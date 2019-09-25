@@ -14,6 +14,9 @@
     the same functionality that is used in the album editor without requiring
     an out-of-project dependency.
 
+  * mora: Requests are now made over https. Previously, mora only supported
+    http.
+
 [Readline]: https://tiswww.case.edu/php/chet/readline/rltop.html
 [rustyline]: https://github.com/kkawakam/rustyline
 

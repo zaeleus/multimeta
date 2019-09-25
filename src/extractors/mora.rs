@@ -13,8 +13,8 @@ use crate::{
 
 static HOST: &str = "mora.jp";
 
-static HTML_BASE_URL: &str = "http://mora.jp/package";
-static JSON_BASE_URL: &str = "http://cf.mora.jp/contents/package";
+static HTML_BASE_URL: &str = "https://mora.jp/package";
+static JSON_BASE_URL: &str = "https://cf.mora.jp/contents/package";
 static JSON_FILENAME: &str = "packageMeta.json";
 
 static COUNTRY: &str = "JP";
@@ -194,13 +194,13 @@ mod tests {
 
     #[test]
     fn test_matches() {
-        let url = Url::parse("http://mora.jp/package/43000001/4547366347050/").unwrap();
+        let url = Url::parse("https://mora.jp/package/43000001/4547366347050/").unwrap();
         assert!(MoraExtractor::matches(&url));
 
-        let url = Url::parse("http://mora.jp/index_j").unwrap();
+        let url = Url::parse("https://mora.jp/index_j").unwrap();
         assert!(MoraExtractor::matches(&url));
 
-        let url = Url::parse("http://mora.jp/").unwrap();
+        let url = Url::parse("https://mora.jp/").unwrap();
         assert!(MoraExtractor::matches(&url));
 
         let url = Url::parse("https://www.google.com/").unwrap();
@@ -216,7 +216,7 @@ mod tests {
         assert_eq!(album.country, "JP");
         assert_eq!(album.released_on, "2018-02-12");
         assert!(album.artwork_url.is_none());
-        assert_eq!(album.url, "http://mora.jp/package/43000001/4547366347050/");
+        assert_eq!(album.url, "https://mora.jp/package/43000001/4547366347050/");
 
         assert_eq!(album.names.len(), 1);
         assert_eq!(&album.names[0], &Name::new("HONEY", "ja", true, true));
@@ -252,10 +252,10 @@ mod tests {
 
     #[test]
     fn test_parse_album_id() {
-        let url = Url::parse("http://mora.jp/package/43000001/4547366347050/").unwrap();
+        let url = Url::parse("https://mora.jp/package/43000001/4547366347050/").unwrap();
         assert_eq!(parse_album_id(&url).unwrap(), "43000001/4547366347050");
 
-        let url = Url::parse("http://mora.jp/index_j").unwrap();
+        let url = Url::parse("https://mora.jp/index_j").unwrap();
         assert!(parse_album_id(&url).is_err());
     }
 
@@ -272,7 +272,7 @@ mod tests {
     fn test_build_json_endpoint() {
         let actual = build_json_endpoint("0000", "00000068", "11174315");
         let expected =
-            "http://cf.mora.jp/contents/package/0000/00000068/0011/174/315/packageMeta.json";
+            "https://cf.mora.jp/contents/package/0000/00000068/0011/174/315/packageMeta.json";
         assert_eq!(actual, expected);
     }
 
