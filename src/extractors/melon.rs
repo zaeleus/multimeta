@@ -338,10 +338,7 @@ mod tests {
             r#""개 같은 하루 (with TTG)" OST"#,
         );
 
-        assert_eq!(
-            normalize_name("서핑해 (Surfin&#39;)"),
-            "서핑해 (Surfin')"
-        );
+        assert_eq!(normalize_name("서핑해 (Surfin&#39;)"), "서핑해 (Surfin')");
 
         let actual = normalize_name("Love Don`t Hurt (Feat. Amber Of f(x))");
         let expected = "Love Don't Hurt (Feat. Amber of f(x))";

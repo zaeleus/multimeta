@@ -104,10 +104,7 @@ mod tests {
             titleize("See Saw (Feat. Kim Lip) (Chuu, Go Won)"),
             "See Saw (Feat. Kim Lip) (Chuu, Go Won)"
         );
-        assert_eq!(
-            titleize("Girl's Talk (이브, 츄)"),
-            "Girl's Talk (이브, 츄)"
-        );
+        assert_eq!(titleize("Girl's Talk (이브, 츄)"), "Girl's Talk (이브, 츄)");
         assert_eq!(
             titleize("See Saw (Feat. kimlip) (chuu, gowon)"),
             "See Saw (Feat. Kimlip) (Chuu, Gowon)"
@@ -137,10 +134,7 @@ mod tests {
             parameterize("Kkumkkuneun Maeumeuro (Chinese Ver.)"),
             "kkumkkuneun-maeumeuro-chinese-ver"
         );
-        assert_eq!(
-            parameterize("꿈꾸는 마음으로"),
-            "ggumgguneun-maeumeuro"
-        );
+        assert_eq!(parameterize("꿈꾸는 마음으로"), "ggumgguneun-maeumeuro");
         assert_eq!(
             parameterize("꿈꾸는 마음으로 (Chinese Ver.)"),
             "ggumgguneun-maeumeuro-chinese-ver"

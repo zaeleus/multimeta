@@ -141,12 +141,7 @@ mod tests {
 
     fn build_album() -> Album {
         let mut song_a = Song::new(3, 266);
-        song_a.add_name(Name::new(
-            "잠 못 드는 밤 비는 내리고",
-            "ko",
-            true,
-            false,
-        ));
+        song_a.add_name(Name::new("잠 못 드는 밤 비는 내리고", "ko", true, false));
         song_a.add_name(Name::new(
             "Jam Mot Deuneun Bam Bineun Naerigo",
             "ko-Latn",
