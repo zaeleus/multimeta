@@ -8,9 +8,9 @@ license = "MIT"
 [dependencies]
 chrono = "0.4.0"
 clap = "2.30.0"
-env_logger = "0.6.0"
+env_logger = "0.7.0"
 glob = "0.3.0"
-handlebars = "1.0.5"
+handlebars = "2.0.2"
 hangeul = { git = "https://github.com/zaeleus/hangeul.git" }
 git-testament = "0.1.4"
 libc = "0.2.37"
