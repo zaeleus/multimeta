@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## [0.2.0] - 2019-10-01
 
 ### Added
 
@@ -29,3 +29,5 @@
 ## 0.1.0 - 2019-09-04
 
   * Initial release
+
+[0.2.0]: https://github.com/zaeleus/multimeta/compare/v0.1.0...v0.2.0
