@@ -134,7 +134,7 @@ fn parse_songs(songs: &[RawSong], mut builder: AlbumBuilder) -> extractors::Resu
 fn parse_album_id(url: &Url) -> extractors::Result<String> {
     url.query_pairs()
         .find(|&(ref k, _)| k == "albumId")
-        .and_then(|(_, v)| Some(v.into_owned()))
+        .map(|(_, v)| v.into_owned())
         .ok_or(ExtractionError::Url("missing query param `albumId`"))
 }
 
