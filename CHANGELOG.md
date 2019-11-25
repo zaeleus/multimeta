@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+  * melon: Replace prime (′) with quotation mark.
+
 ## [0.2.0] - 2019-10-01
 
 ### Added
