@@ -322,27 +322,34 @@ mod tests {
 
     #[test]
     fn test_normalize_name() {
+        // https://www.melon.com/album/detail.htm?albumId=10123637
         assert_eq!(
             normalize_name("Girl`s Talk (이브, 츄)"),
             "Girl's Talk (이브, 츄)"
         );
 
+        // https://www.melon.com/album/detail.htm?albumId=598055
         assert_eq!(normalize_name("I Don’t Care"), "I Don't Care");
 
+        // https://www.melon.com/album/detail.htm?albumId=10288337
         assert_eq!(
             normalize_name("3YE 1st Digital Single ‘DMT`"),
             "3YE 1st Digital Single 'DMT'"
         );
 
+        // https://www.melon.com/album/detail.htm?albumId=10353029
         assert_eq!(normalize_name("Let′s Go Everywhere"), "Let's Go Everywhere");
 
+        // https://www.melon.com/album/detail.htm?albumId=10310489
         assert_eq!(
             normalize_name("&#34;개 같은 하루 (with TTG)&#34; OST"),
             r#""개 같은 하루 (with TTG)" OST"#,
         );
 
+        // https://www.melon.com/album/detail.htm?albumId=10309095
         assert_eq!(normalize_name("서핑해 (Surfin&#39;)"), "서핑해 (Surfin')");
 
+        // https://www.melon.com/album/detail.htm?albumId=10074419
         let actual = normalize_name("Love Don`t Hurt (Feat. Amber Of f(x))");
         let expected = "Love Don't Hurt (Feat. Amber of f(x))";
         assert_eq!(actual, expected);
