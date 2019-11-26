@@ -6,6 +6,12 @@
 
   * melon: Replace prime (′) with quotation mark.
 
+### Fixed
+
+  * Names with double quotes would result in invalid TOML. Double quotes in
+    names are now escaped. For example, `The year of "YES"` is now rendered as
+    `The year of \"YES\"`.
+
 ## [0.2.0] - 2019-10-01
 
 ### Added

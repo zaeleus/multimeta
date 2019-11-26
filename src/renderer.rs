@@ -20,6 +20,7 @@ static HBS: Lazy<Handlebars> = Lazy::new(|| {
     hbs.register_helper("default-name", Box::new(helpers::default_name));
     hbs.register_helper("parameterize", Box::new(helpers::parameterize));
     hbs.register_helper("format-duration", Box::new(helpers::format_duration));
+    hbs.register_helper("escape-quotes", Box::new(helpers::escape_quotes));
 
     hbs
 });
@@ -63,12 +64,16 @@ fn default_name(values: &[Value]) -> Option<String> {
         .map(|(name, _)| name.to_owned())
 }
 
+fn escape_quotes(s: &str) -> String {
+    s.replace('"', r#"\""#)
+}
+
 mod helpers {
     use handlebars::{
         Context, Handlebars, Helper, HelperResult, Output, RenderContext, RenderError,
     };
 
-    use super::default_name as _default_name;
+    use super::{default_name as _default_name, escape_quotes as _escape_quotes};
     use crate::util::format_duration as _format_duration;
     use crate::util::inflector::parameterize as _parameterize;
 
@@ -125,6 +130,25 @@ mod helpers {
             .ok_or_else(|| RenderError::new("parameterize: first argument must be a string"))?;
 
         let transformed = _parameterize(text);
+
+        out.write(&transformed)?;
+
+        Ok(())
+    }
+
+    pub fn escape_quotes(
+        h: &Helper<'_, '_>,
+        _: &Handlebars,
+        _: &Context,
+        _: &mut RenderContext<'_>,
+        out: &mut dyn Output,
+    ) -> HelperResult {
+        let text = h
+            .param(0)
+            .and_then(|v| v.value().as_str())
+            .ok_or_else(|| RenderError::new("escape-quotes: first argument must be a string"))?;
+
+        let transformed = _escape_quotes(text);
 
         out.write(&transformed)?;
 
@@ -211,5 +235,18 @@ mod tests {
         let data = json!([]);
         let values = data.as_array().unwrap();
         assert!(default_name(&values).is_none());
+    }
+
+    #[test]
+    fn test_escape_quotes() {
+        assert_eq!(escape_quotes("As You Wish"), "As You Wish");
+        assert_eq!(
+            escape_quotes(r#"The year of "YES""#),
+            r#"The year of \"YES\""#
+        );
+        assert_eq!(
+            escape_quotes(r#"It's a "New Day""#),
+            r#"It's a \"New Day\""#
+        );
     }
 }
