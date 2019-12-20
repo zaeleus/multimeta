@@ -522,7 +522,7 @@ dependencies = [
 [[package]]
 name = "hangeul"
 version = "0.1.0"
-source = "git+https://github.com/zaeleus/hangeul.git#8e234f9ad0133b9e1d548b76582ff9a0070acf1c"
+source = "git+https://github.com/zaeleus/hangeul.git?rev=8e234f9ad0133b9e1d548b76582ff9a0070acf1c#8e234f9ad0133b9e1d548b76582ff9a0070acf1c"
 
 [[package]]
 name = "hashbrown"
@@ -834,7 +834,7 @@ dependencies = [
  "git-testament 0.1.7 (registry+https://github.com/rust-lang/crates.io-index)",
  "glob 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "handlebars 2.0.2 (registry+https://github.com/rust-lang/crates.io-index)",
- "hangeul 0.1.0 (git+https://github.com/zaeleus/hangeul.git)",
+ "hangeul 0.1.0 (git+https://github.com/zaeleus/hangeul.git?rev=8e234f9ad0133b9e1d548b76582ff9a0070acf1c)",
  "libc 0.2.66 (registry+https://github.com/rust-lang/crates.io-index)",
  "log 0.4.8 (registry+https://github.com/rust-lang/crates.io-index)",
  "once_cell 1.2.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -2179,7 +2179,7 @@ dependencies = [
 "checksum glob 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)" = "9b919933a397b79c37e33b77bb2aa3dc8eb6e165ad809e58ff75bc7db2e34574"
 "checksum h2 0.1.26 (registry+https://github.com/rust-lang/crates.io-index)" = "a5b34c246847f938a410a03c5458c7fee2274436675e76d8b903c08efc29c462"
 "checksum handlebars 2.0.2 (registry+https://github.com/rust-lang/crates.io-index)" = "91ef1ac30f2eaaa2b835fce73c57091cb6b9fc62b7eef285efbf980b0f20001b"
-"checksum hangeul 0.1.0 (git+https://github.com/zaeleus/hangeul.git)" = "<none>"
+"checksum hangeul 0.1.0 (git+https://github.com/zaeleus/hangeul.git?rev=8e234f9ad0133b9e1d548b76582ff9a0070acf1c)" = "<none>"
 "checksum hashbrown 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)" = "e1de41fb8dba9714efd92241565cdff73f78508c95697dd56787d3cba27e2353"
 "checksum heck 0.3.1 (registry+https://github.com/rust-lang/crates.io-index)" = "20564e78d53d2bb135c343b3f47714a56af2061f1c928fdb541dc7b9fdd94205"
 "checksum hermit-abi 0.1.5 (registry+https://github.com/rust-lang/crates.io-index)" = "f629dc602392d3ec14bfc8a09b5e644d7ffd725102b48b81e59f90f2633621d7"
