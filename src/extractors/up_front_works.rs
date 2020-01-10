@@ -41,7 +41,7 @@ impl UpFrontWorksExtractor {
 
     fn fetch(&self) -> Result<String, reqwest::Error> {
         let url = format!("{}/{}/", BASE_URL, self.album_id);
-        reqwest::get(&url).and_then(|mut r| r.text())
+        reqwest::blocking::get(&url).and_then(|r| r.text())
     }
 }
 

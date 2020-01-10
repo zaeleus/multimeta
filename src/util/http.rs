@@ -6,7 +6,7 @@ use std::{
 
 use log::info;
 use pbr::{ProgressBar, Units};
-use reqwest::Client;
+use reqwest::blocking::Client;
 
 const DEFAULT_BUF_SIZE: usize = 8192; // bytes
 

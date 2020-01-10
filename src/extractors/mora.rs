@@ -66,7 +66,7 @@ impl Extractor for MoraExtractor {
 }
 
 fn fetch(url: &str) -> Result<String, reqwest::Error> {
-    reqwest::get(url).and_then(|mut r| r.text())
+    reqwest::blocking::get(url).and_then(|r| r.text())
 }
 
 fn parse(album_id: &str, json: &str) -> extractors::Result<Album> {

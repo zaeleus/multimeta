@@ -41,13 +41,13 @@ impl MelonExtractor {
     fn fetch_html(&self) -> Result<String, reqwest::Error> {
         let params = [("albumId", &self.album_id)];
         let url = Url::parse_with_params(HTML_ENDPOINT, &params).unwrap();
-        reqwest::get(url).and_then(|mut r| r.text())
+        reqwest::blocking::get(url).and_then(|r| r.text())
     }
 
     fn fetch_json(&self) -> Result<String, reqwest::Error> {
         let params = [("contsType", "A"), ("contsIds", &self.album_id)];
         let url = Url::parse_with_params(JSON_ENDPOINT, &params).unwrap();
-        reqwest::get(url).and_then(|mut r| r.text())
+        reqwest::blocking::get(url).and_then(|r| r.text())
     }
 }
 
