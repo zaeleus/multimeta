@@ -11,6 +11,8 @@ use crate::{
     models::{Album, AlbumBuilder, AlbumKind, Name, Song},
 };
 
+static USER_AGENT: &str = concat!(env!("CARGO_PKG_NAME"), "/", env!("CARGO_PKG_VERSION"));
+
 static HOST: &str = "mora.jp";
 
 static HTML_BASE_URL: &str = "https://mora.jp/package";
@@ -66,7 +68,12 @@ impl Extractor for MoraExtractor {
 }
 
 fn fetch(url: &str) -> Result<String, reqwest::Error> {
-    reqwest::blocking::get(url).and_then(|r| r.text())
+    // A user agent is required to make a request to mora.jp.
+    let client = reqwest::blocking::ClientBuilder::new()
+        .user_agent(USER_AGENT)
+        .build()?;
+
+    client.get(url).send().and_then(|r| r.text())
 }
 
 fn parse(album_id: &str, json: &str) -> extractors::Result<Album> {
