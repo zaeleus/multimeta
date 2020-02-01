@@ -81,7 +81,7 @@ mod helpers {
         h: &Helper<'_, '_>,
         _: &Handlebars,
         _: &Context,
-        _: &mut RenderContext<'_>,
+        _: &mut RenderContext<'_, '_>,
         out: &mut dyn Output,
     ) -> HelperResult {
         let values = h
@@ -101,7 +101,7 @@ mod helpers {
         h: &Helper<'_, '_>,
         _: &Handlebars,
         _: &Context,
-        _: &mut RenderContext<'_>,
+        _: &mut RenderContext<'_, '_>,
         out: &mut dyn Output,
     ) -> HelperResult {
         let t = h
@@ -121,7 +121,7 @@ mod helpers {
         h: &Helper<'_, '_>,
         _: &Handlebars,
         _: &Context,
-        _: &mut RenderContext<'_>,
+        _: &mut RenderContext<'_, '_>,
         out: &mut dyn Output,
     ) -> HelperResult {
         let text = h
@@ -140,7 +140,7 @@ mod helpers {
         h: &Helper<'_, '_>,
         _: &Handlebars,
         _: &Context,
-        _: &mut RenderContext<'_>,
+        _: &mut RenderContext<'_, '_>,
         out: &mut dyn Output,
     ) -> HelperResult {
         let text = h
