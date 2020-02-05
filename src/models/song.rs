@@ -4,6 +4,8 @@ use crate::{editor::SongInput, models::Name};
 
 #[derive(Debug, Serialize)]
 pub struct Song {
+    pub id: String,
+
     pub position: i32,
     pub duration: i32,
 
@@ -11,8 +13,13 @@ pub struct Song {
 }
 
 impl Song {
+    pub fn id(&self) -> &str {
+        &self.id
+    }
+
     pub fn new(position: i32, duration: i32) -> Song {
         Song {
+            id: String::new(),
             position,
             duration,
             names: Vec::new(),
@@ -34,6 +41,8 @@ impl Song {
 impl From<SongInput> for Song {
     fn from(input: SongInput) -> Song {
         Song {
+            id: input.id,
+
             position: input.position,
             duration: input.duration,
 
@@ -55,9 +64,17 @@ mod tests {
     #[test]
     fn test_new() {
         let song = Song::new(1, 195);
+        assert!(song.id.is_empty());
         assert_eq!(song.position, 1);
         assert_eq!(song.duration, 195);
         assert!(song.names.is_empty());
+    }
+
+    #[test]
+    fn test_id() {
+        let mut song = Song::new(1, 195);
+        song.id = String::from("dun-dun");
+        assert_eq!(song.id(), "dun-dun");
     }
 
     #[test]

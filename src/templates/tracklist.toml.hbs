@@ -1,9 +1,9 @@
 medium-ids = [
-  "{{artist_id}}/{{parameterize (default-name album.names)}}/default/digital1",
+  "{{artist_id}}/{{album.id}}/default/digital1",
 ]
 {{#each album.songs}}
 [[tracks]]
 position = {{position}}
-song-id = "{{../artist_id}}/{{parameterize (default-name names)}}"
+song-id = "{{../artist_id}}/{{id}}"
 duration = "{{format-duration duration}}"
 {{/each~}}

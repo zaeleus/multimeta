@@ -18,7 +18,6 @@ static HBS: Lazy<Handlebars> = Lazy::new(|| {
         .unwrap();
 
     hbs.register_helper("default-name", Box::new(helpers::default_name));
-    hbs.register_helper("parameterize", Box::new(helpers::parameterize));
     hbs.register_helper("format-duration", Box::new(helpers::format_duration));
     hbs.register_helper("escape-quotes", Box::new(helpers::escape_quotes));
 
@@ -75,7 +74,6 @@ mod helpers {
 
     use super::{default_name as _default_name, escape_quotes as _escape_quotes};
     use crate::util::format_duration as _format_duration;
-    use crate::util::inflector::parameterize as _parameterize;
 
     pub fn default_name(
         h: &Helper<'_, '_>,
@@ -117,25 +115,6 @@ mod helpers {
         Ok(())
     }
 
-    pub fn parameterize(
-        h: &Helper<'_, '_>,
-        _: &Handlebars,
-        _: &Context,
-        _: &mut RenderContext<'_, '_>,
-        out: &mut dyn Output,
-    ) -> HelperResult {
-        let text = h
-            .param(0)
-            .and_then(|v| v.value().as_str())
-            .ok_or_else(|| RenderError::new("parameterize: first argument must be a string"))?;
-
-        let transformed = _parameterize(text);
-
-        out.write(&transformed)?;
-
-        Ok(())
-    }
-
     pub fn escape_quotes(
         h: &Helper<'_, '_>,
         _: &Handlebars,
@@ -165,6 +144,7 @@ mod tests {
 
     fn build_album() -> Album {
         let mut song_a = Song::new(3, 266);
+        song_a.id = String::from("jam-mot-deuneun-bam-bineun-naerigo");
         song_a.add_name(Name::new("잠 못 드는 밤 비는 내리고", "ko", true, false));
         song_a.add_name(Name::new(
             "Jam Mot Deuneun Bam Bineun Naerigo",
@@ -175,11 +155,13 @@ mod tests {
         song_a.add_name(Name::new("Sleepless Rainy Night", "en", false, false));
 
         let mut song_b = Song::new(4, 233);
+        song_b.id = String::from("eojetbam-iyagi");
         song_b.add_name(Name::new("어젯밤 이야기", "ko", true, false));
         song_b.add_name(Name::new("Eojetbam Iyagi", "ko-Latn", false, true));
         song_b.add_name(Name::new("Last Night Story", "en", false, false));
 
         AlbumBuilder::new()
+            .set_id("kkotgalpi-dul")
             .set_kind(AlbumKind::Single)
             .set_country("KR")
             .set_released_on("2017-09-22")

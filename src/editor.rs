@@ -2,10 +2,15 @@ use rustyline::{self, error::ReadlineError};
 
 use crate::{
     models::{Album, AlbumKind, Name, Song},
-    util::{format_duration, inflector::titleize},
+    util::{
+        format_duration,
+        inflector::{parameterize, titleize},
+    },
 };
 
 pub struct AlbumInput {
+    pub id: String,
+
     pub kind: AlbumKind,
     pub country: String,
     pub released_on: String,
@@ -19,6 +24,8 @@ pub struct AlbumInput {
 impl<'a> From<&'a Album> for AlbumInput {
     fn from(album: &'a Album) -> AlbumInput {
         AlbumInput {
+            id: album.id().into(),
+
             kind: album.kind,
             country: album.country.clone(),
             released_on: album.released_on.clone(),
@@ -55,6 +62,8 @@ impl<'a> From<&'a Name> for NameInput {
 }
 
 pub struct SongInput {
+    pub id: String,
+
     pub position: i32,
     pub duration: i32,
 
@@ -64,6 +73,8 @@ pub struct SongInput {
 impl<'a> From<&'a Song> for SongInput {
     fn from(song: &'a Song) -> SongInput {
         SongInput {
+            id: song.id().into(),
+
             position: song.position,
             duration: song.duration,
 
@@ -101,6 +112,8 @@ fn edit_album(album: &mut AlbumInput) {
     println!("released on: {}", album.released_on);
 
     edit_names(&mut album.names);
+    album.id = parameterize(&default_name(&album.names).expect("missing default name"));
+
     edit_songs(&mut album.songs);
 }
 
@@ -110,6 +123,7 @@ fn edit_songs(songs: &mut [SongInput]) {
         println!("duration: {}", format_duration(song.duration));
 
         edit_names(&mut song.names);
+        song.id = parameterize(&default_name(&song.names).expect("missing default name"));
     }
 }
 
@@ -285,6 +299,10 @@ fn exit_on_interrupted(result: rustyline::Result<String>) -> rustyline::Result<S
     }
 }
 
+fn default_name(names: &[NameInput]) -> Option<String> {
+    names.iter().find(|n| n.is_default).map(|n| n.name.clone())
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -358,5 +376,25 @@ mod tests {
         assert!(!parse_boolean("tru"));
         assert!(!parse_boolean("yes"));
         assert!(!parse_boolean("y"));
+    }
+
+    #[test]
+    fn test_default_name() {
+        let names = vec![
+            NameInput {
+                name: String::from("비밀이야"),
+                ..NameInput::default()
+            },
+            NameInput {
+                name: String::from("Bimiriya"),
+                is_default: true,
+                ..NameInput::default()
+            },
+        ];
+
+        assert_eq!(default_name(&names), Some(String::from("Bimiriya")));
+
+        let names = vec![];
+        assert!(default_name(&names).is_none());
     }
 }

@@ -5,6 +5,7 @@ use serde::Serialize;
 use crate::{
     editor::AlbumInput,
     models::{Name, Song},
+    util::inflector::parameterize,
 };
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize)]
@@ -27,6 +28,8 @@ impl fmt::Display for AlbumKind {
 
 #[derive(Serialize)]
 pub struct Album {
+    pub id: String,
+
     pub kind: AlbumKind,
     pub country: String,
     pub released_on: String,
@@ -38,6 +41,10 @@ pub struct Album {
 }
 
 impl Album {
+    pub fn id(&self) -> &str {
+        &self.id
+    }
+
     pub fn default_name(&self) -> Option<String> {
         self.names
             .iter()
@@ -49,6 +56,8 @@ impl Album {
 impl From<AlbumInput> for Album {
     fn from(input: AlbumInput) -> Album {
         Album {
+            id: input.id,
+
             kind: input.kind,
             country: input.country,
             released_on: input.released_on,
@@ -68,6 +77,8 @@ impl From<AlbumInput> for Album {
 
 #[derive(Default)]
 pub struct AlbumBuilder {
+    pub id: Option<String>,
+
     pub kind: Option<AlbumKind>,
     pub country: Option<String>,
     pub released_on: Option<String>,
@@ -81,6 +92,11 @@ pub struct AlbumBuilder {
 impl AlbumBuilder {
     pub fn new() -> AlbumBuilder {
         AlbumBuilder::default()
+    }
+
+    pub fn set_id(mut self, id: &str) -> AlbumBuilder {
+        self.id = Some(id.to_owned());
+        self
     }
 
     pub fn set_kind(mut self, kind: AlbumKind) -> AlbumBuilder {
@@ -119,7 +135,20 @@ impl AlbumBuilder {
     }
 
     pub fn build(self) -> Album {
+        let id = self
+            .id
+            .clone()
+            .or_else(|| {
+                self.names
+                    .iter()
+                    .find(|n| n.is_default)
+                    .map(|n| parameterize(&n.name))
+            })
+            .expect("missing id");
+
         Album {
+            id,
+
             kind: self.kind.expect("missing kind"),
             country: self.country.expect("missing country"),
             released_on: self.released_on.expect("missing released on"),
@@ -134,8 +163,21 @@ impl AlbumBuilder {
 
 #[cfg(test)]
 mod tests {
-    use super::{AlbumBuilder, AlbumKind};
+    use super::{Album, AlbumBuilder, AlbumKind};
     use crate::models::Name;
+
+    fn build_album() -> Album {
+        AlbumBuilder::new()
+            .set_id("from-wjsn")
+            .set_kind(AlbumKind::Single)
+            .set_country("KR")
+            .set_released_on("2017-01-04")
+            .set_artwork_url("http://localhost/artwork.jpg")
+            .set_url("http://localhost/albums/1")
+            .add_name(Name::new("From. 우주소녀", "ko", true, false))
+            .add_name(Name::new("From. WJSN", "en", false, true))
+            .build()
+    }
 
     #[test]
     fn test_fmt() {
@@ -145,17 +187,14 @@ mod tests {
     }
 
     #[test]
-    fn test_default_name() {
-        let album = AlbumBuilder::new()
-            .set_kind(AlbumKind::Single)
-            .set_country("KR")
-            .set_released_on("2017-01-04")
-            .set_artwork_url("http://localhost/artwork.jpg")
-            .set_url("http://localhost/albums/1")
-            .add_name(Name::new("From. 우주소녀", "ko", true, false))
-            .add_name(Name::new("From. WJSN", "en", false, true))
-            .build();
+    fn test_id() {
+        let album = build_album();
+        assert_eq!(album.id(), "from-wjsn");
+    }
 
+    #[test]
+    fn test_default_name() {
+        let album = build_album();
         assert_eq!(album.default_name(), Some(String::from("From. WJSN")));
     }
 }

@@ -11,7 +11,6 @@ use crate::{
     renderer::Renderer,
     util::{
         http::{self, Downloader},
-        inflector::parameterize,
         jpeg,
     },
 };
@@ -47,8 +46,7 @@ impl Writer {
 
         fs::create_dir_all(&dst_prefix)?;
 
-        let album_name = album.default_name().expect("no default album name");
-        let basename = parameterize(&album_name);
+        let basename = album.id();
         let dst = dst_prefix.join(format!("{}.toml", basename));
 
         let result = renderer.render_album(artist_id, album);
@@ -62,8 +60,7 @@ impl Writer {
         fs::create_dir_all(&dst_prefix)?;
 
         for song in &album.songs {
-            let song_name = song.default_name().expect("no default name");
-            let basename = parameterize(&song_name);
+            let basename = song.id();
             let dst = dst_prefix.join(format!("{}.toml", basename));
 
             let result = renderer.render_song(song);
@@ -80,13 +77,11 @@ impl Writer {
         artist_id: &str,
         album: &Album,
     ) -> io::Result<()> {
-        let album_name = album.default_name().expect("no default album name");
-
         let dst_prefix = self
             .dst_prefix
             .join("tracklists")
             .join(artist_id)
-            .join(parameterize(&album_name))
+            .join(album.id())
             .join("default");
 
         fs::create_dir_all(&dst_prefix)?;
@@ -99,14 +94,12 @@ impl Writer {
     }
 
     pub fn write_artwork(&self, artist_id: &str, album: &Album) -> io::Result<()> {
-        let album_name = album.default_name().expect("no default album name");
-
         let mut dst_prefix = self
             .dst_prefix
             .join("-attachments")
             .join("albums")
             .join(artist_id)
-            .join(parameterize(&album_name))
+            .join(album.id())
             .join("-original");
 
         fs::create_dir_all(&dst_prefix)?;
