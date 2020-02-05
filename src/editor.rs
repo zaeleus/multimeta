@@ -111,9 +111,7 @@ fn edit_album(album: &mut AlbumInput) {
     println!("kind: {}", album.kind);
     println!("released on: {}", album.released_on);
 
-    edit_names(&mut album.names);
-    album.id = parameterize(&default_name(&album.names).expect("missing default name"));
-
+    edit_names(&mut album.id, &mut album.names);
     edit_songs(&mut album.songs);
 }
 
@@ -122,13 +120,13 @@ fn edit_songs(songs: &mut [SongInput]) {
         println!("position: {}", song.position);
         println!("duration: {}", format_duration(song.duration));
 
-        edit_names(&mut song.names);
-        song.id = parameterize(&default_name(&song.names).expect("missing default name"));
+        edit_names(&mut song.id, &mut song.names);
     }
 }
 
-fn edit_names(names: &mut Vec<NameInput>) {
+fn edit_names(id: &mut String, names: &mut Vec<NameInput>) {
     loop {
+        println!("id: {}", id);
         println!("names:");
 
         for (i, name) in names.iter().enumerate() {
@@ -174,6 +172,8 @@ fn edit_names(names: &mut Vec<NameInput>) {
                 _ => {}
             }
         }
+
+        *id = parameterize(&default_name(names).expect("missing default name"));
 
         println!();
     }
