@@ -125,6 +125,8 @@ fn edit_songs(songs: &mut [SongInput]) {
 }
 
 fn edit_names(id: &mut String, names: &mut Vec<NameInput>) {
+    let mut use_default_id = true;
+
     loop {
         println!("id: {}", id);
         println!("names:");
@@ -140,7 +142,7 @@ fn edit_names(id: &mut String, names: &mut Vec<NameInput>) {
 
         println!();
 
-        if let Ok(input) = readline("> Edit name? [a/e/d/g/N] ") {
+        if let Ok(input) = readline("> Edit name? [a/e/d/g/i/N] ") {
             match input.as_ref() {
                 "a" => {
                     add_name(names);
@@ -168,14 +170,29 @@ fn edit_names(id: &mut String, names: &mut Vec<NameInput>) {
                         update_name_flags(names, i);
                     }
                 }
+                "i" => {
+                    edit_id(id);
+                    use_default_id = false;
+                }
                 "n" | "" => break,
                 _ => {}
             }
         }
 
-        *id = parameterize(&default_name(names).expect("missing default name"));
+        if use_default_id {
+            *id = parameterize(&default_name(names).expect("missing default name"));
+        }
 
         println!();
+    }
+}
+
+fn edit_id(id: &mut String) {
+    let prompt = format!("  id [{}]: ", id);
+    if let Ok(raw_id) = editline(&prompt, id) {
+        if !raw_id.is_empty() {
+            *id = raw_id;
+        }
     }
 }
 
