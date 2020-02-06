@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+  * editor: Add album and song id to editor. Use `i` at the edit prompt to edit
+    an album or song id. This is useful when a name cannot be parameterized,
+    e.g., one with just symbols (":(", "[#]", etc.), or a name is a duplicate
+    within an artist or album.
+
 ## [0.3.0] - 2019-12-20
 
 ### Added
