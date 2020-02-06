@@ -140,25 +140,29 @@ mod tests {
     use std::fs;
 
     use super::*;
-    use crate::models::{Album, AlbumBuilder, AlbumKind, Name, Song};
+    use crate::models::{Album, AlbumBuilder, AlbumKind, Name, SongBuilder};
 
     fn build_album() -> Album {
-        let mut song_a = Song::new(3, 266);
-        song_a.id = String::from("jam-mot-deuneun-bam-bineun-naerigo");
-        song_a.add_name(Name::new("잠 못 드는 밤 비는 내리고", "ko", true, false));
-        song_a.add_name(Name::new(
-            "Jam Mot Deuneun Bam Bineun Naerigo",
-            "ko-Latn",
-            false,
-            true,
-        ));
-        song_a.add_name(Name::new("Sleepless Rainy Night", "en", false, false));
+        let song_a = SongBuilder::new()
+            .set_position(3)
+            .set_duration(266)
+            .add_name(Name::new("잠 못 드는 밤 비는 내리고", "ko", true, false))
+            .add_name(Name::new(
+                "Jam Mot Deuneun Bam Bineun Naerigo",
+                "ko-Latn",
+                false,
+                true,
+            ))
+            .add_name(Name::new("Sleepless Rainy Night", "en", false, false))
+            .build();
 
-        let mut song_b = Song::new(4, 233);
-        song_b.id = String::from("eojetbam-iyagi");
-        song_b.add_name(Name::new("어젯밤 이야기", "ko", true, false));
-        song_b.add_name(Name::new("Eojetbam Iyagi", "ko-Latn", false, true));
-        song_b.add_name(Name::new("Last Night Story", "en", false, false));
+        let song_b = SongBuilder::new()
+            .set_position(4)
+            .set_duration(233)
+            .add_name(Name::new("어젯밤 이야기", "ko", true, false))
+            .add_name(Name::new("Eojetbam Iyagi", "ko-Latn", false, true))
+            .add_name(Name::new("Last Night Story", "en", false, false))
+            .build();
 
         AlbumBuilder::new()
             .set_id("kkotgalpi-dul")

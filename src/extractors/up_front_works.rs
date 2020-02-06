@@ -7,7 +7,7 @@ use select::{
 
 use crate::{
     extractors::{self, ExtractionError, Extractor},
-    models::{Album, AlbumBuilder, AlbumKind, Name, Song},
+    models::{Album, AlbumBuilder, AlbumKind, Name, SongBuilder},
 };
 
 static HOST: &str = "www.up-front-works.jp";
@@ -133,8 +133,11 @@ fn parse_songs(document: &Document, mut builder: AlbumBuilder) -> extractors::Re
             .ok_or(ExtractionError::Parse("songs[_].duration"))
             .and_then(|s| parse_duration(&s))?;
 
-        let mut song = Song::new(position, duration);
-        song.add_name(name);
+        let song = SongBuilder::new()
+            .set_position(position)
+            .set_duration(duration)
+            .add_name(name)
+            .build();
 
         builder = builder.add_song(song);
     }
