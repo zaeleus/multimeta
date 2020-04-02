@@ -9,6 +9,9 @@
     e.g., one with just symbols (":(", "[#]", etc.), or a name is a duplicate
     within an artist or album.
 
+  * melon: Parse "베스트" ("best") album kind as an LP. This is typically a
+    compilation album.
+
 ## [0.3.0] - 2019-12-20
 
 ### Added

@@ -161,6 +161,11 @@ fn parse_album_kind(s: &str) -> extractors::Result<AlbumKind> {
             warn!("assuming album kind '옴니버스' as 'LP'");
             Ok(AlbumKind::Lp)
         }
+        "베스트" => {
+            // "Best" is probably a compilation album.
+            warn!("assuming album kind '베스트' as 'LP'");
+            Ok(AlbumKind::Lp)
+        }
         _ => Err(ExtractionError::Parse("album kind")),
     }
 }
@@ -306,6 +311,9 @@ mod tests {
         assert_eq!(parse_album_kind("OST").unwrap(), AlbumKind::Single);
         assert_eq!(parse_album_kind("리믹스").unwrap(), AlbumKind::Single);
         assert_eq!(parse_album_kind("옴니버스").unwrap(), AlbumKind::Lp);
+
+        // https://www.melon.com/album/detail.htm?albumId=10404130
+        assert_eq!(parse_album_kind("베스트").unwrap(), AlbumKind::Lp);
 
         assert!(parse_album_kind("foo").is_err());
     }
