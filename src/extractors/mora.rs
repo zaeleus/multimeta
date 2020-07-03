@@ -137,7 +137,7 @@ fn parse_album_id(url: &Url) -> extractors::Result<String> {
     let pieces: Vec<&str> = url.path().split('/').filter(|p| !p.is_empty()).collect();
 
     if pieces.len() < 2 {
-        return Err(ExtractionError::Url("missing album ID in path"));
+        return Err(ExtractionError::InvalidUrl("album ID"));
     }
 
     Ok(pieces[pieces.len() - 2..].join("/"))

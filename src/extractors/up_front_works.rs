@@ -184,7 +184,7 @@ fn parse_album_id(url: &Url) -> extractors::Result<String> {
                 None
             }
         })
-        .ok_or_else(|| ExtractionError::Url("missing album ID in path"))
+        .ok_or_else(|| ExtractionError::InvalidUrl("album ID"))
 }
 
 fn parse_kind(s: &str) -> extractors::Result<AlbumKind> {

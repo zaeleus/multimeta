@@ -137,7 +137,7 @@ fn parse_album_id(url: &Url) -> extractors::Result<String> {
     url.query_pairs()
         .find(|&(ref k, _)| k == "albumId")
         .map(|(_, v)| v.into_owned())
-        .ok_or(ExtractionError::Url("missing query param `albumId`"))
+        .ok_or_else(|| ExtractionError::InvalidUrl("albumId"))
 }
 
 fn parse_album_kind(s: &str) -> extractors::Result<AlbumKind> {

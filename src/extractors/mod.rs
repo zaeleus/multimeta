@@ -16,10 +16,10 @@ pub type Result<T> = std::result::Result<T, ExtractionError>;
 pub enum ExtractionError {
     Factory,
     Fetch(reqwest::Error),
+    InvalidUrl(&'static str),
     InvalidDocument,
     MissingField(&'static str),
     InvalidField(&'static str),
-    Url(&'static str),
 }
 
 pub trait Extractor {
