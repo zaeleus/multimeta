@@ -105,7 +105,7 @@ fn parse_json(json: &str, builder: AlbumBuilder) -> extractors::Result<AlbumBuil
             .set_artwork_url(&parse_artwork_url(&song.album_img_path))
             .add_name(name)
     } else {
-        return Err(ExtractionError::Parse("no songs in response"));
+        return Err(ExtractionError::Missing("songs"));
     };
 
     let builder = parse_songs(&songs, builder)?;
@@ -165,7 +165,7 @@ fn parse_album_kind(s: &str) -> extractors::Result<AlbumKind> {
             warn!("assuming album kind '베스트' as 'LP'");
             Ok(AlbumKind::Lp)
         }
-        _ => Err(ExtractionError::Parse("album kind")),
+        _ => Err(ExtractionError::InvalidField("album kind")),
     }
 }
 
@@ -176,13 +176,14 @@ fn parse_artwork_url(s: &str) -> String {
 }
 
 fn parse_position(s: &str) -> extractors::Result<i32> {
-    s.parse().map_err(|_| ExtractionError::Parse("position"))
+    s.parse()
+        .map_err(|_| ExtractionError::InvalidField("position"))
 }
 
 fn parse_release_date(s: &str) -> extractors::Result<String> {
     NaiveDate::parse_from_str(s, "%Y%m%d")
         .map(|d| d.format("%F").to_string())
-        .map_err(|_| ExtractionError::Parse("release date"))
+        .map_err(|_| ExtractionError::InvalidField("release date"))
 }
 
 fn normalize_name(name: &str) -> String {

@@ -146,7 +146,7 @@ fn parse_album_id(url: &Url) -> extractors::Result<String> {
 fn parse_release_date(s: &str) -> extractors::Result<String> {
     NaiveDate::parse_from_str(s, "%Y/%m/%d %H:%M:%S")
         .map(|d| d.format("%F").to_string())
-        .map_err(|_| ExtractionError::Parse("release date"))
+        .map_err(|_| ExtractionError::InvalidField("release date"))
 }
 
 fn build_json_endpoint(mount_point: &str, label_id: &str, package_id: &str) -> String {

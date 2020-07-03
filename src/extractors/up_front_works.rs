@@ -146,7 +146,8 @@ fn parse_songs(document: &Document, mut builder: AlbumBuilder) -> extractors::Re
 }
 
 fn parse_position(s: &str) -> extractors::Result<i32> {
-    s.parse().map_err(|_| ExtractionError::Parse("position"))
+    s.parse()
+        .map_err(|_| ExtractionError::InvalidField("position"))
 }
 
 fn parse_duration(s: &str) -> extractors::Result<i32> {
@@ -154,13 +155,19 @@ fn parse_duration(s: &str) -> extractors::Result<i32> {
 
     let minutes: i32 = pieces
         .next()
-        .and_then(|s| s.parse().ok())
-        .ok_or(ExtractionError::Parse("duration.minute"))?;
+        .ok_or_else(|| ExtractionError::Missing("duration.minutes"))
+        .and_then(|s| {
+            s.parse()
+                .map_err(|_| ExtractionError::InvalidField("duration.minutes"))
+        })?;
 
     let seconds: i32 = pieces
         .next()
-        .and_then(|s| s.parse().ok())
-        .ok_or(ExtractionError::Parse("duration.seconds"))?;
+        .ok_or_else(|| ExtractionError::Missing("duration.seconds"))
+        .and_then(|s| {
+            s.parse()
+                .map_err(|_| ExtractionError::InvalidField("duration.seconds"))
+        })?;
 
     Ok(minutes * 60 + seconds)
 }
@@ -185,14 +192,14 @@ fn parse_kind(s: &str) -> extractors::Result<AlbumKind> {
         "CDシングル" => Ok(AlbumKind::Single),
         "CDミニアルバム" => Ok(AlbumKind::Ep),
         "CDアルバム" => Ok(AlbumKind::Lp),
-        _ => Err(ExtractionError::Parse("kind")),
+        _ => Err(ExtractionError::InvalidField("kind")),
     }
 }
 
 fn parse_release_date(s: &str) -> extractors::Result<String> {
     NaiveDate::parse_from_str(s, "%Y/%m/%d")
         .map(|d| d.format("%F").to_string())
-        .map_err(|_| ExtractionError::Parse("release date"))
+        .map_err(|_| ExtractionError::InvalidField("release date"))
 }
 
 #[cfg(test)]
