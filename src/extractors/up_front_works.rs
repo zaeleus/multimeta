@@ -151,7 +151,7 @@ fn parse_position(s: &str) -> extractors::Result<i32> {
 }
 
 fn parse_duration(s: &str) -> extractors::Result<i32> {
-    let mut pieces = s.split(':');
+    let mut pieces = s.splitn(2, ':');
 
     let minutes: i32 = pieces
         .next()
