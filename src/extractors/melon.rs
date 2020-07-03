@@ -92,8 +92,7 @@ fn parse_html(html: &str, builder: AlbumBuilder) -> extractors::Result<AlbumBuil
 }
 
 fn parse_json(json: &str, builder: AlbumBuilder) -> extractors::Result<AlbumBuilder> {
-    let root: Root =
-        serde_json::from_str(json).map_err(|_| ExtractionError::Parse("malformed JSON"))?;
+    let root: Root = serde_json::from_str(json).map_err(|_| ExtractionError::InvalidDocument)?;
 
     let songs = root.conts_list;
 

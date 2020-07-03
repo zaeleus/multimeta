@@ -16,6 +16,7 @@ pub type Result<T> = std::result::Result<T, ExtractionError>;
 pub enum ExtractionError {
     Factory,
     Fetch(reqwest::Error),
+    InvalidDocument,
     Missing(&'static str),
     Parse(&'static str),
     Url(&'static str),

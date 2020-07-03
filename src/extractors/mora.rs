@@ -96,12 +96,11 @@ fn parse_html(html: &str) -> extractors::Result<Arguments> {
         .and_then(|n| n.attr("content"))
         .map(|content| content.replace("&quot;", "\""))
         .and_then(|data| serde_json::from_str(&data).ok())
-        .ok_or(ExtractionError::Parse("arguments"))
+        .ok_or_else(|| ExtractionError::InvalidDocument)
 }
 
 fn parse_json(json: &str, builder: AlbumBuilder) -> extractors::Result<AlbumBuilder> {
-    let root: Root =
-        serde_json::from_str(json).map_err(|_| ExtractionError::Parse("malformed JSON"))?;
+    let root: Root = serde_json::from_str(json).map_err(|_| ExtractionError::InvalidDocument)?;
 
     let songs = &root.track_list;
 
