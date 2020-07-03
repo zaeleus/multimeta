@@ -10,6 +10,8 @@ pub mod up_front_works;
 
 pub use crate::models::Album;
 
+use std::{error, fmt};
+
 pub type Result<T> = std::result::Result<T, ExtractionError>;
 
 #[derive(Debug)]
@@ -20,6 +22,21 @@ pub enum ExtractionError {
     InvalidDocument,
     MissingField(&'static str),
     InvalidField(&'static str),
+}
+
+impl error::Error for ExtractionError {}
+
+impl fmt::Display for ExtractionError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::Factory => f.write_str("could not construct an extractor from the url"),
+            Self::Fetch(e) => write!(f, "{}", e),
+            Self::InvalidUrl(key) => write!(f, "invalid url: missing {}", key),
+            Self::InvalidDocument => f.write_str("could not parse document"),
+            Self::MissingField(field) => write!(f, "missing field: {}", field),
+            Self::InvalidField(field) => write!(f, "invalid field: {}", field),
+        }
+    }
 }
 
 pub trait Extractor {
