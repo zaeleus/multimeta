@@ -17,7 +17,7 @@ pub enum ExtractionError {
     Factory,
     Fetch(reqwest::Error),
     InvalidDocument,
-    Missing(&'static str),
+    MissingField(&'static str),
     InvalidField(&'static str),
     Url(&'static str),
 }

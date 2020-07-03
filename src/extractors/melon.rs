@@ -79,7 +79,7 @@ fn parse_html(html: &str, builder: AlbumBuilder) -> extractors::Result<AlbumBuil
 
     let raw_kind = node
         .next()
-        .ok_or_else(|| ExtractionError::Missing("album kind"))
+        .ok_or_else(|| ExtractionError::MissingField("album kind"))
         .map(|n| n.text())?;
     let raw_kind = raw_kind.trim();
     // Remove surrounding brackets from text.
@@ -105,7 +105,7 @@ fn parse_json(json: &str, builder: AlbumBuilder) -> extractors::Result<AlbumBuil
             .set_artwork_url(&parse_artwork_url(&song.album_img_path))
             .add_name(name)
     } else {
-        return Err(ExtractionError::Missing("songs"));
+        return Err(ExtractionError::MissingField("songs"));
     };
 
     let builder = parse_songs(&songs, builder)?;
