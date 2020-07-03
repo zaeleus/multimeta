@@ -14,7 +14,7 @@ pub type Result<T> = std::result::Result<T, ExtractionError>;
 
 #[derive(Debug)]
 pub enum ExtractionError {
-    Factory(&'static str),
+    Factory,
     Fetch(reqwest::Error),
     Missing(&'static str),
     Parse(&'static str),
@@ -33,9 +33,7 @@ pub fn factory(url: &Url) -> self::Result<Box<dyn Extractor>> {
     } else if UpFrontWorksExtractor::matches(&url) {
         Ok(Box::new(UpFrontWorksExtractor::from_url(&url)?))
     } else {
-        Err(ExtractionError::Factory(
-            "failed to match url to a suitable extractor",
-        ))
+        Err(ExtractionError::Factory)
     }
 }
 
