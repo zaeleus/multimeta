@@ -68,21 +68,21 @@ fn parse_html(html: &str, builder: AlbumBuilder) -> extractors::Result<AlbumBuil
     let name = document
         .find(Class("product_title"))
         .next()
+        .ok_or_else(|| ExtractionError::Missing("name"))
         .map(|n| n.text())
-        .map(|n| Name::new(n, LOCALE, true, true))
-        .ok_or(ExtractionError::Parse("name"))?;
+        .map(|n| Name::new(n, LOCALE, true, true))?;
 
     let mut meta_node = document.find(Descendant(Class("data1"), Class("columnB")));
 
     let kind = meta_node
         .next()
-        .ok_or(ExtractionError::Parse("kind"))
+        .ok_or_else(|| ExtractionError::Missing("kind"))
         .map(|n| n.text())
         .and_then(|kind| parse_kind(&kind))?;
 
     let released_on = meta_node
         .next()
-        .ok_or(ExtractionError::Parse("release date"))
+        .ok_or_else(|| ExtractionError::Missing("release date"))
         .map(|n| n.text())
         .and_then(|date| parse_release_date(&date))?;
 
@@ -100,7 +100,7 @@ fn parse_songs(document: &Document, mut builder: AlbumBuilder) -> extractors::Re
     let table = document
         .find(Class("data2"))
         .next()
-        .ok_or(ExtractionError::Parse("songs"))?;
+        .ok_or_else(|| ExtractionError::Missing("songs"))?;
 
     let rows = table
         .find(predicate::Name("tr"))
@@ -117,20 +117,20 @@ fn parse_songs(document: &Document, mut builder: AlbumBuilder) -> extractors::Re
 
         let position = cells
             .next()
+            .ok_or_else(|| ExtractionError::Missing("songs[_].track_number"))
             .map(|n| n.text())
-            .ok_or(ExtractionError::Parse("songs[_].track_number"))
             .and_then(|s| parse_position(&s))?;
 
         let name = cells
             .next()
+            .ok_or_else(|| ExtractionError::Missing("songs[_].name"))
             .map(|n| n.text())
-            .ok_or(ExtractionError::Parse("songs[_].name"))
             .map(|n| Name::new(n, LOCALE, true, true))?;
 
         let duration = cells
             .next()
+            .ok_or_else(|| ExtractionError::Missing("songs[_].duration"))
             .map(|n| n.text())
-            .ok_or(ExtractionError::Parse("songs[_].duration"))
             .and_then(|s| parse_duration(&s))?;
 
         let song = SongBuilder::new()

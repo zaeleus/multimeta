@@ -79,8 +79,8 @@ fn parse_html(html: &str, builder: AlbumBuilder) -> extractors::Result<AlbumBuil
 
     let raw_kind = node
         .next()
-        .map(|n| n.text())
-        .ok_or(ExtractionError::Parse("album kind"))?;
+        .ok_or_else(|| ExtractionError::Missing("album kind"))
+        .map(|n| n.text())?;
     let raw_kind = raw_kind.trim();
     // Remove surrounding brackets from text.
     let raw_kind = &raw_kind[1..raw_kind.len() - 1];
