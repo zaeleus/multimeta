@@ -71,7 +71,7 @@ where
     }
 }
 
-fn main() {
+fn main() -> anyhow::Result<()> {
     let matches = App::new(crate_name!())
         .version(render_testament!(TESTAMENT).as_str())
         .arg(
@@ -120,10 +120,10 @@ fn main() {
         check_artist_id(&output_dir, &artist_id);
     }
 
-    let album = extractors::factory(&url)
-        .and_then(|e| e.extract())
-        .map(|a| editor::edit(&a))
-        .unwrap_or_else(|e| panic!("{:?}", e));
+    let extractor = extractors::factory(&url)?;
+
+    let album = extractor.extract()?;
+    let album = editor::edit(&album);
 
     let writer = Writer::new(&output_dir);
 
@@ -134,9 +134,9 @@ fn main() {
     }
 
     let renderer = Renderer::new();
-    writer
-        .write_templates(&renderer, &artist_id, &album)
-        .expect("write failed");
+    writer.write_templates(&renderer, &artist_id, &album)?;
+
+    Ok(())
 }
 
 #[cfg(test)]
