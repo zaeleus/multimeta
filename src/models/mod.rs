@@ -1,4 +1,4 @@
-pub use self::album::{Album, AlbumBuilder, AlbumKind};
+pub use self::album::{Album, AlbumBuilder};
 pub use self::name::Name;
 pub use self::song::{Song, SongBuilder};
 

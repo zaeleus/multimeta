@@ -1,7 +1,7 @@
 use rustyline::{self, error::ReadlineError};
 
 use crate::{
-    models::{Album, AlbumKind, Name, Song},
+    models::{album, Album, Name, Song},
     util::{
         format_duration,
         inflector::{parameterize, titleize},
@@ -11,7 +11,7 @@ use crate::{
 pub struct AlbumInput {
     pub id: String,
 
-    pub kind: AlbumKind,
+    pub kind: album::Kind,
     pub country: String,
     pub released_on: String,
     pub artwork_url: Option<String>,

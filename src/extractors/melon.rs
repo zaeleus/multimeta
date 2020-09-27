@@ -6,7 +6,7 @@ use serde::Deserialize;
 
 use crate::{
     extractors::{self, ExtractionError, Extractor},
-    models::{Album, AlbumBuilder, AlbumKind, Name, SongBuilder},
+    models::{album, Album, AlbumBuilder, Name, SongBuilder},
 };
 
 static HOST: &str = "www.melon.com";
@@ -140,30 +140,30 @@ fn parse_album_id(url: &Url) -> extractors::Result<String> {
         .ok_or_else(|| ExtractionError::InvalidUrl("albumId"))
 }
 
-fn parse_album_kind(s: &str) -> extractors::Result<AlbumKind> {
+fn parse_album_kind(s: &str) -> extractors::Result<album::Kind> {
     match s {
-        "싱글" => Ok(AlbumKind::Single),
+        "싱글" => Ok(album::Kind::Single),
         "OST" => {
             // "OST" is not guaranteed, but is very likely, to be a single.
             warn!("assuming album kind 'OST' as 'single'");
-            Ok(AlbumKind::Single)
+            Ok(album::Kind::Single)
         }
         "리믹스" => {
             warn!("assuming album kind '리믹스' as 'single'");
-            Ok(AlbumKind::Single)
+            Ok(album::Kind::Single)
         }
-        "EP" => Ok(AlbumKind::Ep),
-        "정규" => Ok(AlbumKind::Lp),
+        "EP" => Ok(album::Kind::Ep),
+        "정규" => Ok(album::Kind::Lp),
         "옴니버스" => {
             // "Omnibus" is probably either an EP or LP, but since it's
             // typically a collection, assume it's an album.
             warn!("assuming album kind '옴니버스' as 'LP'");
-            Ok(AlbumKind::Lp)
+            Ok(album::Kind::Lp)
         }
         "베스트" => {
             // "Best" is probably a compilation album.
             warn!("assuming album kind '베스트' as 'LP'");
-            Ok(AlbumKind::Lp)
+            Ok(album::Kind::Lp)
         }
         _ => Err(ExtractionError::InvalidField("album kind")),
     }
@@ -220,7 +220,7 @@ mod tests {
     use reqwest::Url;
 
     use super::*;
-    use crate::models::{AlbumKind, Name};
+    use crate::models::Name;
 
     #[test]
     fn test_matches() {
@@ -244,7 +244,7 @@ mod tests {
 
         let album = parse("10123637", &html, &json).unwrap();
 
-        assert_eq!(album.kind, AlbumKind::Single);
+        assert_eq!(album.kind, album::Kind::Single);
         assert_eq!(album.country, "KR");
         assert_eq!(album.released_on, "2017-12-28");
         assert_eq!(
@@ -305,15 +305,15 @@ mod tests {
 
     #[test]
     fn test_parse_album_kind() {
-        assert_eq!(parse_album_kind("싱글").unwrap(), AlbumKind::Single);
-        assert_eq!(parse_album_kind("EP").unwrap(), AlbumKind::Ep);
-        assert_eq!(parse_album_kind("정규").unwrap(), AlbumKind::Lp);
-        assert_eq!(parse_album_kind("OST").unwrap(), AlbumKind::Single);
-        assert_eq!(parse_album_kind("리믹스").unwrap(), AlbumKind::Single);
-        assert_eq!(parse_album_kind("옴니버스").unwrap(), AlbumKind::Lp);
+        assert_eq!(parse_album_kind("싱글").unwrap(), album::Kind::Single);
+        assert_eq!(parse_album_kind("EP").unwrap(), album::Kind::Ep);
+        assert_eq!(parse_album_kind("정규").unwrap(), album::Kind::Lp);
+        assert_eq!(parse_album_kind("OST").unwrap(), album::Kind::Single);
+        assert_eq!(parse_album_kind("리믹스").unwrap(), album::Kind::Single);
+        assert_eq!(parse_album_kind("옴니버스").unwrap(), album::Kind::Lp);
 
         // https://www.melon.com/album/detail.htm?albumId=10404130
-        assert_eq!(parse_album_kind("베스트").unwrap(), AlbumKind::Lp);
+        assert_eq!(parse_album_kind("베스트").unwrap(), album::Kind::Lp);
 
         assert!(parse_album_kind("foo").is_err());
     }

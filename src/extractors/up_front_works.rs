@@ -7,7 +7,7 @@ use select::{
 
 use crate::{
     extractors::{self, ExtractionError, Extractor},
-    models::{Album, AlbumBuilder, AlbumKind, Name, SongBuilder},
+    models::{album, Album, AlbumBuilder, Name, SongBuilder},
 };
 
 static HOST: &str = "www.up-front-works.jp";
@@ -187,11 +187,11 @@ fn parse_album_id(url: &Url) -> extractors::Result<String> {
         .ok_or_else(|| ExtractionError::InvalidUrl("album ID"))
 }
 
-fn parse_kind(s: &str) -> extractors::Result<AlbumKind> {
+fn parse_kind(s: &str) -> extractors::Result<album::Kind> {
     match s {
-        "CDシングル" => Ok(AlbumKind::Single),
-        "CDミニアルバム" => Ok(AlbumKind::Ep),
-        "CDアルバム" => Ok(AlbumKind::Lp),
+        "CDシングル" => Ok(album::Kind::Single),
+        "CDミニアルバム" => Ok(album::Kind::Ep),
+        "CDアルバム" => Ok(album::Kind::Lp),
         _ => Err(ExtractionError::InvalidField("kind")),
     }
 }
@@ -230,7 +230,7 @@ mod tests {
         let html = fs::read_to_string("test/fixtures/up-front-works-epce-7387.html").unwrap();
         let album = parse("EPCE-7387", &html).unwrap();
 
-        assert_eq!(album.kind, AlbumKind::Ep);
+        assert_eq!(album.kind, album::Kind::Ep);
         assert_eq!(album.country, "JP");
         assert_eq!(album.released_on, "2018-02-07");
         assert!(album.artwork_url.is_none());
@@ -305,8 +305,8 @@ mod tests {
 
     #[test]
     fn test_parse_kind() {
-        assert_eq!(parse_kind("CDシングル").unwrap(), AlbumKind::Single);
-        assert_eq!(parse_kind("CDアルバム").unwrap(), AlbumKind::Lp);
+        assert_eq!(parse_kind("CDシングル").unwrap(), album::Kind::Single);
+        assert_eq!(parse_kind("CDアルバム").unwrap(), album::Kind::Lp);
 
         assert!(parse_kind("").is_err());
         assert!(parse_kind("album").is_err());

@@ -140,7 +140,7 @@ mod tests {
     use std::fs;
 
     use super::*;
-    use crate::models::{Album, AlbumBuilder, AlbumKind, Name, SongBuilder};
+    use crate::models::{album, Album, AlbumBuilder, Name, SongBuilder};
 
     fn build_album() -> Album {
         let song_a = SongBuilder::new()
@@ -166,7 +166,7 @@ mod tests {
 
         AlbumBuilder::new()
             .set_id("kkotgalpi-dul")
-            .set_kind(AlbumKind::Single)
+            .set_kind(album::Kind::Single)
             .set_country("KR")
             .set_released_on("2017-09-22")
             .set_artwork_url("https://lp.dev/assets/artwork.jpg")

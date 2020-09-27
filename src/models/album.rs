@@ -10,18 +10,18 @@ use crate::{
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize)]
 #[serde(rename_all = "lowercase")]
-pub enum AlbumKind {
+pub enum Kind {
     Single,
     Ep,
     Lp,
 }
 
-impl fmt::Display for AlbumKind {
+impl fmt::Display for Kind {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match *self {
-            AlbumKind::Single => write!(f, "single"),
-            AlbumKind::Ep => write!(f, "ep"),
-            AlbumKind::Lp => write!(f, "lp"),
+            Kind::Single => write!(f, "single"),
+            Kind::Ep => write!(f, "ep"),
+            Kind::Lp => write!(f, "lp"),
         }
     }
 }
@@ -30,7 +30,7 @@ impl fmt::Display for AlbumKind {
 pub struct Album {
     pub id: String,
 
-    pub kind: AlbumKind,
+    pub kind: Kind,
     pub country: String,
     pub released_on: String,
     pub artwork_url: Option<String>,
@@ -79,7 +79,7 @@ impl From<AlbumInput> for Album {
 pub struct AlbumBuilder {
     pub id: Option<String>,
 
-    pub kind: Option<AlbumKind>,
+    pub kind: Option<Kind>,
     pub country: Option<String>,
     pub released_on: Option<String>,
     pub artwork_url: Option<String>,
@@ -99,7 +99,7 @@ impl AlbumBuilder {
         self
     }
 
-    pub fn set_kind(mut self, kind: AlbumKind) -> AlbumBuilder {
+    pub fn set_kind(mut self, kind: Kind) -> AlbumBuilder {
         self.kind = Some(kind);
         self
     }
@@ -163,13 +163,13 @@ impl AlbumBuilder {
 
 #[cfg(test)]
 mod tests {
-    use super::{Album, AlbumBuilder, AlbumKind};
+    use super::{Album, AlbumBuilder, Kind};
     use crate::models::Name;
 
     fn build_album() -> Album {
         AlbumBuilder::new()
             .set_id("from-wjsn")
-            .set_kind(AlbumKind::Single)
+            .set_kind(Kind::Single)
             .set_country("KR")
             .set_released_on("2017-01-04")
             .set_artwork_url("http://localhost/artwork.jpg")
@@ -181,9 +181,9 @@ mod tests {
 
     #[test]
     fn test_fmt() {
-        assert_eq!(AlbumKind::Single.to_string(), "single");
-        assert_eq!(AlbumKind::Ep.to_string(), "ep");
-        assert_eq!(AlbumKind::Lp.to_string(), "lp");
+        assert_eq!(Kind::Single.to_string(), "single");
+        assert_eq!(Kind::Ep.to_string(), "ep");
+        assert_eq!(Kind::Lp.to_string(), "lp");
     }
 
     #[test]
