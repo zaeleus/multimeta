@@ -10,7 +10,7 @@ pub fn format_duration(t: i32) -> String {
 
 #[cfg(test)]
 mod tests {
-    use super::format_duration;
+    use super::*;
 
     #[test]
     fn test_format_duration() {

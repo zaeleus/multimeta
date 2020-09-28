@@ -59,7 +59,7 @@ pub fn factory(url: &Url) -> self::Result<Box<dyn Extractor>> {
 mod tests {
     use reqwest::Url;
 
-    use super::factory;
+    use super::*;
 
     #[test]
     fn test_factory() {

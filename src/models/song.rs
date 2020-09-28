@@ -103,9 +103,7 @@ impl SongBuilder {
 
 #[cfg(test)]
 mod tests {
-    use crate::models::Name;
-
-    use super::{Song, SongBuilder};
+    use super::*;
 
     fn build_song() -> Song {
         SongBuilder::new()

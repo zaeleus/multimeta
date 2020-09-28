@@ -163,8 +163,7 @@ impl AlbumBuilder {
 
 #[cfg(test)]
 mod tests {
-    use super::{Album, AlbumBuilder, Kind};
-    use crate::models::Name;
+    use super::*;
 
     fn build_album() -> Album {
         AlbumBuilder::new()

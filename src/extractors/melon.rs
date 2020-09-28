@@ -220,7 +220,6 @@ mod tests {
     use reqwest::Url;
 
     use super::*;
-    use crate::models::Name;
 
     #[test]
     fn test_matches() {

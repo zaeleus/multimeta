@@ -139,8 +139,9 @@ mod helpers {
 mod tests {
     use std::fs;
 
+    use crate::models::{album, AlbumBuilder, Name, SongBuilder};
+
     use super::*;
-    use crate::models::{album, Album, AlbumBuilder, Name, SongBuilder};
 
     fn build_album() -> Album {
         let song_a = SongBuilder::new()

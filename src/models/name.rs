@@ -38,7 +38,7 @@ impl From<NameInput> for Name {
 
 #[cfg(test)]
 mod tests {
-    use super::Name;
+    use super::*;
 
     #[test]
     fn test_new() {

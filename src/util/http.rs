@@ -92,7 +92,7 @@ where
 
 #[cfg(test)]
 mod tests {
-    use super::copy;
+    use super::*;
 
     #[test]
     fn test_copy() {
