@@ -139,7 +139,7 @@ mod helpers {
 mod tests {
     use std::fs;
 
-    use crate::models::{album, AlbumBuilder, Name, SongBuilder};
+    use crate::models::{album, Name, SongBuilder};
 
     use super::*;
 
@@ -165,7 +165,7 @@ mod tests {
             .add_name(Name::new("Last Night Story", "en", false, false))
             .build();
 
-        AlbumBuilder::new()
+        album::Builder::new()
             .set_id("kkotgalpi-dul")
             .set_kind(album::Kind::Single)
             .set_country("KR")

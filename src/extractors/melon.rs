@@ -6,7 +6,7 @@ use serde::Deserialize;
 
 use crate::{
     extractors::{self, ExtractionError, Extractor},
-    models::{album, Album, AlbumBuilder, Name, SongBuilder},
+    models::{album, Album, Name, SongBuilder},
 };
 
 static HOST: &str = "www.melon.com";
@@ -60,7 +60,7 @@ impl Extractor for MelonExtractor {
 }
 
 fn parse(album_id: &str, html: &str, json: &str) -> extractors::Result<Album> {
-    let builder = AlbumBuilder::new();
+    let builder = album::Builder::new();
 
     let builder = builder
         .set_country(COUNTRY)
@@ -72,7 +72,7 @@ fn parse(album_id: &str, html: &str, json: &str) -> extractors::Result<Album> {
     Ok(builder.build())
 }
 
-fn parse_html(html: &str, builder: AlbumBuilder) -> extractors::Result<AlbumBuilder> {
+fn parse_html(html: &str, builder: album::Builder) -> extractors::Result<album::Builder> {
     let document = Document::from(html);
 
     let mut node = document.find(Class("gubun"));
@@ -91,7 +91,7 @@ fn parse_html(html: &str, builder: AlbumBuilder) -> extractors::Result<AlbumBuil
     Ok(builder)
 }
 
-fn parse_json(json: &str, builder: AlbumBuilder) -> extractors::Result<AlbumBuilder> {
+fn parse_json(json: &str, builder: album::Builder) -> extractors::Result<album::Builder> {
     let root: Root = serde_json::from_str(json).map_err(|_| ExtractionError::InvalidDocument)?;
 
     let songs = root.conts_list;
@@ -113,7 +113,10 @@ fn parse_json(json: &str, builder: AlbumBuilder) -> extractors::Result<AlbumBuil
     Ok(builder)
 }
 
-fn parse_songs(songs: &[RawSong], mut builder: AlbumBuilder) -> extractors::Result<AlbumBuilder> {
+fn parse_songs(
+    songs: &[RawSong],
+    mut builder: album::Builder,
+) -> extractors::Result<album::Builder> {
     for song in songs {
         let raw_name = normalize_name(&song.song_name);
         let name = Name::new(raw_name, LOCALE, true, true);
@@ -283,13 +286,13 @@ mod tests {
 
     #[test]
     fn test_parse_html_with_empty_document() {
-        let builder = AlbumBuilder::new();
+        let builder = album::Builder::new();
         assert!(parse_json("<html />", builder).is_err());
     }
 
     #[test]
     fn test_parse_json_with_empty_root() {
-        let builder = AlbumBuilder::new();
+        let builder = album::Builder::new();
         assert!(parse_json("{}", builder).is_err());
     }
 

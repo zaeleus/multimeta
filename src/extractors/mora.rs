@@ -8,7 +8,7 @@ use serde::Deserialize;
 
 use crate::{
     extractors::{self, ExtractionError, Extractor},
-    models::{album, Album, AlbumBuilder, Name, SongBuilder},
+    models::{album, Album, Name, SongBuilder},
 };
 
 static USER_AGENT: &str = concat!(env!("CARGO_PKG_NAME"), "/", env!("CARGO_PKG_VERSION"));
@@ -77,7 +77,7 @@ fn fetch(url: &str) -> Result<String, reqwest::Error> {
 }
 
 fn parse(album_id: &str, json: &str) -> extractors::Result<Album> {
-    let builder = AlbumBuilder::new()
+    let builder = album::Builder::new()
         .set_country(COUNTRY)
         .set_url(&format!("{}/{}/", HTML_BASE_URL, album_id));
 
@@ -99,7 +99,7 @@ fn parse_html(html: &str) -> extractors::Result<Arguments> {
         .ok_or_else(|| ExtractionError::InvalidDocument)
 }
 
-fn parse_json(json: &str, builder: AlbumBuilder) -> extractors::Result<AlbumBuilder> {
+fn parse_json(json: &str, builder: album::Builder) -> extractors::Result<album::Builder> {
     let root: Root = serde_json::from_str(json).map_err(|_| ExtractionError::InvalidDocument)?;
 
     let songs = &root.track_list;
@@ -117,7 +117,10 @@ fn parse_json(json: &str, builder: AlbumBuilder) -> extractors::Result<AlbumBuil
     Ok(builder)
 }
 
-fn parse_songs(songs: &[RawSong], mut builder: AlbumBuilder) -> extractors::Result<AlbumBuilder> {
+fn parse_songs(
+    songs: &[RawSong],
+    mut builder: album::Builder,
+) -> extractors::Result<album::Builder> {
     for song in songs {
         let name = Name::new(song.title.as_str(), LOCALE, true, true);
 
@@ -255,7 +258,7 @@ mod tests {
 
     #[test]
     fn test_parse_json_with_empty_root() {
-        let builder = AlbumBuilder::new();
+        let builder = album::Builder::new();
         assert!(parse_json("{}", builder).is_err());
     }
 

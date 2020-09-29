@@ -76,7 +76,7 @@ impl From<AlbumInput> for Album {
 }
 
 #[derive(Default)]
-pub struct AlbumBuilder {
+pub struct Builder {
     pub id: Option<String>,
 
     pub kind: Option<Kind>,
@@ -89,47 +89,47 @@ pub struct AlbumBuilder {
     pub songs: Vec<Song>,
 }
 
-impl AlbumBuilder {
-    pub fn new() -> AlbumBuilder {
-        AlbumBuilder::default()
+impl Builder {
+    pub fn new() -> Self {
+        Self::default()
     }
 
-    pub fn set_id(mut self, id: &str) -> AlbumBuilder {
+    pub fn set_id(mut self, id: &str) -> Self {
         self.id = Some(id.to_owned());
         self
     }
 
-    pub fn set_kind(mut self, kind: Kind) -> AlbumBuilder {
+    pub fn set_kind(mut self, kind: Kind) -> Self {
         self.kind = Some(kind);
         self
     }
 
-    pub fn set_country(mut self, country: &str) -> AlbumBuilder {
+    pub fn set_country(mut self, country: &str) -> Self {
         self.country = Some(country.to_owned());
         self
     }
 
-    pub fn set_released_on(mut self, released_on: &str) -> AlbumBuilder {
+    pub fn set_released_on(mut self, released_on: &str) -> Self {
         self.released_on = Some(released_on.to_owned());
         self
     }
 
-    pub fn set_artwork_url(mut self, artwork_url: &str) -> AlbumBuilder {
+    pub fn set_artwork_url(mut self, artwork_url: &str) -> Self {
         self.artwork_url = Some(artwork_url.to_owned());
         self
     }
 
-    pub fn set_url(mut self, url: &str) -> AlbumBuilder {
+    pub fn set_url(mut self, url: &str) -> Self {
         self.url = Some(url.to_owned());
         self
     }
 
-    pub fn add_name(mut self, name: Name) -> AlbumBuilder {
+    pub fn add_name(mut self, name: Name) -> Self {
         self.names.push(name);
         self
     }
 
-    pub fn add_song(mut self, song: Song) -> AlbumBuilder {
+    pub fn add_song(mut self, song: Song) -> Self {
         self.songs.push(song);
         self
     }
@@ -166,7 +166,7 @@ mod tests {
     use super::*;
 
     fn build_album() -> Album {
-        AlbumBuilder::new()
+        Builder::new()
             .set_id("from-wjsn")
             .set_kind(Kind::Single)
             .set_country("KR")

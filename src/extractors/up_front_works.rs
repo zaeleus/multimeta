@@ -7,7 +7,7 @@ use select::{
 
 use crate::{
     extractors::{self, ExtractionError, Extractor},
-    models::{album, Album, AlbumBuilder, Name, SongBuilder},
+    models::{album, Album, Name, SongBuilder},
 };
 
 static HOST: &str = "www.up-front-works.jp";
@@ -55,14 +55,14 @@ impl Extractor for UpFrontWorksExtractor {
 fn parse(album_id: &str, html: &str) -> extractors::Result<Album> {
     let url = format!("{}/{}/", BASE_URL, album_id);
 
-    let builder = AlbumBuilder::new().set_country(COUNTRY).set_url(&url);
+    let builder = album::Builder::new().set_country(COUNTRY).set_url(&url);
 
     let builder = parse_html(html, builder)?;
 
     Ok(builder.build())
 }
 
-fn parse_html(html: &str, builder: AlbumBuilder) -> extractors::Result<AlbumBuilder> {
+fn parse_html(html: &str, builder: album::Builder) -> extractors::Result<album::Builder> {
     let document = Document::from(html);
 
     let name = document
@@ -96,7 +96,10 @@ fn parse_html(html: &str, builder: AlbumBuilder) -> extractors::Result<AlbumBuil
     Ok(builder)
 }
 
-fn parse_songs(document: &Document, mut builder: AlbumBuilder) -> extractors::Result<AlbumBuilder> {
+fn parse_songs(
+    document: &Document,
+    mut builder: album::Builder,
+) -> extractors::Result<album::Builder> {
     let table = document
         .find(Class("data2"))
         .next()
