@@ -8,7 +8,7 @@ use serde::Deserialize;
 
 use crate::{
     extractors::{self, ExtractionError, Extractor},
-    models::{album, Album, Name, SongBuilder},
+    models::{album, song, Album, Name},
 };
 
 static USER_AGENT: &str = concat!(env!("CARGO_PKG_NAME"), "/", env!("CARGO_PKG_VERSION"));
@@ -124,7 +124,7 @@ fn parse_songs(
     for song in songs {
         let name = Name::new(song.title.as_str(), LOCALE, true, true);
 
-        let song = SongBuilder::new()
+        let song = song::Builder::new()
             .set_position(song.track_no)
             .set_duration(song.duration)
             .add_name(name)

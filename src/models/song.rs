@@ -44,7 +44,7 @@ impl From<SongInput> for Song {
 }
 
 #[derive(Default)]
-pub struct SongBuilder {
+pub struct Builder {
     pub id: Option<String>,
 
     pub position: Option<i32>,
@@ -53,27 +53,27 @@ pub struct SongBuilder {
     pub names: Vec<Name>,
 }
 
-impl SongBuilder {
-    pub fn new() -> SongBuilder {
-        SongBuilder::default()
+impl Builder {
+    pub fn new() -> Self {
+        Self::default()
     }
 
-    pub fn set_id(mut self, id: &str) -> SongBuilder {
+    pub fn set_id(mut self, id: &str) -> Self {
         self.id = Some(id.to_owned());
         self
     }
 
-    pub fn set_position(mut self, position: i32) -> SongBuilder {
+    pub fn set_position(mut self, position: i32) -> Self {
         self.position = Some(position);
         self
     }
 
-    pub fn set_duration(mut self, duration: i32) -> SongBuilder {
+    pub fn set_duration(mut self, duration: i32) -> Self {
         self.duration = Some(duration);
         self
     }
 
-    pub fn add_name(mut self, name: Name) -> SongBuilder {
+    pub fn add_name(mut self, name: Name) -> Self {
         self.names.push(name);
         self
     }
@@ -106,7 +106,7 @@ mod tests {
     use super::*;
 
     fn build_song() -> Song {
-        SongBuilder::new()
+        Builder::new()
             .set_position(1)
             .set_duration(225)
             .add_name(Name::new("꿈꾸는 마음으로", "ko", true, false))

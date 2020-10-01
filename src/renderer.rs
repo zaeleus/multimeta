@@ -139,12 +139,12 @@ mod helpers {
 mod tests {
     use std::fs;
 
-    use crate::models::{album, Name, SongBuilder};
+    use crate::models::{album, song, Name};
 
     use super::*;
 
     fn build_album() -> Album {
-        let song_a = SongBuilder::new()
+        let song_a = song::Builder::new()
             .set_position(3)
             .set_duration(266)
             .add_name(Name::new("잠 못 드는 밤 비는 내리고", "ko", true, false))
@@ -157,7 +157,7 @@ mod tests {
             .add_name(Name::new("Sleepless Rainy Night", "en", false, false))
             .build();
 
-        let song_b = SongBuilder::new()
+        let song_b = song::Builder::new()
             .set_position(4)
             .set_duration(233)
             .add_name(Name::new("어젯밤 이야기", "ko", true, false))

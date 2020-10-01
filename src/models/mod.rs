@@ -1,6 +1,6 @@
 pub use self::album::Album;
 pub use self::name::Name;
-pub use self::song::{Song, SongBuilder};
+pub use self::song::Song;
 
 pub mod album;
 pub mod name;

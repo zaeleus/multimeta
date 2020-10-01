@@ -7,7 +7,7 @@ use select::{
 
 use crate::{
     extractors::{self, ExtractionError, Extractor},
-    models::{album, Album, Name, SongBuilder},
+    models::{album, song, Album, Name},
 };
 
 static HOST: &str = "www.up-front-works.jp";
@@ -136,7 +136,7 @@ fn parse_songs(
             .map(|n| n.text())
             .and_then(|s| parse_duration(&s))?;
 
-        let song = SongBuilder::new()
+        let song = song::Builder::new()
             .set_position(position)
             .set_duration(duration)
             .add_name(name)

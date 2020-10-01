@@ -6,7 +6,7 @@ use serde::Deserialize;
 
 use crate::{
     extractors::{self, ExtractionError, Extractor},
-    models::{album, Album, Name, SongBuilder},
+    models::{album, song, Album, Name},
 };
 
 static HOST: &str = "www.melon.com";
@@ -124,7 +124,7 @@ fn parse_songs(
         let position = parse_position(&song.track_no)?;
         let duration = song.play_time;
 
-        let song = SongBuilder::new()
+        let song = song::Builder::new()
             .set_position(position)
             .set_duration(duration)
             .add_name(name)
