@@ -1,16 +1,14 @@
-use reqwest::Url;
-
-pub use self::melon::MelonExtractor;
-pub use self::mora::MoraExtractor;
-pub use self::up_front_works::UpFrontWorksExtractor;
-
 pub mod melon;
 pub mod mora;
 pub mod up_front_works;
 
-pub use crate::models::Album;
+pub use self::{melon::MelonExtractor, mora::MoraExtractor, up_front_works::UpFrontWorksExtractor};
 
 use std::{error, fmt};
+
+use reqwest::Url;
+
+use crate::models::Album;
 
 pub type Result<T> = std::result::Result<T, ExtractionError>;
 
