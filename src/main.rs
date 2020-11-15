@@ -60,15 +60,12 @@ where
     set
 }
 
-fn check_artist_id<P>(output_dir: P, artist_id: &str)
+fn artist_id_exists<P>(output_dir: P, artist_id: &str) -> bool
 where
     P: AsRef<Path>,
 {
     let artists = get_artists(output_dir);
-
-    if !artists.contains(artist_id) {
-        warn!("artist id '{}' does not exist", artist_id);
-    }
+    artists.contains(artist_id)
 }
 
 fn main() -> anyhow::Result<()> {
@@ -116,8 +113,8 @@ fn main() -> anyhow::Result<()> {
     let artist_id = matches.value_of("artist-id").unwrap();
     let url = value_t!(matches, "url", Url).unwrap_or_else(|e| e.exit());
 
-    if log_enabled!(Level::Warn) {
-        check_artist_id(&output_dir, &artist_id);
+    if log_enabled!(Level::Warn) && !artist_id_exists(&output_dir, &artist_id) {
+        warn!("artist id '{}' does not exist", artist_id);
     }
 
     let extractor = extractors::factory(&url)?;
