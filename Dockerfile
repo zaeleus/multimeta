@@ -2,18 +2,20 @@ FROM rust:1.47.0-buster as env
 
 RUN apt-get update \
       && apt-get --yes install --no-install-recommends \
+        cmake \
         nasm \
       && rm -r /var/lib/apt/lists/*
 
 RUN cd /tmp \
-      && wget https://github.com/mozilla/mozjpeg/archive/v3.3.1.tar.gz \
-      && echo "aebbea60ea038a84a2d1ed3de38fdbca34027e2e54ee2b7d08a97578be72599d  v3.3.1.tar.gz" | sha256sum --check \
-      && tar xf v3.3.1.tar.gz \
-      && cd mozjpeg-3.3.1 \
-      && autoreconf -fvi \
-      && ./configure --disable-dependency-tracking --with-jpeg8 \
+      && wget https://github.com/mozilla/mozjpeg/archive/v4.0.0.tar.gz \
+      && echo "961e14e73d06a015e9b23b8af416f010187cc0bec95f6e3b0fcb28cc7e2cbdd4  v4.0.0.tar.gz" | sha256sum --check \
+      && tar xf v4.0.0.tar.gz \
+      && cd mozjpeg-4.0.0 \
+      && mkdir build \
+      && cd build \
+      && cmake .. \
       && make --jobs $(nproc) install \
-      && rm -r /tmp/mozjpeg-3.3.1
+      && rm -r /tmp/mozjpeg-4.0.0
 
 COPY Cargo.lock Cargo.toml /tmp/multimeta/
 COPY .git/ /tmp/multimeta/.git
