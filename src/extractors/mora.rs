@@ -221,7 +221,7 @@ mod tests {
 
     #[test]
     fn test_parse() {
-        let json = fs::read_to_string("test/fixtures/mora-43000001-4547366347050.json").unwrap();
+        let json = fs::read_to_string("tests/fixtures/mora-43000001-4547366347050.json").unwrap();
         let album = parse("43000001/4547366347050", &json).unwrap();
 
         assert_eq!(album.kind, album::Kind::Lp);
@@ -247,7 +247,7 @@ mod tests {
 
     #[test]
     fn test_parse_html() {
-        let html = fs::read_to_string("test/fixtures/mora-43000001-4547366347050.html").unwrap();
+        let html = fs::read_to_string("tests/fixtures/mora-43000001-4547366347050.html").unwrap();
         let arguments = parse_html(&html).unwrap();
         assert_eq!(arguments.mount_point, "0000");
         assert_eq!(arguments.label_id, "00000068");

@@ -138,7 +138,7 @@ where
 mod tests {
     use super::*;
 
-    static FIXTURE_SRC: &'static str = "test/fixtures/96x96-q100.jpg";
+    static FIXTURE_SRC: &'static str = "tests/fixtures/96x96-q100.jpg";
 
     #[test]
     fn test_filesize() {

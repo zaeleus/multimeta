@@ -241,8 +241,8 @@ mod tests {
 
     #[test]
     fn test_parse_html() {
-        let html = fs::read_to_string("test/fixtures/melon-10123637.html").unwrap();
-        let json = fs::read_to_string("test/fixtures/melon-10123637.json").unwrap();
+        let html = fs::read_to_string("tests/fixtures/melon-10123637.html").unwrap();
+        let json = fs::read_to_string("tests/fixtures/melon-10123637.json").unwrap();
 
         let album = parse("10123637", &html, &json).unwrap();
 

@@ -186,7 +186,7 @@ mod tests {
         let album = build_album();
         let renderer = Renderer::new();
         let result = renderer.render_album("iu", &album);
-        let expected = fs::read_to_string("test/snapshots/album.toml").unwrap();
+        let expected = fs::read_to_string("tests/snapshots/album.toml").unwrap();
         assert_eq!(result, expected);
     }
 
@@ -195,7 +195,7 @@ mod tests {
         let album = build_album();
         let renderer = Renderer::new();
         let result = renderer.render_song(&album.songs[0]);
-        let expected = fs::read_to_string("test/snapshots/song.toml").unwrap();
+        let expected = fs::read_to_string("tests/snapshots/song.toml").unwrap();
         assert_eq!(result, expected);
     }
 
@@ -204,7 +204,7 @@ mod tests {
         let album = build_album();
         let renderer = Renderer::new();
         let result = renderer.render_tracklist("iu", &album);
-        let expected = fs::read_to_string("test/snapshots/tracklist.toml").unwrap();
+        let expected = fs::read_to_string("tests/snapshots/tracklist.toml").unwrap();
         assert_eq!(result, expected);
     }
 

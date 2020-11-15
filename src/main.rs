@@ -145,7 +145,7 @@ mod tests {
 
     #[test]
     fn test_get_artists() {
-        let artists = get_artists("test/fixtures/fs");
+        let artists = get_artists("tests/fixtures/fs");
 
         assert_eq!(artists.len(), 3);
 

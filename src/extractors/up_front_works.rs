@@ -230,7 +230,7 @@ mod tests {
 
     #[test]
     fn test_parse() {
-        let html = fs::read_to_string("test/fixtures/up-front-works-epce-7387.html").unwrap();
+        let html = fs::read_to_string("tests/fixtures/up-front-works-epce-7387.html").unwrap();
         let album = parse("EPCE-7387", &html).unwrap();
 
         assert_eq!(album.kind, album::Kind::Ep);
