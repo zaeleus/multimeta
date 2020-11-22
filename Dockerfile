@@ -1,4 +1,4 @@
-FROM rust:1.47.0-buster as env
+FROM rust:1.48.0-buster as env
 
 RUN apt-get update \
       && apt-get --yes install --no-install-recommends \
