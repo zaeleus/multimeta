@@ -68,7 +68,7 @@ fn parse_html(html: &str, builder: album::Builder) -> extractors::Result<album::
     let name = document
         .find(Class("product_title"))
         .next()
-        .ok_or_else(|| ExtractionError::MissingField("name"))
+        .ok_or(ExtractionError::MissingField("name"))
         .map(|n| n.text())
         .map(|n| Name::new(n, LOCALE, true, true))?;
 
@@ -76,13 +76,13 @@ fn parse_html(html: &str, builder: album::Builder) -> extractors::Result<album::
 
     let kind = meta_node
         .next()
-        .ok_or_else(|| ExtractionError::MissingField("kind"))
+        .ok_or(ExtractionError::MissingField("kind"))
         .map(|n| n.text())
         .and_then(|kind| parse_kind(&kind))?;
 
     let released_on = meta_node
         .next()
-        .ok_or_else(|| ExtractionError::MissingField("release date"))
+        .ok_or(ExtractionError::MissingField("release date"))
         .map(|n| n.text())
         .and_then(|date| parse_release_date(&date))?;
 
@@ -103,7 +103,7 @@ fn parse_songs(
     let table = document
         .find(Class("data2"))
         .next()
-        .ok_or_else(|| ExtractionError::MissingField("songs"))?;
+        .ok_or(ExtractionError::MissingField("songs"))?;
 
     let rows = table
         .find(predicate::Name("tr"))
@@ -120,19 +120,19 @@ fn parse_songs(
 
         let position = cells
             .next()
-            .ok_or_else(|| ExtractionError::MissingField("songs[_].track_number"))
+            .ok_or(ExtractionError::MissingField("songs[_].track_number"))
             .map(|n| n.text())
             .and_then(|s| parse_position(&s))?;
 
         let name = cells
             .next()
-            .ok_or_else(|| ExtractionError::MissingField("songs[_].name"))
+            .ok_or(ExtractionError::MissingField("songs[_].name"))
             .map(|n| n.text())
             .map(|n| Name::new(n, LOCALE, true, true))?;
 
         let duration = cells
             .next()
-            .ok_or_else(|| ExtractionError::MissingField("songs[_].duration"))
+            .ok_or(ExtractionError::MissingField("songs[_].duration"))
             .map(|n| n.text())
             .and_then(|s| parse_duration(&s))?;
 
@@ -158,7 +158,7 @@ fn parse_duration(s: &str) -> extractors::Result<i32> {
 
     let minutes: i32 = pieces
         .next()
-        .ok_or_else(|| ExtractionError::MissingField("duration.minutes"))
+        .ok_or(ExtractionError::MissingField("duration.minutes"))
         .and_then(|s| {
             s.parse()
                 .map_err(|_| ExtractionError::InvalidField("duration.minutes"))
@@ -166,7 +166,7 @@ fn parse_duration(s: &str) -> extractors::Result<i32> {
 
     let seconds: i32 = pieces
         .next()
-        .ok_or_else(|| ExtractionError::MissingField("duration.seconds"))
+        .ok_or(ExtractionError::MissingField("duration.seconds"))
         .and_then(|s| {
             s.parse()
                 .map_err(|_| ExtractionError::InvalidField("duration.seconds"))
@@ -187,7 +187,7 @@ fn parse_album_id(url: &Url) -> extractors::Result<String> {
                 None
             }
         })
-        .ok_or_else(|| ExtractionError::InvalidUrl("album ID"))
+        .ok_or(ExtractionError::InvalidUrl("album ID"))
 }
 
 fn parse_kind(s: &str) -> extractors::Result<album::Kind> {

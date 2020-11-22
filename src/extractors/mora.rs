@@ -96,7 +96,7 @@ fn parse_html(html: &str) -> extractors::Result<Arguments> {
         .and_then(|n| n.attr("content"))
         .map(|content| content.replace("&quot;", "\""))
         .and_then(|data| serde_json::from_str(&data).ok())
-        .ok_or_else(|| ExtractionError::InvalidDocument)
+        .ok_or(ExtractionError::InvalidDocument)
 }
 
 fn parse_json(json: &str, builder: album::Builder) -> extractors::Result<album::Builder> {

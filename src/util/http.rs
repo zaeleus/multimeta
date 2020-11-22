@@ -41,7 +41,7 @@ impl Downloader {
             return Err(Error::RequestFailed);
         }
 
-        let len = res.content_length().ok_or_else(|| Error::EmptyBody)?;
+        let len = res.content_length().ok_or(Error::EmptyBody)?;
 
         let mut pb = ProgressBar::new(len);
         pb.set_units(Units::Bytes);

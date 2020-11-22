@@ -79,7 +79,7 @@ fn parse_html(html: &str, builder: album::Builder) -> extractors::Result<album::
 
     let raw_kind = node
         .next()
-        .ok_or_else(|| ExtractionError::MissingField("album kind"))
+        .ok_or(ExtractionError::MissingField("album kind"))
         .map(|n| n.text())?;
     let raw_kind = raw_kind.trim();
     // Remove surrounding brackets from text.
@@ -140,7 +140,7 @@ fn parse_album_id(url: &Url) -> extractors::Result<String> {
     url.query_pairs()
         .find(|&(ref k, _)| k == "albumId")
         .map(|(_, v)| v.into_owned())
-        .ok_or_else(|| ExtractionError::InvalidUrl("albumId"))
+        .ok_or(ExtractionError::InvalidUrl("albumId"))
 }
 
 fn parse_album_kind(s: &str) -> extractors::Result<album::Kind> {
