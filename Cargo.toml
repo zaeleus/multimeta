@@ -9,7 +9,7 @@ license = "MIT"
 anyhow = "1.0.31"
 chrono = "0.4.0"
 clap = "2.30.0"
-env_logger = "0.7.0"
+env_logger = "0.8.2"
 glob = "0.3.0"
 handlebars = "3.0.1"
 hangeul = { git = "https://github.com/zaeleus/hangeul.git", rev = "8e234f9ad0133b9e1d548b76582ff9a0070acf1c" }
