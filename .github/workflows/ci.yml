@@ -34,7 +34,7 @@ jobs:
       - run: |
           docker container run \
             --env MOZJPEG_HOME=/opt/mozjpeg \
-            --mount type=bind,source=$(pwd)/test,target=/tmp/multimeta/test,readonly \
+            --mount type=bind,source=$(pwd)/tests,target=/tmp/multimeta/tests,readonly \
             multimeta-env \
             cargo test --manifest-path /tmp/multimeta/Cargo.toml
 
