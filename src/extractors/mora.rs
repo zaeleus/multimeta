@@ -1,10 +1,10 @@
 use chrono::NaiveDate;
-use reqwest::Url;
 use select::{
     document::Document,
     predicate::{self, And, Attr},
 };
 use serde::Deserialize;
+use url::Url;
 
 use crate::{
     extractors::{self, ExtractionError, Extractor},
@@ -44,7 +44,7 @@ impl MoraExtractor {
         }
     }
 
-    fn fetch_html(&self) -> Result<String, reqwest::Error> {
+    fn fetch_html(&self) -> extractors::Result<String> {
         let url = format!("{}/{}/", HTML_BASE_URL, self.album_id);
         fetch(&url)
     }
@@ -52,7 +52,7 @@ impl MoraExtractor {
 
 impl Extractor for MoraExtractor {
     fn extract(&self) -> extractors::Result<Album> {
-        let html = self.fetch_html().map_err(ExtractionError::Fetch)?;
+        let html = self.fetch_html()?;
 
         let arguments = parse_html(&html)?;
         let json_endpoint = build_json_endpoint(
@@ -61,19 +61,19 @@ impl Extractor for MoraExtractor {
             &arguments.material_no,
         );
 
-        let json = fetch(&json_endpoint).map_err(ExtractionError::Fetch)?;
+        let json = fetch(&json_endpoint)?;
 
         parse(&self.album_id, &json)
     }
 }
 
-fn fetch(url: &str) -> Result<String, reqwest::Error> {
-    // A user agent is required to make a request to mora.jp.
-    let client = reqwest::blocking::ClientBuilder::new()
-        .user_agent(USER_AGENT)
-        .build()?;
-
-    client.get(url).send().and_then(|r| r.text())
+fn fetch(url: &str) -> extractors::Result<String> {
+    ureq::get(url)
+        // A user agent is required to make a request to mora.jp.
+        .set("User-Agent", USER_AGENT)
+        .call()
+        .map_err(ExtractionError::FetchRequest)
+        .and_then(|r| r.into_string().map_err(ExtractionError::FetchBody))
 }
 
 fn parse(album_id: &str, json: &str) -> extractors::Result<Album> {
@@ -199,8 +199,6 @@ struct RawSong {
 #[cfg(test)]
 mod tests {
     use std::fs;
-
-    use reqwest::Url;
 
     use super::*;
 

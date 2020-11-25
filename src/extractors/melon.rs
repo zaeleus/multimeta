@@ -1,8 +1,8 @@
 use chrono::NaiveDate;
 use log::warn;
-use reqwest::Url;
 use select::{document::Document, predicate::Class};
 use serde::Deserialize;
+use url::Url;
 
 use crate::{
     extractors::{self, ExtractionError, Extractor},
@@ -38,25 +38,32 @@ impl MelonExtractor {
         }
     }
 
-    fn fetch_html(&self) -> Result<String, reqwest::Error> {
+    fn fetch_html(&self) -> extractors::Result<String> {
         let params = [("albumId", &self.album_id)];
         let url = Url::parse_with_params(HTML_ENDPOINT, &params).unwrap();
-        reqwest::blocking::get(url).and_then(|r| r.text())
+        fetch(&url.into_string())
     }
 
-    fn fetch_json(&self) -> Result<String, reqwest::Error> {
+    fn fetch_json(&self) -> extractors::Result<String> {
         let params = [("contsType", "A"), ("contsIds", &self.album_id)];
         let url = Url::parse_with_params(JSON_ENDPOINT, &params).unwrap();
-        reqwest::blocking::get(url).and_then(|r| r.text())
+        fetch(&url.into_string())
     }
 }
 
 impl Extractor for MelonExtractor {
     fn extract(&self) -> extractors::Result<Album> {
-        let html = self.fetch_html().map_err(ExtractionError::Fetch)?;
-        let json = self.fetch_json().map_err(ExtractionError::Fetch)?;
+        let html = self.fetch_html()?;
+        let json = self.fetch_json()?;
         parse(&self.album_id, &html, &json)
     }
+}
+
+fn fetch(url: &str) -> extractors::Result<String> {
+    ureq::get(url)
+        .call()
+        .map_err(ExtractionError::FetchRequest)
+        .and_then(|r| r.into_string().map_err(ExtractionError::FetchBody))
 }
 
 fn parse(album_id: &str, html: &str, json: &str) -> extractors::Result<Album> {
@@ -219,8 +226,6 @@ struct RawSong {
 #[cfg(test)]
 mod tests {
     use std::fs;
-
-    use reqwest::Url;
 
     use super::*;
 

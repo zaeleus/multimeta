@@ -1,9 +1,9 @@
 use chrono::NaiveDate;
-use reqwest::Url;
 use select::{
     document::Document,
     predicate::{self, Class, Descendant},
 };
+use url::Url;
 
 use crate::{
     extractors::{self, ExtractionError, Extractor},
@@ -39,15 +39,19 @@ impl UpFrontWorksExtractor {
         }
     }
 
-    fn fetch(&self) -> Result<String, reqwest::Error> {
+    fn fetch(&self) -> extractors::Result<String> {
         let url = format!("{}/{}/", BASE_URL, self.album_id);
-        reqwest::blocking::get(&url).and_then(|r| r.text())
+
+        ureq::get(&url)
+            .call()
+            .map_err(ExtractionError::FetchRequest)
+            .and_then(|r| r.into_string().map_err(ExtractionError::FetchBody))
     }
 }
 
 impl Extractor for UpFrontWorksExtractor {
     fn extract(&self) -> extractors::Result<Album> {
-        let html = self.fetch().map_err(ExtractionError::Fetch)?;
+        let html = self.fetch()?;
         parse(&self.album_id, &html)
     }
 }
@@ -208,8 +212,6 @@ fn parse_release_date(s: &str) -> extractors::Result<String> {
 #[cfg(test)]
 mod tests {
     use std::fs;
-
-    use reqwest::Url;
 
     use super::*;
 

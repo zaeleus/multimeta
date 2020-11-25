@@ -6,7 +6,6 @@ use std::{
 
 use log::info;
 use pbr::{ProgressBar, Units};
-use reqwest::blocking::Client;
 
 const DEFAULT_BUF_SIZE: usize = 8192; // bytes
 
@@ -18,7 +17,7 @@ pub enum Error {
 }
 
 pub struct Downloader {
-    client: Client,
+    client: ureq::Agent,
 }
 
 impl Downloader {
@@ -35,18 +34,22 @@ impl Downloader {
         let file = File::create(dst).map_err(Error::Io)?;
         let mut writer = BufWriter::new(file);
 
-        let res = self.client.get(url).send().or(Err(Error::RequestFailed))?;
+        let response = self
+            .client
+            .get(url)
+            .call()
+            .map_err(|_| Error::RequestFailed)?;
 
-        if !res.status().is_success() {
+        if !response.ok() {
             return Err(Error::RequestFailed);
         }
 
-        let len = res.content_length().ok_or(Error::EmptyBody)?;
+        let len = read_content_length(&response).ok_or(Error::EmptyBody)?;
 
         let mut pb = ProgressBar::new(len);
         pb.set_units(Units::Bytes);
 
-        let mut reader = BufReader::new(res);
+        let mut reader = BufReader::new(response.into_reader());
 
         let len = copy(&mut reader, &mut writer, |len| {
             pb.add(len);
@@ -61,9 +64,15 @@ impl Downloader {
 impl Default for Downloader {
     fn default() -> Downloader {
         Downloader {
-            client: Client::new(),
+            client: ureq::agent(),
         }
     }
+}
+
+fn read_content_length(response: &ureq::Response) -> Option<u64> {
+    response
+        .header("Content-Length")
+        .and_then(|s| s.parse().ok())
 }
 
 fn copy<R, W, F>(reader: &mut R, writer: &mut W, mut cb: F) -> Result<u64, Error>
