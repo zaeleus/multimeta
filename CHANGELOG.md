@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.4.0] - 2020-04-25
+## 0.4.0 - 2020-04-25
 
 ### Added
 
@@ -12,7 +12,7 @@
   * melon: Parse "베스트" ("best") album kind as an LP. This is typically a
     compilation album.
 
-## [0.3.0] - 2019-12-20
+## 0.3.0 - 2019-12-20
 
 ### Added
 
@@ -24,7 +24,7 @@
     names are now escaped. For example, `The year of "YES"` is now rendered as
     `The year of \"YES\"`.
 
-## [0.2.0] - 2019-10-01
+## 0.2.0 - 2019-10-01
 
 ### Added
 
@@ -53,5 +53,3 @@
 ## 0.1.0 - 2019-09-04
 
   * Initial release
-
-[0.2.0]: https://github.com/zaeleus/multimeta/compare/v0.1.0...v0.2.0
