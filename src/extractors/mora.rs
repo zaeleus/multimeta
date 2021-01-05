@@ -72,7 +72,7 @@ fn fetch(url: &str) -> extractors::Result<String> {
         // A user agent is required to make a request to mora.jp.
         .set("User-Agent", USER_AGENT)
         .call()
-        .map_err(ExtractionError::FetchRequest)
+        .map_err(|e| ExtractionError::FetchRequest(Box::new(e)))
         .and_then(|r| r.into_string().map_err(ExtractionError::FetchBody))
 }
 

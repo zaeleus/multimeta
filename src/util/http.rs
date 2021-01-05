@@ -40,10 +40,6 @@ impl Downloader {
             .call()
             .map_err(|_| Error::RequestFailed)?;
 
-        if !response.ok() {
-            return Err(Error::RequestFailed);
-        }
-
         let len = read_content_length(&response).ok_or(Error::EmptyBody)?;
 
         let mut pb = ProgressBar::new(len);

@@ -62,7 +62,7 @@ impl Extractor for MelonExtractor {
 fn fetch(url: &str) -> extractors::Result<String> {
     ureq::get(url)
         .call()
-        .map_err(ExtractionError::FetchRequest)
+        .map_err(|e| ExtractionError::FetchRequest(Box::new(e)))
         .and_then(|r| r.into_string().map_err(ExtractionError::FetchBody))
 }
 

@@ -15,7 +15,7 @@ pub type Result<T> = std::result::Result<T, ExtractionError>;
 #[derive(Debug)]
 pub enum ExtractionError {
     Factory,
-    FetchRequest(ureq::Error),
+    FetchRequest(Box<ureq::Error>),
     FetchBody(io::Error),
     InvalidUrl(&'static str),
     InvalidDocument,
